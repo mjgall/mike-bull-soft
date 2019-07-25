@@ -1,4 +1,5 @@
 const express = require('express');
+const path = require('path');
 
 const app = express();
 
@@ -10,7 +11,7 @@ if (process.env.HTTP_PORT) {
 
   // Express will serve up the index.html file
   // if it doesn't recognize the route
-  const path = require('path');
+
   app.get('*', (req, res) => {
     res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
   });

@@ -2,6 +2,8 @@
 
 var express = require('express');
 
+var path = require('path');
+
 var app = express(); //CONDITIONS IF DEPLOYED TO PRODUCTION
 
 if (process.env.HTTP_PORT) {
@@ -9,8 +11,6 @@ if (process.env.HTTP_PORT) {
   // like our main.js file, or main.css file!
   app.use(express["static"](path.join(__dirname, 'client', 'build'))); // Express will serve up the index.html file
   // if it doesn't recognize the route
-
-  var path = require('path');
 
   app.get('*', function (req, res) {
     res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
