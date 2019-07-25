@@ -22,7 +22,7 @@ app.get('/api/theworld', (req, res) => {
 });
 
 //SERVER RUNNING
-const port = process.env.PORT || 2000;
+const port = process.env.HTTP_PORT || 2000;
 app.listen(port, () => {
   console.log(`Running on http://localhost:${port}`);
 });
