@@ -19,6 +19,7 @@ const app = express();
 
 app.use(express.static(path.join(__dirname, 'client', 'build')));
 
+
 //ROUTES
 app.get('/api/theworld', (req, res) => {
   res.json({ answer: 'worlds' });
