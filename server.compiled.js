@@ -24,7 +24,7 @@ app.get('/api/theworld', function (req, res) {
   });
 }); //SERVER RUNNING
 
-var port = process.env.PORT || 2000;
+var port = process.env.HTTP_PORT || 2000;
 app.listen(port, function () {
   console.log("Running on http://localhost:".concat(port));
 });
