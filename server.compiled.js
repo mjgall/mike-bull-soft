@@ -39,14 +39,14 @@ require('./routes/authRoutes')(app);
 
 app.post('/api/testdb', (req, res) => {
   const {
-    googleId,
+    google_id,
     first_name,
     last_name,
     email,
     photo_url
   } = req.body;
   createUser({
-    googleId,
+    google_id,
     first_name,
     last_name,
     email,

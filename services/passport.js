@@ -6,14 +6,14 @@ const getUserByGoogleId = require('../lib/getUserByGoogleId');
 const createUser = require('../lib/insertUser');
 
 passport.serializeUser((user, done) => {
-  done(null, user.googleId);
+  done(null, user.google_id);
 });
 
 passport.deserializeUser((id, done) => {
   db.getConnection((err, connection) => {
     if (err) throw err;
     connection.query(
-      `SELECT * FROM users WHERE googleId = ${id}`,
+      `SELECT * FROM users WHERE google_id = ${id}`,
       (err, users, fields) => {
         if (err) throw err;
         done(null, users[0]);
@@ -39,7 +39,7 @@ passport.use(
         } else if (!user) {
           createUser(
             {
-              googleId: profile.id,
+              google_id: profile.id,
               first_name: profile._json.given_name,
               last_name: profile._json.family_name,
               email: profile._json.email,

@@ -7,7 +7,7 @@ import axios from 'axios';
 export default class App extends Component {
   testButton = () => {
     axios.post('/api/testdb', {
-      googleId: '3456789',
+      google_id: '3456789',
       first_name: 'Gichael',
       last_name: 'Mallagher',
       email: 'mike.gallagh@gmail.com',
