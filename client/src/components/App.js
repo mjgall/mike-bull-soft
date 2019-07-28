@@ -1,18 +1,7 @@
 import React from 'react';
 import { Component } from 'react';
-import {
-  Menu,
-  Container,
-  Image,
-  Dropdown,
-  Button,
-  Form,
-  Grid,
-  Header,
-  Message,
-  Segment
-} from 'semantic-ui-react';
-import { Link } from 'react-router-dom';
+import { Menu } from 'semantic-ui-react';
+
 import axios from 'axios';
 
 export default class App extends Component {
