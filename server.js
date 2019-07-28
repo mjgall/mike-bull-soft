@@ -1,28 +1,91 @@
 const express = require('express');
+const cookieSession = require('cookie-session');
+const passport = require('passport');
 const path = require('path');
+// const mysql = require('mysql');
+const db = require('./config/db/mysql').pool;
+const bodyParser = require('body-parser');
+const getUser = require('./lib/getUserByGoogleId');
+const createUser = require('./lib/insertUser');
+const keys = require('./config/keys');
+
+require('./services/passport');
 
 const app = express();
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 
-// //CONDITIONS IF DEPLOYED TO PRODUCTION
-// if (process.env.HTTP_PORT) {
-//   // Express will serve up production assets
-//   // like our main.js file, or main.css file!
-//   app.use(express.static(path.join(__dirname, 'client', 'build')));
+app.use(cookieSession({ maxAge: 30 * 24 * 60 * 60 * 1000, keys: [keys.cookieKey] }))
 
-//   // Express will serve up the index.html file
-//   // if it doesn't recognize the route
-
-//   app.get('*', (req, res) => {
-//     res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
-//   });
-// }
+app.use(passport.initialize());
+app.use(passport.session());
 
 app.use(express.static(path.join(__dirname, 'client', 'build')));
 
-
 //ROUTES
-app.get('/api/theworld', (req, res) => {
-  res.json({ answer: 'worlds' });
+
+//AUTH
+require('./routes/authRoutes')(app);
+
+app.post('/api/testdb', (req, res) => {
+  const { googleId, first_name, last_name, email, photo_url } = req.body;
+  createUser(
+    {
+      googleId,
+      first_name,
+      last_name,
+      email,
+      photo_url
+    },
+    (err, data) => {
+      if (err) {
+        res.send(err);
+      }
+      res.send(data);
+    }
+  );
+});
+
+app.get('/api/gettest', async (req, res) => {
+  db.getConnection((err, connection) => {
+    if (err) {
+      res.send(err);
+    }
+    connection.query(
+      `SELECT * FROM users WHERE id = ${req.body.id}`,
+      (err, results, fields) => {
+        if (err) {
+          res.send(`There was an error: ${err}`);
+        } else {
+          res.send(results);
+        }
+      }
+    );
+    connection.release();
+  });
+});
+
+app.get('/api/anothertest', async (req, res) => {
+  const id = req.body.id;
+  console.log(id);
+  db.getConnection((err, connection) => {
+    if (err) throw err;
+    connection.query(
+      `SELECT * FROM users WHERE id = ${id}`,
+      (err, users, fields) => {
+        if (err) throw err;
+        res.json(users[0].id);
+      }
+    );
+    connection.release();
+  });
+});
+
+app.get('/api/onemoretest', async (req, res) => {
+  await getUser('123', (err, data) => {
+    if (err) throw err;
+    res.send(data);
+  });
 });
 
 //SERVER RUNNING
