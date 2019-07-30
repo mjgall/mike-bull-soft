@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 
 import Entry from './components/Entry';
 import Home from './components/Home';
-import { Router, Route } from 'react-router-dom';
+import { Router, Route, Switch } from 'react-router-dom';
 import history from './history';
 
 import { Provider } from 'react-redux';
@@ -22,8 +22,10 @@ const store = createStore(
 ReactDOM.render(
   <Provider store={store}>
     <Router history={history}>
-      <Route component={Entry} path="/" exact />
-      <Route component={Home} path="/home" exact />
+      <Switch>
+        <Route component={Entry} path="/" exact />
+        <Route component={Home} path="/home" exact />
+      </Switch>
     </Router>
   </Provider>,
 
