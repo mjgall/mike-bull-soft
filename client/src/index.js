@@ -21,7 +21,7 @@ const store = createStore(
 
 ReactDOM.render(
   <Provider store={store}>
-    <BrowserRouter>
+    <BrowserRouter history={history}>
       <Switch>
         <Route component={Entry} path="/" exact />
         <Route component={Home} path="/home" exact />
