@@ -8,10 +8,21 @@ class Menu extends React.Component {
     this.props.fetchCourses(this.props.auth.google_id);
   };
 
+  addCourse = courseTitle => {
+    console.log({ title: courseTitle, owner_id: this.props.auth.google_id });
+    this.props.addCourse({
+      title: courseTitle,
+      owner_id: this.props.auth.google_id
+    });
+  };
+
   renderLog = () => {
     if (this.props.loggedIn && this.props.user) {
       return (
         <React.Fragment>
+          <SemanticMenu.Item>
+            <div onClick={() => this.addCourse('Test2')}>Test Add Course</div>
+          </SemanticMenu.Item>
           <SemanticMenu.Item>
             <a href="/api/logout">Log Out</a>
           </SemanticMenu.Item>

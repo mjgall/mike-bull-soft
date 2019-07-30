@@ -12,9 +12,20 @@ export const fetchUser = () => async dispatch => {
 
 export const fetchCourses = () => async dispatch => {
   const response = await axios.get('api/courses');
-  console.log(response.data)
   dispatch({
     type: 'FETCH_COURSES',
+    payload: response.data
+  });
+  return response.data;
+};
+
+export const addCourse = course => async dispatch => {
+  const response = await axios.post('api/courses', {
+    title: course.title,
+    owner_id: course.owner_id
+  });
+  dispatch({
+    type: 'ADD_COURSE',
     payload: response.data
   });
   return response.data;

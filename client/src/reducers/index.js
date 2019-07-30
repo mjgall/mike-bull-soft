@@ -4,17 +4,21 @@ const authReducer = (state = null, action) => {
   switch (action.type) {
     case 'FETCH_USER':
       return action.payload || false;
-    case 'FETCH_COURSES':
-      return action.payload || false;
     default:
       return state;
   }
 };
 
-const appReducer = (state = null, action) => {
+const initialAppState = {
+  courses: []
+};
+
+const appReducer = (state = initialAppState, action) => {
   switch (action.type) {
     case 'FETCH_COURSES':
-      return action.payload || false;
+      return {courses: action.payload} || false;
+    case 'ADD_COURSE':
+      return { ...state, courses: [...state.courses, action.payload] } || false;
     default:
       return state;
   }

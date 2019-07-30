@@ -13,6 +13,7 @@ module.exports = app => {
 
   app.post('/api/courses', isAuthenticated, (req, res) => {
     const { title, owner_id } = req.body;
+    console.log(owner_id);
     insertCourse({ title, owner_id }, (err, course) => {
       if (err) throw errl;
       res.send(course);

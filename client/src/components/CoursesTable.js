@@ -20,7 +20,7 @@ class CoursesTable extends React.Component {
   render() {
     return (
       <Container style={{ paddingTop: '4em' }}>
-        <Table celled>
+        <Table celled fixed singleLine>
           <Table.Header>
             <Table.Row>
               <Table.HeaderCell>Course</Table.HeaderCell>
@@ -30,8 +30,8 @@ class CoursesTable extends React.Component {
           </Table.Header>
 
           <Table.Body>
-            {this.props.app
-              ? this.props.app.map((course, index) => {
+            { this.props.app &&this.props.app.courses
+              ? this.props.app.courses.map((course, index) => {
                   return (
                     <Table.Row key={index}>
                       <Table.Cell>{course.title}</Table.Cell>
