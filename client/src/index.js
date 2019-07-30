@@ -25,7 +25,6 @@ ReactDOM.render(
       <Route component={Entry} path="/" exact />
       <Route component={Home} path="/home" exact />
     </Router>
-    ,
   </Provider>,
 
   document.querySelector('#root')
