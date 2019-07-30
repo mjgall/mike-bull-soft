@@ -28,7 +28,10 @@ app.use(passport.session());
 app.use(express.static(path.join(__dirname, 'client', 'build'))); //ROUTES
 //AUTH
 
-require('./routes/authRoutes')(app); //SERVER RUNNING
+require('./routes/authRoutes')(app); //APP
+
+
+require('./routes/appRoutes')(app); //SERVER RUNNING
 
 
 const port = process.env.HTTP_PORT || 2000;
