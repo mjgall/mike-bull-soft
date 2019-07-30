@@ -1,15 +1,32 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './components/App';
-import { Router, Route, Switch } from 'react-router-dom';
+
+import Entry from './components/Entry';
+import Home from './components/Home';
+import { Router, Route } from 'react-router-dom';
 import history from './history';
 
-ReactDOM.render(
-  <Router history={history}>
-    <Switch>
-      <Route component={App} path="/" exact></Route>
-    </Switch>
+import { Provider } from 'react-redux';
+import { createStore, applyMiddleware, compose } from 'redux';
+import reduxThunk from 'redux-thunk';
 
-  </Router>,
+import reducers from './reducers';
+
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+
+const store = createStore(
+  reducers,
+  composeEnhancers(applyMiddleware(reduxThunk))
+);
+
+ReactDOM.render(
+  <Provider store={store}>
+    <Router history={history}>
+      <Route component={Entry} path="/" exact />
+      <Route component={Home} path="/home" exact />
+    </Router>
+    ,
+  </Provider>,
+
   document.querySelector('#root')
 );

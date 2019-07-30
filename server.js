@@ -12,7 +12,9 @@ const app = express();
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-app.use(cookieSession({ maxAge: 30 * 24 * 60 * 60 * 1000, keys: [keys.cookieKey] }))
+app.use(
+  cookieSession({ maxAge: 30 * 24 * 60 * 60 * 1000, keys: [keys.cookieKey] })
+);
 
 app.use(passport.initialize());
 app.use(passport.session());
@@ -23,6 +25,8 @@ app.use(express.static(path.join(__dirname, 'client', 'build')));
 
 //AUTH
 require('./routes/authRoutes')(app);
+//APP
+require('./routes/appRoutes')(app);
 
 //SERVER RUNNING
 const port = process.env.HTTP_PORT || 2000;
