@@ -20,8 +20,8 @@ class Menu extends React.Component {
     if (this.props.loggedIn && this.props.user) {
       return (
         <React.Fragment>
-          <SemanticMenu.Item>
-            <div onClick={() => this.addCourse('Test2')}>Test Add Course</div>
+          <SemanticMenu.Item onClick={() => this.addCourse('Test Name')}>
+            Test Add Course
           </SemanticMenu.Item>
           <SemanticMenu.Item>
             <a href="/api/logout">Log Out</a>

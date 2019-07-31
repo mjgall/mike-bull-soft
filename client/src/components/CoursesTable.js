@@ -19,7 +19,7 @@ class CoursesTable extends React.Component {
 
   render() {
     return (
-      <Container style={{ paddingTop: '4em' }}>
+      <Container>
         <Table celled fixed singleLine>
           <Table.Header>
             <Table.Row>
@@ -35,7 +35,7 @@ class CoursesTable extends React.Component {
                   return (
                     <Table.Row key={index}>
                       <Table.Cell>{course.title}</Table.Cell>
-                      <Table.Cell>{course.owner_id}</Table.Cell>
+                      <Table.Cell>{course.first_name} {course.last_name}</Table.Cell>
                       <Table.Cell>{course.create_date}</Table.Cell>
                     </Table.Row>
                   );
