@@ -9,7 +9,6 @@ class Menu extends React.Component {
   };
 
   addCourse = courseTitle => {
-    console.log({ title: courseTitle, owner_id: this.props.auth.google_id });
     this.props.addCourse({
       title: courseTitle,
       owner_id: this.props.auth.google_id
