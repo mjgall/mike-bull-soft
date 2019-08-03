@@ -1,5 +1,9 @@
 const insertCourse = require('../lib/insertCourse');
 const getCourses = require('../lib/getCourses');
+const AWS = require('aws-sdk');
+const polly = new AWS.Polly();
+
+const pollyParams = {};
 
 module.exports = app => {
   //AUTHENTICATION PROTECTION
@@ -26,4 +30,9 @@ module.exports = app => {
       res.send(courses);
     });
   });
+
+  app.post('/api/tts'), (req, res) => {
+    const text = req.body.text;
+
+  }
 };

@@ -7,11 +7,11 @@ class ProfileCard extends React.Component {
   render() {
     return (
       <Card style={{ position: 'sticky', top: '4em' }}>
-        <Image
+        {/* <Image
           src={this.props.auth ? this.props.auth.photo_url : null}
           wrapped
           ui={false}
-        />
+        /> */}
         <Card.Content>
           <Card.Header>
             {this.props.auth

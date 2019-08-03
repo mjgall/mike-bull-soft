@@ -43,7 +43,7 @@ class Menu extends React.Component {
       <SemanticMenu fixed="top" inverted>
         <Container>
           <SemanticMenu.Item as="a" header>
-            MikeBullSoft
+            LLT
           </SemanticMenu.Item>
           <SemanticMenu.Menu position="right">
             {this.renderLog()}

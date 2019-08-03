@@ -6,6 +6,9 @@ const bodyParser = require('body-parser');
 const keys = require('./config/keys');
 
 require('./services/passport');
+const polly = require('./config/polly').polly;
+
+// polly({text: "Testing 1234"});
 
 const app = express();
 
@@ -22,7 +25,9 @@ app.use(passport.session());
 // app.use(express.static(path.join(__dirname, 'client', 'build')));
 
 
+
 //ROUTES
+
 
 //AUTH
 require('./routes/authRoutes')(app);
@@ -42,9 +47,10 @@ if (!process.env.TERM_PROGRAM !== 'vscode') {
   });
 }
 
-
 //SERVER RUNNING
 const port = process.env.HTTP_PORT || 2000;
 app.listen(port, () => {
   console.log(`Running on http://localhost:${port}`);
 });
+
+
