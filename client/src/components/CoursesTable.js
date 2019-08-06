@@ -23,8 +23,8 @@ class CoursesTable extends React.Component {
           </Table.Header>
 
           <Table.Body>
-            {this.props.app && this.props.app.courses
-              ? this.props.app.courses.map((course, index) => {
+            {this.props.app && this.props.app.coursesTable
+              ? this.props.app.coursesTable.map((course, index) => {
                   return (
                     <Table.Row key={index}>
                       <Table.Cell>

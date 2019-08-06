@@ -11,13 +11,12 @@ class Course extends React.Component {
   state = { course: null };
 
   componentWillMount() {
-    this.props.fetchUser();
-  }
-
-  componentDidMount() {
     const { course } = this.props.match.params;
-    //fetch course information
-    this.setState({ course });
+
+    this.props.getCourse(course);
+  }
+  componentWillUnmount() {
+    this.props.clearCourse();
   }
 
   render() {
@@ -29,7 +28,16 @@ class Course extends React.Component {
             <ProfileCard />
           </Grid.Column>
           <Grid.Column width={10}>
-            <div>Hello this is a course, and its id is {this.state.course}</div>
+            <ul>
+              <li>ID: {this.props.app.course.course_id}</li>
+              <li>Title: {this.props.app.course.title}</li>
+              <li>
+                Create Date:{' '}
+                {new Date(
+                  this.props.app.course.create_date * 1000
+                ).toLocaleString()}
+              </li>
+            </ul>
           </Grid.Column>
         </Grid>
       </React.Fragment>

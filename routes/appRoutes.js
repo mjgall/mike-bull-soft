@@ -1,5 +1,6 @@
 const insertCourse = require('../lib/insertCourse');
 const getCourses = require('../lib/getCourses');
+const getCourse = require('../lib/getCourse');
 const polly = require('../services/polly');
 
 module.exports = app => {
@@ -34,6 +35,13 @@ module.exports = app => {
     getCourses(owner_id, (err, courses) => {
       if (err) throw err;
       res.send(courses);
+    });
+  });
+
+  app.post('/api/course', isAuthenticated, (req, res) => {
+    getCourse(req.body.id, (err, course) => {
+      if (err) throw err;
+      res.send(course);
     });
   });
 

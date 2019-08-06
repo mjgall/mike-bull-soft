@@ -41,3 +41,22 @@ export const addCourse = course => async dispatch => {
   });
   return response.data;
 };
+
+export const getCourse = id => async dispatch => {
+  console.log(id);
+  const response = await axios.post('/api/course', {
+    id: id
+  });
+  dispatch({
+    type: 'GET_COURSE',
+    payload: response.data
+  });
+  return response.data;
+};
+
+export const clearCourse = () => async dispatch => {
+  dispatch({
+    type: 'CLEAR_COURSE',
+    payload: null
+  });
+};
