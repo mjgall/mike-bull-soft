@@ -3,7 +3,9 @@ import ReactDOM from 'react-dom';
 
 import Entry from './components/Entry';
 import Home from './components/Home';
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import Course from './components/Course';
+
+import { Router, Route, Switch } from 'react-router-dom';
 import history from './history';
 
 import { Provider } from 'react-redux';
@@ -21,12 +23,13 @@ const store = createStore(
 
 ReactDOM.render(
   <Provider store={store}>
-    <BrowserRouter history={history}>
+    <Router history={history}>
       <Switch>
         <Route component={Entry} path="/" exact />
         <Route component={Home} path="/home" exact />
+        <Route component={Course} path="/course/:course" exact />
       </Switch>
-    </BrowserRouter>
+    </Router>
   </Provider>,
 
   document.querySelector('#root')

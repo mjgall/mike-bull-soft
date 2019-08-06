@@ -1,14 +1,23 @@
 import React from 'react';
-import Menu from './Menu';
-import CoursesTable from './CoursesTable';
-import ProfileCard from './ProfileCard';
-import { Grid } from 'semantic-ui-react';
+
 import { connect } from 'react-redux';
 import * as actions from '../actions';
 
-class Home extends React.Component {
+import { Grid } from 'semantic-ui-react';
+import Menu from './Menu';
+import ProfileCard from './ProfileCard';
+
+class Course extends React.Component {
+  state = { course: null };
+
   componentWillMount() {
     this.props.fetchUser();
+  }
+
+  componentDidMount() {
+    const { course } = this.props.match.params;
+    //fetch course information
+    this.setState({ course });
   }
 
   render() {
@@ -20,7 +29,7 @@ class Home extends React.Component {
             <ProfileCard />
           </Grid.Column>
           <Grid.Column width={10}>
-            <CoursesTable />
+            <div>Hello this is a course, and its id is {this.state.course}</div>
           </Grid.Column>
         </Grid>
       </React.Fragment>
@@ -29,10 +38,13 @@ class Home extends React.Component {
 }
 
 const mapStateToProps = state => {
-  return { auth: state.auth };
+  return {
+    auth: state.auth,
+    app: state.app
+  };
 };
 
 export default connect(
   mapStateToProps,
   actions
-)(Home);
+)(Course);

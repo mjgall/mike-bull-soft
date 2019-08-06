@@ -16,7 +16,7 @@ const initialAppState = {
 const appReducer = (state = initialAppState, action) => {
   switch (action.type) {
     case 'FETCH_COURSES':
-      return {courses: action.payload} || false;
+      return { courses: action.payload } || false;
     case 'ADD_COURSE':
       return { ...state, courses: [...state.courses, action.payload] } || false;
     default:

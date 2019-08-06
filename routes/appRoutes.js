@@ -1,9 +1,6 @@
 const insertCourse = require('../lib/insertCourse');
 const getCourses = require('../lib/getCourses');
-const AWS = require('aws-sdk');
-const polly = new AWS.Polly();
-
-const pollyParams = {};
+const polly = require('../services/polly');
 
 module.exports = app => {
   //AUTHENTICATION PROTECTION
@@ -15,10 +12,19 @@ module.exports = app => {
     }
   };
 
+  app.post('/api/texttospeech', async (req, res) => {
+    try {
+      const response = await polly({text: req.body.text});
+      res.status(200).send({location: response});
+    } catch (error) {
+      res.status(400).send(error)
+    }
+  });
+
   app.post('/api/courses', isAuthenticated, (req, res) => {
     const { title, owner_id } = req.body;
     insertCourse({ title, owner_id }, (err, course) => {
-      if (err) throw errl;
+      if (err) throw err;
       res.send(course);
     });
   });
@@ -31,8 +37,4 @@ module.exports = app => {
     });
   });
 
-  app.post('/api/tts'), (req, res) => {
-    const text = req.body.text;
-
-  }
 };
