@@ -21,12 +21,12 @@ class Menu extends React.Component {
   };
 
   renderMenu = () => {
-    console.log(this.props.auth);
+
     if (this.props.auth) {
       return (
         <React.Fragment>
           <SemanticMenu.Item header>
-            <Link to="/home">TLL</Link>
+            <Link to="/home">LLT</Link>
           </SemanticMenu.Item>
           <SemanticMenu.Menu position="right">
             <SemanticMenu.Item onClick={() => this.addCourse('Test Name')}>
@@ -42,6 +42,9 @@ class Menu extends React.Component {
     } else {
       return (
         <React.Fragment>
+          <SemanticMenu.Item header>
+            <Link to="/home">LLT</Link>
+          </SemanticMenu.Item>
           <SemanticMenu.Menu position="right">
             <SemanticMenu.Item>
               <a href="/auth/google">Log In</a>

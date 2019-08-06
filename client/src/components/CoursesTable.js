@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import * as actions from '../actions';
 
 class CoursesTable extends React.Component {
-  
+
   componentWillMount() {
     this.props.fetchCourses();
   }
@@ -35,7 +35,7 @@ class CoursesTable extends React.Component {
                       <Table.Cell>
                         {course.first_name} {course.last_name}
                       </Table.Cell>
-                      <Table.Cell>{course.create_date}</Table.Cell>
+                      <Table.Cell>{new Date(course.create_date*1000).toLocaleString()}</Table.Cell>
                     </Table.Row>
                   );
                 })
