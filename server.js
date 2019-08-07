@@ -19,7 +19,7 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.use(express.static(path.join(__dirname, 'client', 'build')));
+
 
 //ROUTES
 //AUTH
@@ -30,17 +30,21 @@ require('./routes/appRoutes')(app);
 
 //CONDITIONS IF DEPLOYED TO PRODUCTION
 
-if (!process.env.TERM_PROGRAM === 'vscode') {
-  // Express will serve up production assets
-  // like our main.js file, or main.css file!
-  app.use(express.static(path.join(__dirname, 'client', 'build')));
+console.log(process.env);
 
-  // Express will serve up the index.html file
-  // if it doesn't recognize the route
-  app.get('*', (req, res) => {
-    res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
-  });
-}
+// if (!process.env.TERM_PROGRAM === 'vscode') {
+//   // Express will serve up production assets
+//   // like our main.js file, or main.css file!
+//   app.use(express.static(path.join(__dirname, 'client', 'build')));
+
+//   // Express will serve up the index.html file
+//   // if it doesn't recognize the route
+//   app.get('*', (req, res) => {
+//     res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
+//   });
+// }
+
+app.use(express.static(path.join(__dirname, 'client', 'build')));
 
 //SERVER RUNNING
 const port = process.env.HTTP_PORT || 2000;
