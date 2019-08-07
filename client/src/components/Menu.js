@@ -21,7 +21,6 @@ class Menu extends React.Component {
   };
 
   renderMenu = () => {
-
     if (this.props.auth) {
       return (
         <React.Fragment>

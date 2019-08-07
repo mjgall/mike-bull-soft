@@ -2,7 +2,7 @@ import React from 'react';
 import { Component } from 'react';
 import Menu from './Menu';
 
-export default class Entry extends Component {
+export default class Login extends Component {
   render() {
     return (
       <div>

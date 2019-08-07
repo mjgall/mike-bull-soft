@@ -17,13 +17,9 @@ class ProfileCard extends React.Component {
           </Card.Header>
         </Card.Content>
         <Card.Content extra>
-          <a>
-            <Icon name="book" />
-            {this.props.app
-              ? this.props.app.coursesTable.length
-              : null}{' '}
-            Courses
-          </a>
+          <Icon name="book" />
+          {this.props.app ? this.props.app.coursesTable.length : null}{' '}
+          Courses
         </Card.Content>
       </Card>
     );
