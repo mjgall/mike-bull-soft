@@ -32,19 +32,19 @@ require('./routes/appRoutes')(app);
 
 console.log(process.env);
 
-// if (!process.env.TERM_PROGRAM === 'vscode') {
-//   // Express will serve up production assets
-//   // like our main.js file, or main.css file!
-//   app.use(express.static(path.join(__dirname, 'client', 'build')));
+if (process.env.ENV === 'production') {
+  // Express will serve up production assets
+  // like our main.js file, or main.css file!
+  app.use(express.static(path.join(__dirname, 'client', 'build')));
 
-//   // Express will serve up the index.html file
-//   // if it doesn't recognize the route
-//   app.get('*', (req, res) => {
-//     res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
-//   });
-// }
+  // Express will serve up the index.html file
+  // if it doesn't recognize the route
+  app.get('*', (req, res) => {
+    res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
+  });
+}
 
-app.use(express.static(path.join(__dirname, 'client', 'build')));
+// app.use(express.static(path.join(__dirname, 'client', 'build')));
 
 //SERVER RUNNING
 const port = process.env.HTTP_PORT || 2000;
