@@ -1,6 +1,8 @@
 import { combineReducers } from 'redux';
 
-const authReducer = (state = null, action) => {
+const initialAuthState = null;
+
+const authReducer = (state = initialAuthState, action) => {
   switch (action.type) {
     case 'FETCH_USER':
       return action.payload || false;

@@ -56,7 +56,7 @@ class Menu extends React.Component {
 
   render() {
     return (
-      <SemanticMenu fixed={'top'}>
+      <SemanticMenu inverted fixed={'top'}>
         <Container>{this.renderMenu()}</Container>
       </SemanticMenu>
     );

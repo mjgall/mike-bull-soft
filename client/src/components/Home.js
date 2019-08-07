@@ -7,15 +7,10 @@ import { connect } from 'react-redux';
 import * as actions from '../actions';
 
 class Home extends React.Component {
-  componentWillMount() {
-    this.props.fetchUser();
-    this.props.clearCourse();
-  }
-
   render() {
     return (
       <React.Fragment>
-        <Grid.Column width={6}>
+        <Grid.Column width={6} style={{overflow: "initial"}}>
           <ProfileCard />
         </Grid.Column>
         <Grid.Column width={10}>

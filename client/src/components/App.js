@@ -9,18 +9,21 @@ import { connect } from 'react-redux';
 import Menu from './Menu';
 import { Grid, Container } from 'semantic-ui-react';
 
-
 class App extends React.Component {
+  componentDidMount() {
+    this.props.fetchUser();
+    this.props.fetchCourses();
+  }
 
   protectRoutes = () => {
     if (this.props.auth) {
       return (
-      <Switch>
-        <Route component={Login} path="/" exact />
-        <Route component={Home} path="/home" exact />
-        <Route component={Course} path="/course/:course" exact />
-      </Switch>
-      )
+        <Switch>
+          <Route component={Login} path="/" exact />
+          <Route component={Home} path="/home" exact />
+          <Route component={Course} path="/course/:course" exact />
+        </Switch>
+      );
     } else {
       return (
         <Switch>
@@ -28,11 +31,9 @@ class App extends React.Component {
         </Switch>
       );
     }
-  }
+  };
 
-  componentWillMount() {
-    this.props.fetchUser();
-  }
+  componentWillMount() {}
 
   render() {
     return (
@@ -40,7 +41,7 @@ class App extends React.Component {
         <Menu />
         <Container>
           <Grid container columns={16} style={{ paddingTop: '75px' }}>
-          {this.protectRoutes()}
+            {this.protectRoutes()}
           </Grid>
         </Container>
       </Router>
