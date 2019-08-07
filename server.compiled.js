@@ -33,8 +33,6 @@ require('./routes/authRoutes')(app); //APP
 require('./routes/appRoutes')(app); //CONDITIONS IF DEPLOYED TO PRODUCTION
 
 
-console.log(process.env);
-
 if (process.env.ENV === 'production') {
   // Express will serve up production assets
   // like our main.js file, or main.css file!
@@ -44,8 +42,7 @@ if (process.env.ENV === 'production') {
   app.get('*', (req, res) => {
     res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
   });
-} // app.use(express.static(path.join(__dirname, 'client', 'build')));
-//SERVER RUNNING
+} //SERVER RUNNING
 
 
 const port = process.env.HTTP_PORT || 2000;
