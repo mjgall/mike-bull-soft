@@ -12,16 +12,14 @@ import Menu from './Menu';
 class App extends React.Component {
   render() {
     return (
-      <React.Fragment>
-        <Router history={history}>
-          <Menu />
-          <Switch>
-            <Route component={Entry} path="/" exact />
-            <Route component={Home} path="/home" exact />
-            <Route component={Course} path="/course/:course" exact />
-          </Switch>
-        </Router>
-      </React.Fragment>
+      <Router history={history}>
+        <Menu />
+        <Switch>
+          <Route component={Entry} path="/" exact />
+          <Route component={Home} path="/home" exact />
+          <Route component={Course} path="/course/:course" exact />
+        </Switch>
+      </Router>
     );
   }
 }
@@ -29,7 +27,6 @@ class App extends React.Component {
 const mapStateToProps = state => {
   return { auth: state.auth, app: state.app };
 };
-
 
 export default connect(
   mapStateToProps,

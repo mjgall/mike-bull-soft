@@ -12,8 +12,6 @@ const bodyParser = require('body-parser');
 
 const keys = require('./config/keys');
 
-const polly = require('./services/polly');
-
 require('./services/passport');
 
 const app = express();
@@ -35,7 +33,7 @@ require('./routes/authRoutes')(app); //APP
 require('./routes/appRoutes')(app); //CONDITIONS IF DEPLOYED TO PRODUCTION
 
 
-if (!process.env.TERM_PROGRAM !== 'vscode') {
+if (!process.env.TERM_PROGRAM === 'vscode') {
   // Express will serve up production assets
   // like our main.js file, or main.css file!
   app.use(express.static(path.join(__dirname, 'client', 'build'))); // Express will serve up the index.html file
