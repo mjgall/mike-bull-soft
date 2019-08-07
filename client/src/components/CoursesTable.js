@@ -12,7 +12,7 @@ class CoursesTable extends React.Component {
 
   render() {
     return (
-      <Container>
+      
         <Table celled singleLine sortable>
           <Table.Header>
             <Table.Row>
@@ -42,7 +42,7 @@ class CoursesTable extends React.Component {
               : null}
           </Table.Body>
         </Table>
-      </Container>
+
     );
   }
 }

@@ -7,6 +7,7 @@ import { Router, Route, Switch } from 'react-router-dom';
 import history from '../history';
 import { connect } from 'react-redux';
 import Menu from './Menu';
+import { Grid, Container } from 'semantic-ui-react';
 
 
 class App extends React.Component {
@@ -14,11 +15,15 @@ class App extends React.Component {
     return (
       <Router history={history}>
         <Menu />
-        <Switch>
-          <Route component={Entry} path="/" exact />
-          <Route component={Home} path="/home" exact />
-          <Route component={Course} path="/course/:course" exact />
-        </Switch>
+        <Container>
+          <Grid container columns={16} style={{ paddingTop: '75px' }}>
+            <Switch>
+              <Route component={Entry} path="/" exact />
+              <Route component={Home} path="/home" exact />
+              <Route component={Course} path="/course/:course" exact />
+            </Switch>
+          </Grid>
+        </Container>
       </Router>
     );
   }

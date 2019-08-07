@@ -7,12 +7,8 @@ class ProfileCard extends React.Component {
 
   render() {
     return (
-      <Card style={{ position: 'sticky', top: '4em' }}>
-        <Image
-          src={this.props.auth ? this.props.auth.photo_url : null}
-          wrapped
-          ui={false}
-        />
+      <Card style={{ position: 'sticky', top: '75px' }}>
+        <Image src={this.props.auth ? this.props.auth.photo_url : null} />
         <Card.Content>
           <Card.Header>
             {this.props.auth
@@ -23,7 +19,10 @@ class ProfileCard extends React.Component {
         <Card.Content extra>
           <a>
             <Icon name="book" />
-            {this.props.app ? this.props.app.coursesTable.length : null} Courses
+            {this.props.app
+              ? this.props.app.coursesTable.length
+              : null}{' '}
+            Courses
           </a>
         </Card.Content>
       </Card>

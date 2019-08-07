@@ -20,7 +20,7 @@ class Course extends React.Component {
   render() {
     return (
       <React.Fragment>
-        <Grid container columns={16} style={{ marginTop: '2em' }}>
+        
           <Grid.Column width={6}>
             <ProfileCard />
           </Grid.Column>
@@ -46,7 +46,7 @@ class Course extends React.Component {
               </li>
             </ul>
           </Grid.Column>
-        </Grid>
+       
       </React.Fragment>
     );
   }
