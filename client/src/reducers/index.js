@@ -25,8 +25,8 @@ const appReducer = (state = initialAppState, action) => {
       );
     case 'GET_COURSE':
       return { ...state, course: action.payload } || false;
-    // case 'CLEAR_COURSE':
-    //   return { ...state, course: action.payload } || false;
+    case 'CLEAR_COURSE':
+      return { ...state, course: action.payload } || false;
     default:
       return state;
   }

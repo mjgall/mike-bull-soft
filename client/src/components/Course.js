@@ -4,38 +4,45 @@ import { connect } from 'react-redux';
 import * as actions from '../actions';
 
 import { Grid } from 'semantic-ui-react';
-import Menu from './Menu';
+
 import ProfileCard from './ProfileCard';
 
 class Course extends React.Component {
   state = { course: null };
 
-  componentWillMount() {
+  async componentWillMount() {
     const { course } = this.props.match.params;
-
-    this.props.getCourse(course);
-  }
-  componentWillUnmount() {
-    this.props.clearCourse();
+    await this.props.fetchCourses();
+    await this.props.fetchUser();
+    this.props.getCourse(course); 
   }
 
   render() {
     return (
       <React.Fragment>
-        <Menu user={this.props.auth} />
         <Grid container columns={16} style={{ marginTop: '2em' }}>
           <Grid.Column width={6}>
             <ProfileCard />
           </Grid.Column>
           <Grid.Column width={10}>
             <ul>
-              <li>ID: {this.props.app.course.course_id}</li>
-              <li>Title: {this.props.app.course.title}</li>
+              <li>
+                ID:{' '}
+                {this.props.app.course
+                  ? this.props.app.course.course_id
+                  : null}
+              </li>
+              <li>
+                Title:{' '}
+                {this.props.app.course ? this.props.app.course.title : null}
+              </li>
               <li>
                 Create Date:{' '}
-                {new Date(
-                  this.props.app.course.create_date * 1000
-                ).toLocaleString()}
+                {this.props.app.course
+                  ? new Date(
+                      this.props.app.course.create_date * 1000
+                    ).toLocaleString()
+                  : null}
               </li>
             </ul>
           </Grid.Column>

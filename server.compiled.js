@@ -26,8 +26,7 @@ app.use(cookieSession({
   keys: [keys.cookieKey]
 }));
 app.use(passport.initialize());
-app.use(passport.session());
-app.use(express.static(path.join(__dirname, 'client', 'build'))); //ROUTES
+app.use(passport.session()); //ROUTES
 //AUTH
 
 require('./routes/authRoutes')(app); //APP

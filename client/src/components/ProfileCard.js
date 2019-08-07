@@ -4,10 +4,7 @@ import { connect } from 'react-redux';
 import * as actions from '../actions';
 
 class ProfileCard extends React.Component {
-  async componentWillMount() {
-    await this.props.fetchUser();
-    await this.props.fetchCourses()
-  }
+
   render() {
     return (
       <Card style={{ position: 'sticky', top: '4em' }}>

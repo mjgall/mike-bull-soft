@@ -1,5 +1,5 @@
 import React from 'react';
-import Menu from './Menu';
+
 import CoursesTable from './CoursesTable';
 import ProfileCard from './ProfileCard';
 import { Grid } from 'semantic-ui-react';
@@ -9,12 +9,13 @@ import * as actions from '../actions';
 class Home extends React.Component {
   componentWillMount() {
     this.props.fetchUser();
+    this.props.clearCourse();
   }
 
   render() {
     return (
       <React.Fragment>
-        <Menu user={this.props.auth} />
+
         <Grid container columns={16} style={{ marginTop: '2em' }}>
           <Grid.Column width={6}>
             <ProfileCard />
