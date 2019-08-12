@@ -4,35 +4,29 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import * as actions from '../actions';
 
-class CoursesTable extends React.Component {
+class SymbolsTable extends React.Component {
   render() {
     return (
       <Table celled singleLine sortable>
         <Table.Header>
           <Table.Row>
             <Table.HeaderCell>ID</Table.HeaderCell>
-            <Table.HeaderCell>Course</Table.HeaderCell>
-            <Table.HeaderCell>Owner</Table.HeaderCell>
+            <Table.HeaderCell>Text</Table.HeaderCell>
+            <Table.HeaderCell>Audio URL</Table.HeaderCell>
             <Table.HeaderCell>Create Date</Table.HeaderCell>
           </Table.Row>
         </Table.Header>
 
         <Table.Body>
-          {this.props.app && this.props.app.coursesTable
-            ? this.props.app.coursesTable.map((course, index) => {
+          {this.props.app && this.props.app.symbolsTable
+            ? this.props.app.symbolsTable.map((symbol, index) => {
                 return (
                   <Table.Row key={index}>
-                    <Table.Cell>{course.course_id}</Table.Cell>
+                    <Table.Cell>{symbol.id}</Table.Cell>
+                    <Table.Cell>{symbol.text}</Table.Cell>
+                    <Table.Cell>{symbol.audio_url}</Table.Cell>
                     <Table.Cell>
-                      <Link to={`/course/${course.course_id}`}>
-                        {course.title}
-                      </Link>
-                    </Table.Cell>
-                    <Table.Cell>
-                      {course.first_name} {course.last_name}
-                    </Table.Cell>
-                    <Table.Cell>
-                      {new Date(course.create_date * 1000).toLocaleString()}
+                      {new Date(symbol.create_date * 1000).toLocaleString()}
                     </Table.Cell>
                   </Table.Row>
                 );
@@ -54,4 +48,4 @@ const mapStateToProps = state => {
 export default connect(
   mapStateToProps,
   actions
-)(CoursesTable);
+)(SymbolsTable);

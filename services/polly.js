@@ -1,6 +1,8 @@
 const AWS = require('aws-sdk');
 const path = require('path');
 
+//SHOULD BE USING AWS ENVIRONMENT VARIABLES FOR AWS AUTHENTICATION
+
 module.exports = data => {
   return new Promise((resolve, reject) => {
     const jsonPath = path.join(__dirname, '..', 'config', 'aws_key.json');

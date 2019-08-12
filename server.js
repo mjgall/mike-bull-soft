@@ -43,5 +43,3 @@ const port = process.env.HTTP_PORT || 2000;
 app.listen(port, () => {
   console.log(`Running on http://localhost:${port}`);
 });
-
-

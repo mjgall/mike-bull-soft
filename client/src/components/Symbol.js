@@ -5,42 +5,43 @@ import * as actions from '../actions';
 
 import { Grid } from 'semantic-ui-react';
 
-import SymbolForm from './SymbolForm';
+import ProfileCard from './ProfileCard';
 import SymbolsTable from './SymbolsTable';
 
-class Course extends React.Component {
-  async componentDidMount() {
-    await this.props.getCourse(this.props.match.params.course);
-    await this.props.fetchSymbols(this.props.app.course.course_id);
+class Symbol extends React.Component {
+  componentDidMount() {
+    this.props.getSymbol(this.props.match.params.symbol);
   }
 
   componentWillUnmount() {
-    this.props.clearCourse();
     this.props.clearSymbol();
   }
 
   render() {
     return (
       <React.Fragment>
-        <Grid.Column width={16}>
-          
-          <h2>Course: {this.props.app.course ? this.props.app.course.title : null}</h2>
+        <Grid.Column width={6} style={{ overflow: 'initial' }}>
+          <ProfileCard />
+        </Grid.Column>
+        <Grid.Column width={10}>
           <ul>
             <li>
               ID:{' '}
-              {this.props.app.course ? this.props.app.course.course_id : null}
+              {this.props.app.symbol ? this.props.app.symbol.symbol_id : null}
+            </li>
+            <li>
+              Title:{' '}
+              {this.props.app.symbol ? this.props.app.symbol.title : null}
             </li>
             <li>
               Create Date:{' '}
-              {this.props.app.course
+              {this.props.app.symbol
                 ? new Date(
-                    this.props.app.course.create_date * 1000
+                    this.props.app.symbol.create_date * 1000
                   ).toLocaleString()
                 : null}
             </li>
           </ul>
-          <h2>Symbols</h2>
-          <SymbolForm />
           <SymbolsTable />
         </Grid.Column>
       </React.Fragment>
@@ -58,4 +59,4 @@ const mapStateToProps = state => {
 export default connect(
   mapStateToProps,
   actions
-)(Course);
+)(Symbol);

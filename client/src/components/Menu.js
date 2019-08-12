@@ -9,17 +9,6 @@ class Menu extends React.Component {
     this.props.fetchCourses(this.props.auth.google_id);
   };
 
-  addCourse = courseTitle => {
-    this.props.addCourse({
-      title: courseTitle,
-      owner_id: this.props.auth.google_id
-    });
-  };
-
-  tts = () => {
-    this.props.textToSpeech();
-  };
-
   renderMenu = () => {
     if (this.props.auth) {
       return (
@@ -28,10 +17,6 @@ class Menu extends React.Component {
             <Link to="/home">LLT</Link>
           </SemanticMenu.Item>
           <SemanticMenu.Menu position="right">
-            <SemanticMenu.Item onClick={() => this.addCourse('Test Name')}>
-              Test Add Course
-            </SemanticMenu.Item>
-            <SemanticMenu.Item onClick={this.tts}>Test Polly</SemanticMenu.Item>
             <SemanticMenu.Item>
               <a href="/api/logout">Log Out</a>
             </SemanticMenu.Item>
@@ -65,7 +50,8 @@ class Menu extends React.Component {
 
 const mapStateToProps = state => {
   return {
-    auth: state.auth
+    auth: state.auth,
+    app: state.app
   };
 };
 

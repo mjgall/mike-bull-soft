@@ -1,5 +1,7 @@
 const insertCourse = require('../lib/insertCourse');
+const insertSymbol = require('../lib/insertSymbol');
 const getCourses = require('../lib/getCourses');
+const getSymbols = require('../lib/getSymbols');
 const getCourse = require('../lib/getCourse');
 const polly = require('../services/polly');
 
@@ -13,36 +15,74 @@ module.exports = app => {
     }
   };
 
-  app.post('/api/texttospeech', async (req, res) => {
+  app.post('/api/texttospeech', isAuthenticated, async (req, res) => {
     try {
-      const response = await polly({text: req.body.text});
-      res.status(200).send({location: response});
+      const response = await polly({ text: req.body.text });
+      res.status(200).send({ location: response });
     } catch (error) {
-      res.status(400).send(error)
+      res.status(400).send(error);
     }
   });
 
-  app.post('/api/courses', isAuthenticated, (req, res) => {
+  //ADD COURSE
+  app.post('/api/courses', isAuthenticated, async (req, res) => {
     const { title, owner_id } = req.body;
-    insertCourse({ title, owner_id }, (err, course) => {
-      if (err) throw err;
-      res.send(course);
-    });
+    try {
+      const course = await insertCourse({ title, owner_id });
+      res.status(200).send(course);
+    } catch (error) {
+      res.status(400).send(error);
+    }
   });
 
-  app.get('/api/courses', isAuthenticated, (req, res) => {
+  //GET ALL USER COURSES
+  app.get('/api/courses', isAuthenticated, async (req, res) => {
     const owner_id = req.session.passport.user;
-    getCourses(owner_id, (err, courses) => {
-      if (err) throw err;
-      res.send(courses);
-    });
+    try {
+      const courses = await getCourses(owner_id);
+      res.status(200).send(courses);
+    } catch {
+      res.status(400).send(error);
+    }
   });
 
-  app.post('/api/course', isAuthenticated, (req, res) => {
-    getCourse(req.body.id, (err, course) => {
-      if (err) throw err;
-      res.send(course);
-    });
+  //GET COURSE
+  app.post('/api/course', isAuthenticated, async (req, res) => {
+    try {
+      const course = await getCourse(req.body.id);
+      res.status(200).send(course);
+    } catch {
+      res.status(400).send(error);
+    }
   });
 
+  //ADD SYMBOL
+  app.post('/api/symbols', isAuthenticated, async (req, res) => {
+    const { owner_id, course_id, text, audio_url, language } = req.body;
+
+    try {
+      const pollyURL = await polly({ text });
+      const course = await insertSymbol({
+        owner_id,
+        course_id,
+        text,
+        audio_url: pollyURL,
+        language
+      });
+      res.status(200).send(course);
+    } catch (error) {
+      res.status(400).send(error);
+    }
+  });
+
+  //GET SYMBOLS
+  app.get('/api/symbols/:course', isAuthenticated, async (req, res) => {
+    const { course } = req.params;
+    try {
+      const courses = await getSymbols(course);
+      res.status(200).send(courses);
+    } catch {
+      res.status(400).send(error);
+    }
+  });
 };

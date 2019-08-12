@@ -7,6 +7,11 @@ export default class Login extends Component {
     return (
       <div>
         <Menu />
+        <div>
+          <h1>
+            Log in to continue
+          </h1>
+        </div>
       </div>
     );
   }

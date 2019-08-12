@@ -19,9 +19,19 @@ export const fetchCourses = () => async dispatch => {
   return response.data;
 };
 
+export const fetchSymbols = (course_id) => async dispatch => {
+  const response = await axios.get(`/api/symbols/${course_id}`);
+  console.log(response);
+  dispatch({
+    type: 'FETCH_SYMBOLS',
+    payload: response.data
+  });
+  return response.data;
+};
+
 export const textToSpeech = () => async dispatch => {
   const response = await axios.post('/api/texttospeech', {
-    text: 'Hello world'
+    text: `${new Date(Date.now()).toString()}`
   });
   dispatch({
     type: 'TEXT_TO_SPEECH',
@@ -57,6 +67,40 @@ export const getCourse = id => async dispatch => {
 export const clearCourse = () => async dispatch => {
   dispatch({
     type: 'CLEAR_COURSE',
+    payload: null
+  });
+};
+
+export const addSymbol = symbol => async dispatch => {
+  const response = await axios.post('/api/symbols', {
+    owner_id: symbol.owner_id,
+    course_id: symbol.course_id,
+    text: symbol.text,
+    audio_url: symbol.audio_url,
+    language: symbol.language
+  });
+  dispatch({
+    type: 'ADD_SYMBOL',
+    payload: response.data
+  });
+  return response.data;
+};
+
+export const getSymbol = id => async dispatch => {
+  console.log(id);
+  const response = await axios.post('/api/symbol', {
+    id: id
+  });
+  dispatch({
+    type: 'GET_SYMBOL',
+    payload: response.data
+  });
+  return response.data;
+};
+
+export const clearSymbol = () => async dispatch => {
+  dispatch({
+    type: 'CLEAR_SYMBOL',
     payload: null
   });
 };

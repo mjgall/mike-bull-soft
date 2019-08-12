@@ -1,4 +1,8 @@
 import { combineReducers } from 'redux';
+import {
+  combineForms,
+  createForms // optional
+} from 'react-redux-form';
 
 const initialAuthState = null;
 
@@ -13,7 +17,9 @@ const authReducer = (state = initialAuthState, action) => {
 
 const initialAppState = {
   coursesTable: [],
-  course: {}
+  course: {},
+  symbolsTable: [],
+  symbol: {}
 };
 
 const appReducer = (state = initialAppState, action) => {
@@ -29,12 +35,25 @@ const appReducer = (state = initialAppState, action) => {
       return { ...state, course: action.payload } || false;
     case 'CLEAR_COURSE':
       return { ...state, course: action.payload } || false;
+    case 'FETCH_SYMBOLS':
+      return { ...state, symbolsTable: action.payload } || false;
+    case 'ADD_SYMBOL':
+      return (
+        { ...state, symbolsTable: [...state.symbolsTable, action.payload] } ||
+        false
+      );
+    case 'GET_SYMBOL':
+      return { ...state, symbol: action.payload } || false;
+    case 'CLEAR_SYMBOL':
+      return { ...state, symbolsTable: [] } || false;
     default:
       return state;
   }
 };
 
+
 export default combineReducers({
   auth: authReducer,
-  app: appReducer
+  app: appReducer,
+  forms: combineForms({course: {}, symbol: {}}, 'forms')
 });
