@@ -1,7 +1,6 @@
 import { combineReducers } from 'redux';
 import {
   combineForms,
-  createForms // optional
 } from 'react-redux-form';
 
 const initialAuthState = null;

@@ -24,6 +24,7 @@ class Symbol extends React.Component {
           <ProfileCard />
         </Grid.Column>
         <Grid.Column width={10}>
+          
           <ul>
             <li>
               ID:{' '}

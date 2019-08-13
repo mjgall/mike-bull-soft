@@ -40,6 +40,7 @@ class Course extends React.Component {
             </li>
           </ul>
           <h2>Symbols</h2>
+          
           <SymbolForm />
           <SymbolsTable />
         </Grid.Column>

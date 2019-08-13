@@ -1,8 +1,8 @@
-const insertCourse = require('../lib/insertCourse');
-const insertSymbol = require('../lib/insertSymbol');
-const getCourses = require('../lib/getCourses');
-const getSymbols = require('../lib/getSymbols');
-const getCourse = require('../lib/getCourse');
+const insertCourse = require('../queries/insertCourse');
+const insertSymbol = require('../queries/insertSymbol');
+const getCourses = require('../queries/getCourses');
+const getSymbols = require('../queries/getSymbols');
+const getCourse = require('../queries/getCourse');
 const polly = require('../services/polly');
 
 module.exports = app => {
