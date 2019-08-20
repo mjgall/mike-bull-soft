@@ -58,7 +58,7 @@ module.exports = app => {
 
   //ADD SYMBOL
   app.post('/api/symbols', isAuthenticated, async (req, res) => {
-    const { owner_id, course_id, text, audio_url, language } = req.body;
+    const { owner_id, course_id, text } = req.body;
 
     try {
       const pollyURL = await polly({ text });
@@ -66,8 +66,7 @@ module.exports = app => {
         owner_id,
         course_id,
         text,
-        audio_url: pollyURL,
-        language
+        audio_url: pollyURL
       });
       res.status(200).send(course);
     } catch (error) {

@@ -16,14 +16,25 @@ class CourseForm extends React.Component {
     this.addCourse(course);
   }
 
-  courseForm = props => {
+  courseTitle = props => {
     return (
       <SemanticForm>
         <SemanticForm.Group>
           <SemanticForm.Field {...props}>
             <input placeholder="Course Title" />
           </SemanticForm.Field>
-          <Button type="submit">Add Course</Button>
+        </SemanticForm.Group>
+      </SemanticForm>
+    );
+  };
+
+  courseLanguage = props => {
+    return (
+      <SemanticForm>
+        <SemanticForm.Group>
+          <SemanticForm.Field {...props}>
+            <input placeholder="Language" />
+          </SemanticForm.Field>
         </SemanticForm.Group>
       </SemanticForm>
     );
@@ -35,8 +46,14 @@ class CourseForm extends React.Component {
         <Control
           model="forms.course.title"
           id="forms.course.title"
-          component={this.courseForm}
+          component={this.courseTitle}
         />
+        <Control
+          model="forms.course.language"
+          id="forms.course.language"
+          component={this.courseLanguage}
+        />
+        <Button type="submit">Add Course</Button>
       </Form>
     );
   }

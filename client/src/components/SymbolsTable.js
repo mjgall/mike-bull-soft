@@ -2,7 +2,6 @@ import React from 'react';
 import { Table } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import * as actions from '../actions';
-import mediaElement from 'mediaelement';
 
 class SymbolsTable extends React.Component {
   render() {
@@ -25,7 +24,7 @@ class SymbolsTable extends React.Component {
                     <Table.Cell>{symbol.id}</Table.Cell>
                     <Table.Cell>{symbol.text}</Table.Cell>
                     <Table.Cell>
-                    <audio>controls><source src={symbol.audio_url} type="audio/mpeg"/></audio>
+                      <audio src={symbol.audio_url} type="audio/mpeg" controls/>
                     </Table.Cell>
                     <Table.Cell>
                       {new Date(symbol.create_date * 1000).toLocaleString()}

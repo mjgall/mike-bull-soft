@@ -1,6 +1,9 @@
 import React from 'react';
 
 import { connect } from 'react-redux';
+
+import {Link} from 'react-router-dom';
+
 import * as actions from '../actions';
 
 import { Grid } from 'semantic-ui-react';
@@ -23,8 +26,8 @@ class Course extends React.Component {
     return (
       <React.Fragment>
         <Grid.Column width={16}>
-          
-          <h2>Course: {this.props.app.course ? this.props.app.course.title : null}</h2>
+          <h4><Link to="/home">Back to courses</Link></h4>
+          <h2>{this.props.app.course ? this.props.app.course.title : null}</h2>
           <ul>
             <li>
               ID:{' '}

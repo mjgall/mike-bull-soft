@@ -7,7 +7,7 @@ class ProfileCard extends React.Component {
   render() {
     return (
       <Card>
-        <Image src={this.props.auth ? this.props.auth.photo_url : null} /> 
+        {/* <Image src={this.props.auth ? this.props.auth.photo_url : null} />  */}
         <Card.Content>
           <Card.Header>
             {this.props.auth

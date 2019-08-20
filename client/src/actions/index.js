@@ -21,7 +21,7 @@ export const fetchCourses = () => async dispatch => {
 
 export const fetchSymbols = (course_id) => async dispatch => {
   const response = await axios.get(`/api/symbols/${course_id}`);
-  console.log(response);
+
   dispatch({
     type: 'FETCH_SYMBOLS',
     payload: response.data
@@ -53,7 +53,7 @@ export const addCourse = course => async dispatch => {
 };
 
 export const getCourse = id => async dispatch => {
-  console.log(id);
+
   const response = await axios.post('/api/course', {
     id: id
   });
@@ -87,7 +87,7 @@ export const addSymbol = symbol => async dispatch => {
 };
 
 export const getSymbol = id => async dispatch => {
-  console.log(id);
+
   const response = await axios.post('/api/symbol', {
     id: id
   });

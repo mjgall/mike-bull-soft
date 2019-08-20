@@ -19,7 +19,10 @@ module.exports = data => {
       VoiceId: 'Amy'
     };
 
+
+
     polly.synthesizeSpeech(pollyparams, (err, data) => {
+
       if (err) {
         reject(err.message);
       } else if (data) {
@@ -31,10 +34,13 @@ module.exports = data => {
           ACL: 'public-read'
         };
 
+
         s3.upload(s3params, function(err, data) {
           if (err) {
+
             reject(err.message);
           } else {
+
             resolve(data.Location);
           }
         });

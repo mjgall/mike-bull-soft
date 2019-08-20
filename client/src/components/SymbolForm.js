@@ -9,8 +9,7 @@ class SymbolForm extends React.Component {
     this.props.addSymbol({
       owner_id: this.props.auth.id,
       course_id: this.props.app.course.course_id,
-      text: symbol.text,
-      language: symbol.language
+      text: symbol.text
     });
   };
 
@@ -21,40 +20,26 @@ class SymbolForm extends React.Component {
   symbolText = props => {
     return (
       <SemanticForm>
-        <SemanticForm.Field {...props}>
-          <input placeholder="Symbol Text" />
-        </SemanticForm.Field>
-      </SemanticForm>
-    );
-  };
-
-  symbolLanguage = props => {
-    return (
-      <SemanticForm>
-        <SemanticForm.Field {...props}>
-          <input placeholder="Language" />
-        </SemanticForm.Field>
+        <SemanticForm.Group>
+          <SemanticForm.Field {...props}>
+            <input placeholder="Symbol Text" />
+          </SemanticForm.Field>
+        </SemanticForm.Group>
       </SemanticForm>
     );
   };
 
   render() {
     return (
-
       <Form model="forms.symbol" onSubmit={symbol => this.handleSubmit(symbol)}>
         <Control
           model="forms.symbol.text"
           id="forms.symbol.text"
           component={this.symbolText}
         />
-        <Control
-          model="forms.symbol.language"
-          id="forms.symbol.language"
-          component={this.symbolLanguage}
-        />
+
         <Button type="submit">Add Symbol</Button>
       </Form>
-
     );
   }
 }

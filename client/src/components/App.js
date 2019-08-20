@@ -17,7 +17,7 @@ class App extends React.Component {
   }
 
   protectRoutes = () => {
-    console.log(this.props.auth)
+
     if (this.props.auth) {
       return (
         <Switch>

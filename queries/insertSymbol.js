@@ -6,8 +6,8 @@ const db = require('../config/db/mysql').pool;
 
 module.exports = symbol => {
   return new Promise((resolve, reject) => {
-    const { owner_id, course_id, text, audio_url, language } = symbol;
-    const query = `INSERT INTO symbols ( owner_id, course_id, create_date, text, audio_url, language ) VALUES ('${owner_id}', ${course_id}, UNIX_TIMESTAMP(), '${text}', '${audio_url}', '${language}');`;
+    const { owner_id, course_id, text, audio_url } = symbol;
+    const query = `INSERT INTO symbols ( owner_id, course_id, create_date, text, audio_url ) VALUES ('${owner_id}', ${course_id}, UNIX_TIMESTAMP(), '${text}', '${audio_url}');`;
 
     db.getConnection((err, connection) => {
       if (err) {
