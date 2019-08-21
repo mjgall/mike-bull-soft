@@ -17,31 +17,44 @@ class App extends React.Component {
   }
 
   protectRoutes = () => {
-
     if (this.props.auth) {
-      return (
-        <Switch>
-          <Route component={Home} path="/" exact />
-          <Route component={Home} path="/home" exact />
-          <Route component={Course} path="/course/:course" exact />
-          <Route component={Symbol} path="/symbol/:symbol" exact />
-        </Switch>
-      );
+      switch (this.props.app.creatorMode) {
+        case true:
+          return (
+            //CREATOR MODE ROUTES
+            <Switch>
+              <Route component={Home} path="/" exact />
+              <Route component={Home} path="/home" exact />
+              <Route component={Course} path="/course/:course" exact />
+              <Route component={Symbol} path="/symbol/:symbol" exact />
+            </Switch>
+          );
+        case false:
+          return (
+            //STUDENT MODE (DEFAULT) ROUTES
+            <Switch>
+              <Route component={Home} path="/" exact />
+              <Route component={Home} path="/home" exact />
+              <Route component={Course} path="/course/:course" exact />
+              <Route component={Symbol} path="/symbol/:symbol" exact />
+            </Switch>
+          );
+        default:
+          break;
+      }
     } else {
       return (
         <Switch>
-          <Route component={Login} path="/" exact />
+          <Route component={Login} path="/*" exact />
         </Switch>
       );
     }
   };
 
-  componentWillMount() {}
-
   render() {
     return (
       <Router history={history}>
-        <Menu />
+        <Menu history={history}/>
         <Container>
           <Grid container columns={16} style={{ paddingTop: '75px' }} stackable>
             {this.protectRoutes()}

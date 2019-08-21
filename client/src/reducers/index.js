@@ -1,7 +1,5 @@
 import { combineReducers } from 'redux';
-import {
-  combineForms,
-} from 'react-redux-form';
+import { combineForms } from 'react-redux-form';
 
 const initialAuthState = null;
 
@@ -18,7 +16,8 @@ const initialAppState = {
   coursesTable: [],
   course: {},
   symbolsTable: [],
-  symbol: {}
+  symbol: {},
+  creatorMode: false
 };
 
 const appReducer = (state = initialAppState, action) => {
@@ -45,14 +44,17 @@ const appReducer = (state = initialAppState, action) => {
       return { ...state, symbol: action.payload } || false;
     case 'CLEAR_SYMBOL':
       return { ...state, symbolsTable: [] } || false;
+    case 'TOGGLE_MODE':
+      return (
+        { ...state, creatorMode: state.creatorMode ? false : true } || false
+      );
     default:
       return state;
   }
 };
 
-
 export default combineReducers({
   auth: authReducer,
   app: appReducer,
-  forms: combineForms({course: {}, symbol: {}}, 'forms')
+  forms: combineForms({ course: {}, symbol: {} }, 'forms')
 });

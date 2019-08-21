@@ -19,7 +19,7 @@ export const fetchCourses = () => async dispatch => {
   return response.data;
 };
 
-export const fetchSymbols = (course_id) => async dispatch => {
+export const fetchSymbols = course_id => async dispatch => {
   const response = await axios.get(`/api/symbols/${course_id}`);
 
   dispatch({
@@ -53,7 +53,6 @@ export const addCourse = course => async dispatch => {
 };
 
 export const getCourse = id => async dispatch => {
-
   const response = await axios.post('/api/course', {
     id: id
   });
@@ -87,7 +86,6 @@ export const addSymbol = symbol => async dispatch => {
 };
 
 export const getSymbol = id => async dispatch => {
-
   const response = await axios.post('/api/symbol', {
     id: id
   });
@@ -103,4 +101,11 @@ export const clearSymbol = () => async dispatch => {
     type: 'CLEAR_SYMBOL',
     payload: null
   });
+};
+
+export const switchMode = () => {
+  return {
+    type: 'TOGGLE_MODE',
+    payload: null
+  };
 };
