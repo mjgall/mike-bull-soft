@@ -14,6 +14,7 @@ const authReducer = (state = initialAuthState, action) => {
 
 const initialAppState = {
   coursesTable: [],
+  coursesTableStudent: [],
   course: {},
   symbolsTable: [],
   symbol: {},
@@ -24,6 +25,8 @@ const appReducer = (state = initialAppState, action) => {
   switch (action.type) {
     case 'FETCH_COURSES':
       return { ...state, coursesTable: action.payload } || false;
+    case 'FETCH_ALL_COURSES':
+          return { ...state, coursesTableStudent: action.payload } || false;
     case 'ADD_COURSE':
       return (
         { ...state, coursesTable: [...state.coursesTable, action.payload] } ||

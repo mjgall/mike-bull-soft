@@ -3,6 +3,7 @@ const insertSymbol = require('../queries/insertSymbol');
 const getCourses = require('../queries/getCourses');
 const getSymbols = require('../queries/getSymbols');
 const getCourse = require('../queries/getCourse');
+const getAllCourses = require('../queries/getAllCourses');
 const polly = require('../services/polly');
 
 module.exports = app => {
@@ -41,7 +42,7 @@ module.exports = app => {
     try {
       const courses = await getCourses(owner_id);
       res.status(200).send(courses);
-    } catch {
+    } catch (error) {
       res.status(400).send(error);
     }
   });
@@ -51,7 +52,7 @@ module.exports = app => {
     try {
       const course = await getCourse(req.body.id);
       res.status(200).send(course);
-    } catch {
+    } catch (error) {
       res.status(400).send(error);
     }
   });
@@ -80,7 +81,16 @@ module.exports = app => {
     try {
       const courses = await getSymbols(course);
       res.status(200).send(courses);
-    } catch {
+    } catch (error) {
+      res.status(400).send(error);
+    }
+  });
+
+  app.get('/api/allcourses', async (req, res) => {
+    try {
+      const courses = await getAllCourses();
+      res.status(200).send(courses);
+    } catch (error) {
       res.status(400).send(error);
     }
   });

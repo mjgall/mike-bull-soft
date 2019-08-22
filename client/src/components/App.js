@@ -14,6 +14,7 @@ class App extends React.Component {
   componentDidMount() {
     this.props.fetchUser();
     this.props.fetchCourses();
+    this.props.fetchAllCourses();
   }
 
   protectRoutes = () => {
@@ -59,7 +60,7 @@ class App extends React.Component {
           <Grid container columns={16} style={{ paddingTop: '75px' }} stackable>
             {this.protectRoutes()}
           </Grid>
-        </Container>
+        </Container>  
       </Router>
     );
   }

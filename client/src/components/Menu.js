@@ -5,11 +5,6 @@ import * as actions from '../actions';
 import { Link, Redirect } from 'react-router-dom';
 
 class Menu extends React.Component {
-  
-
-  getCourses = () => {
-    this.props.fetchCourses(this.props.auth.google_id);
-  };
 
   switchMode = () => {
     this.props.switchMode();
@@ -27,7 +22,7 @@ class Menu extends React.Component {
               </SemanticMenu.Item>
               <SemanticMenu.Menu position="right">
                 <SemanticMenu.Item>
-                  <div onClick={this.switchMode}>Go to Student Mode</div>
+                  <div onClick={this.switchMode} style={{cursor:'pointer'}}>Go to Student Mode</div>
                 </SemanticMenu.Item>
                 <SemanticMenu.Item>
                   <a href="/api/logout">Log Out</a>
@@ -44,7 +39,7 @@ class Menu extends React.Component {
               </SemanticMenu.Item>
               <SemanticMenu.Menu position="right">
                 <SemanticMenu.Item>
-                  <div onClick={this.switchMode}>Go to Creator Mode</div>
+                  <div onClick={this.switchMode} style={{cursor:'pointer'}}>Go to Creator Mode</div>
                 </SemanticMenu.Item>
                 <SemanticMenu.Item>
                   <a href="/api/logout">Log Out</a>
@@ -71,7 +66,10 @@ class Menu extends React.Component {
 
   render() {
     return (
-      <SemanticMenu inverted fixed={'top'}>
+      <SemanticMenu
+        inverted
+        fixed={'top'}
+        style={{ boxShadow: '0 6px 6px 2px #ccc' }}>
         <Container>{this.renderMenu()}</Container>
       </SemanticMenu>
     );

@@ -5,7 +5,43 @@ import { connect } from 'react-redux';
 import * as actions from '../actions';
 
 class CoursesTable extends React.Component {
-  render() {
+  renderStudentTable = () => {
+    return (
+      <Table celled singleLine sortable>
+        <Table.Header>
+          <Table.Row>
+            <Table.HeaderCell>ID</Table.HeaderCell>
+            <Table.HeaderCell>Course</Table.HeaderCell>
+            <Table.HeaderCell>Owner</Table.HeaderCell>
+            <Table.HeaderCell>Create Date</Table.HeaderCell>
+          </Table.Row>
+        </Table.Header>
+
+        <Table.Body>
+          {this.props.app && this.props.app.coursesTableStudent
+            ? this.props.app.coursesTableStudent.map((course, index) => {
+                return (
+                  <Table.Row key={index}>
+                    <Table.Cell>{course.id}</Table.Cell>
+                    <Table.Cell>
+                      <Link to={`/course/${course.id}`}>
+                        {course.title}
+                      </Link>
+                    </Table.Cell>
+                    <Table.Cell>{course.owner_id}</Table.Cell>
+                    <Table.Cell>
+                      {new Date(course.create_date * 1000).toLocaleString()}
+                    </Table.Cell>
+                  </Table.Row>
+                );
+              })
+            : null}
+        </Table.Body>
+      </Table>
+    );
+  };
+
+  renderCreatorTable = () => {
     return (
       <Table celled singleLine sortable>
         <Table.Header>
@@ -41,6 +77,14 @@ class CoursesTable extends React.Component {
         </Table.Body>
       </Table>
     );
+  };
+
+  render() {
+    if (this.props.app.creatorMode) {
+      return this.renderCreatorTable();
+    } else {
+      return this.renderStudentTable();
+    }
   }
 }
 

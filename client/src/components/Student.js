@@ -1,6 +1,7 @@
 import React from 'react';
 
 import ProfileCard from './ProfileCard';
+import CoursesTable from './CoursesTable';
 
 import { Grid } from 'semantic-ui-react';
 import { connect } from 'react-redux';
@@ -15,6 +16,7 @@ class Student extends React.Component {
         </Grid.Column>
         <Grid.Column width={10}>
           <h2>Student Mode</h2>
+          <CoursesTable />
         </Grid.Column>
       </React.Fragment>
     );

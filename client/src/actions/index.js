@@ -19,6 +19,15 @@ export const fetchCourses = () => async dispatch => {
   return response.data;
 };
 
+export const fetchAllCourses = () => async dispatch => {
+  const response = await axios.get('/api/allcourses');
+  dispatch({
+    type: 'FETCH_ALL_COURSES',
+    payload: response.data
+  });
+  return response.data;
+};
+
 export const fetchSymbols = course_id => async dispatch => {
   const response = await axios.get(`/api/symbols/${course_id}`);
 
