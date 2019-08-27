@@ -19,11 +19,11 @@ class CourseForm extends React.Component {
   courseTitle = props => {
     return (
       <SemanticForm>
-        <SemanticForm.Group>
-          <SemanticForm.Field {...props}>
-            <input placeholder="Course Title" />
-          </SemanticForm.Field>
-        </SemanticForm.Group>
+      <SemanticForm.Group>
+        <SemanticForm.Field {...props}>
+          <input placeholder="Course Title" />
+        </SemanticForm.Field>
+      </SemanticForm.Group>
       </SemanticForm>
     );
   };
@@ -31,11 +31,11 @@ class CourseForm extends React.Component {
   courseLanguage = props => {
     return (
       <SemanticForm>
-        <SemanticForm.Group>
-          <SemanticForm.Field {...props}>
-            <input placeholder="Language" />
-          </SemanticForm.Field>
-        </SemanticForm.Group>
+      <SemanticForm.Group>
+        <SemanticForm.Field {...props}>
+          <input placeholder="Language" />
+        </SemanticForm.Field>
+      </SemanticForm.Group>
       </SemanticForm>
     );
   };

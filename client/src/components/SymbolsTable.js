@@ -1,5 +1,5 @@
 import React from 'react';
-import { Table } from 'semantic-ui-react';
+import { Table, Loader } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import * as actions from '../actions';
 
@@ -17,22 +17,24 @@ class SymbolsTable extends React.Component {
         </Table.Header>
 
         <Table.Body>
-          {this.props.app && this.props.app.symbolsTable
-            ? this.props.app.symbolsTable.map((symbol, index) => {
-                return (
-                  <Table.Row key={index}>
-                    <Table.Cell>{symbol.id}</Table.Cell>
-                    <Table.Cell>{symbol.text}</Table.Cell>
-                    <Table.Cell>
-                      <audio src={symbol.audio_url} type="audio/mpeg" controls/>
-                    </Table.Cell>
-                    <Table.Cell>
-                      {new Date(symbol.create_date * 1000).toLocaleString()}
-                    </Table.Cell>
-                  </Table.Row>
-                );
-              })
-            : null}
+          {this.props.app && this.props.app.symbolsTable ? (
+            this.props.app.symbolsTable.map((symbol, index) => {
+              return (
+                <Table.Row key={index}>
+                  <Table.Cell>{symbol.id}</Table.Cell>
+                  <Table.Cell>{symbol.text}</Table.Cell>
+                  <Table.Cell>
+                    <audio src={symbol.audio_url} type="audio/mpeg" controls />
+                  </Table.Cell>
+                  <Table.Cell>
+                    {new Date(symbol.create_date * 1000).toLocaleString()}
+                  </Table.Cell>
+                </Table.Row>
+              );
+            })
+          ) : (
+            <Loader active />
+          )}
         </Table.Body>
       </Table>
     );

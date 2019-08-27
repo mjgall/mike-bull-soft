@@ -16,6 +16,14 @@ module.exports = app => {
     }
   };
 
+  const isOwner = (req, res, next) => {
+    if (req.user.id === req.params.body.owner_id) {
+      return next();
+    } else {
+      res.status(404).send('Unauthorized Request');
+    }
+  }
+
   app.post('/api/texttospeech', isAuthenticated, async (req, res) => {
     try {
       const response = await polly({ text: req.body.text });
@@ -57,6 +65,14 @@ module.exports = app => {
     }
   });
 
+  //EDIT COURSE
+  app.put('/api/course/:course'), isAuthenticated, isOwner, async (req, res) => {
+    //
+    const { course } = req.params;
+
+
+  }
+
   //ADD SYMBOL
   app.post('/api/symbols', isAuthenticated, async (req, res) => {
     const { owner_id, course_id, text } = req.body;
@@ -86,7 +102,7 @@ module.exports = app => {
     }
   });
 
-  app.get('/api/allcourses', async (req, res) => {
+  app.get('/api/allcourses', isAuthenticated, async (req, res) => {
     try {
       const courses = await getAllCourses();
       res.status(200).send(courses);

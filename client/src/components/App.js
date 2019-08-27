@@ -17,6 +17,7 @@ class App extends React.Component {
     this.props.fetchAllCourses();
   }
 
+
   protectRoutes = () => {
     if (this.props.auth) {
       switch (this.props.app.creatorMode) {

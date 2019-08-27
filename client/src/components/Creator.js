@@ -18,7 +18,7 @@ class Creator extends React.Component {
         </Grid.Column>
         <Grid.Column width={10}>
           <CourseForm />
-          <h2>Courses</h2>
+          <h2>My Created Courses</h2>
           <CoursesTable />
         </Grid.Column>
       </React.Fragment>

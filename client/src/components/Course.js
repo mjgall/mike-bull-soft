@@ -2,11 +2,11 @@ import React from 'react';
 
 import { connect } from 'react-redux';
 
-import {Link} from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 import * as actions from '../actions';
 
-import { Grid } from 'semantic-ui-react';
+import { Grid, Loader } from 'semantic-ui-react';
 
 import SymbolForm from './SymbolForm';
 import SymbolsTable from './SymbolsTable';
@@ -22,29 +22,48 @@ class Course extends React.Component {
     this.props.clearSymbol();
   }
 
+  renderDetails = () => {
+    if (!this.props.app.course) {
+      return (
+        <ul>
+          <li>Title:</li>
+          <li>Owner:</li>
+          <li>ID:</li>
+          <li>Create Date:</li>
+        </ul>
+      );
+    } else {
+      return (
+        <ul>
+          <li>Title: {this.props.app.course.title}</li>
+          <li>
+            Owner: {this.props.app.course.first_name}{' '}
+            {this.props.app.course.last_name}
+          </li>
+          <li>ID: {this.props.app.course.course_id}</li>
+          <li>
+            Create Date:{' '}
+            {new Date(
+              this.props.app.course.create_date * 1000
+            ).toLocaleString()}
+          </li>
+        </ul>
+      );
+    }
+  };
+
   render() {
     return (
       <React.Fragment>
         <Grid.Column width={16}>
-          <h4><Link to="/home">Back to courses</Link></h4>
-          <h2>{this.props.app.course ? this.props.app.course.title : null}</h2>
-          <ul>
-            <li>
-              ID:{' '}
-              {this.props.app.course ? this.props.app.course.course_id : null}
-            </li>
-            <li>
-              Create Date:{' '}
-              {this.props.app.course
-                ? new Date(
-                    this.props.app.course.create_date * 1000
-                  ).toLocaleString()
-                : null}
-            </li>
-          </ul>
+          <h4>
+            <Link to="/home">Back to courses</Link>
+          </h4>
+
+          {this.renderDetails()}
           <h2>Symbols</h2>
-          
-          <SymbolForm />
+          {this.props.app.creatorMode ? <SymbolForm /> : null}
+
           <SymbolsTable />
         </Grid.Column>
       </React.Fragment>
