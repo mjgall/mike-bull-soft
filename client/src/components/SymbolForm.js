@@ -18,26 +18,20 @@ class SymbolForm extends React.Component {
     this.addSymbol(symbol);
   }
 
-  symbolText = props => {
-    return (
-      <SemanticForm.Group>
-        <SemanticForm.Field {...props}>
-          <input placeholder="Symbol Text" />
-        </SemanticForm.Field>
-      </SemanticForm.Group>
-    );
-  };
-
   render() {
     return (
-      <Form model="forms.symbol" onSubmit={symbol => this.handleSubmit(symbol)}>
-        <Control
-          model="forms.symbol.text"
-          id="forms.symbol.text"
-          component={this.symbolText}
-        />
-
-        <Button type="submit">Add Symbol</Button>
+      <Form
+        model="forms.symbol"
+        onSubmit={symbol => this.handleSubmit(symbol)}
+        className="ui form">
+        <div className="fields">
+          <div className="field">
+            <Control.text model="forms.symbol.text" placeholder="Text" />
+          </div>
+          <button type="submit" className="ui button">
+            Add Symbol
+          </button>
+        </div>
       </Form>
     );
   }
