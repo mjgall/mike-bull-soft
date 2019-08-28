@@ -37,9 +37,8 @@ class CourseForm extends React.Component {
               <option value="german">German</option>
             </Control.select>
           </div>
-
           <button type="submit" className="ui button">
-            Submit
+            Create Course
           </button>
         </div>
       </Form>

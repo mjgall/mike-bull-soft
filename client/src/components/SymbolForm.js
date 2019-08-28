@@ -1,7 +1,6 @@
 import React from 'react';
 import { Control } from 'react-redux-form';
 import Form from './Form';
-import { Button, Form as SemanticForm } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import * as actions from '../actions';
 

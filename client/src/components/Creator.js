@@ -11,7 +11,6 @@ import * as actions from '../actions';
 
 class Creator extends React.Component {
   render() {
-    console.log("We made it here")
     return (
       <React.Fragment>
         <Grid.Column width={6}>
