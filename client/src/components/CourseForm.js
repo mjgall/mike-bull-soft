@@ -9,6 +9,8 @@ class CourseForm extends React.Component {
     this.props.addCourse({
       title: course.title,
       // language: course.language,
+      // description: course.description,
+      // difficulty: course.difficulty,
       owner_id: this.props.auth.google_id
     });
   };
@@ -23,7 +25,7 @@ class CourseForm extends React.Component {
         model="forms.course"
         onSubmit={course => this.handleSubmit(course)}
         className="ui form">
-        <div className="fields">
+        <div className="three fields">
           <div className="field">
             <Control.text model="forms.course.title" placeholder="Title" />
           </div>
@@ -37,10 +39,28 @@ class CourseForm extends React.Component {
               <option value="german">German</option>
             </Control.select>
           </div>
-          <button type="submit" className="ui button">
-            Create Course
-          </button>
+          <div className="field">
+            <Control.select
+              model="forms.course.difficulty"
+              className="ui selection dropdown"
+              placeholder="Difficulty">
+              <option value="novice">Novice</option>
+              <option value="intermediate">Intermediate</option>
+              <option value="advanced">Advanced</option>
+            </Control.select>
+          </div>
         </div>
+
+        <div className="field">
+          <Control.textarea
+            model="forms.course.description"
+            placeholder="Description"
+          />
+        </div>
+
+        <button type="submit" className="ui button positive">
+          Create Course
+        </button>
       </Form>
     );
   }

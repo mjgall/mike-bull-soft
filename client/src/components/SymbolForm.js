@@ -27,7 +27,7 @@ class SymbolForm extends React.Component {
           <div className="field">
             <Control.text model="forms.symbol.text" placeholder="Text" />
           </div>
-          <button type="submit" className="ui button">
+          <button type="submit" className="ui button positive">
             Add Symbol
           </button>
         </div>
