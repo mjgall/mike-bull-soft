@@ -2,6 +2,7 @@ import React from 'react';
 
 import ProfileCard from './ProfileCard';
 import CourseForm from './CourseForm';
+
 import CoursesTable from './CoursesTable';
 
 import { Grid } from 'semantic-ui-react';

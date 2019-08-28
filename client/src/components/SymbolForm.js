@@ -1,5 +1,6 @@
 import React from 'react';
-import { Control, Form } from 'react-redux-form';
+import { Control } from 'react-redux-form';
+import Form from './Form';
 import { Button, Form as SemanticForm } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import * as actions from '../actions';
@@ -19,13 +20,11 @@ class SymbolForm extends React.Component {
 
   symbolText = props => {
     return (
-      <SemanticForm>
-        <SemanticForm.Group>
-          <SemanticForm.Field {...props}>
-            <input placeholder="Symbol Text" />
-          </SemanticForm.Field>
-        </SemanticForm.Group>
-      </SemanticForm>
+      <SemanticForm.Group>
+        <SemanticForm.Field {...props}>
+          <input placeholder="Symbol Text" />
+        </SemanticForm.Field>
+      </SemanticForm.Group>
     );
   };
 
