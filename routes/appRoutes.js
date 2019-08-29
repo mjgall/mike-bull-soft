@@ -22,7 +22,7 @@ module.exports = app => {
     } else {
       res.status(404).send('Unauthorized Request');
     }
-  }
+  };
 
   app.post('/api/texttospeech', isAuthenticated, async (req, res) => {
     try {
@@ -35,9 +35,15 @@ module.exports = app => {
 
   //ADD COURSE
   app.post('/api/courses', isAuthenticated, async (req, res) => {
-    const { title, owner_id } = req.body;
+    const { title, language, description, difficulty, owner_id } = req.body;
     try {
-      const course = await insertCourse({ title, owner_id });
+      const course = await insertCourse({
+        title,
+        language,
+        description,
+        difficulty,
+        owner_id
+      });
       res.status(200).send(course);
     } catch (error) {
       res.status(400).send(error);
@@ -66,12 +72,13 @@ module.exports = app => {
   });
 
   //EDIT COURSE
-  app.put('/api/course/:course'), isAuthenticated, isOwner, async (req, res) => {
-    //
-    const { course } = req.params;
-
-
-  }
+  app.put('/api/course/:course'),
+    isAuthenticated,
+    isOwner,
+    async (req, res) => {
+      //
+      const { course } = req.params;
+    };
 
   //ADD SYMBOL
   app.post('/api/symbols', isAuthenticated, async (req, res) => {

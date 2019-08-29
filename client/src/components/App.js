@@ -9,6 +9,7 @@ import history from '../history';
 import { connect } from 'react-redux';
 import Menu from './Menu';
 import { Grid, Container } from 'semantic-ui-react';
+import './app.css'
 
 class App extends React.Component {
   componentDidMount() {

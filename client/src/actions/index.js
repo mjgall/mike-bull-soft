@@ -52,6 +52,9 @@ export const textToSpeech = () => async dispatch => {
 export const addCourse = course => async dispatch => {
   const response = await axios.post('/api/courses', {
     title: course.title,
+    language: course.language,
+    description: course.description,
+    difficulty: course.difficulty,
     owner_id: course.owner_id
   });
   dispatch({

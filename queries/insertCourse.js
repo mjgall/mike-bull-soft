@@ -6,8 +6,8 @@ const db = require('../config/db/mysql').pool;
 
 module.exports = course => {
   return new Promise((resolve, reject) => {
-    const { title, owner_id } = course;
-    const query = `INSERT INTO courses (title, owner_id, create_date) VALUES ('${title}', '${owner_id}', UNIX_TIMESTAMP());`;
+    const { title, language, description, difficulty, owner_id } = course;
+    const query = `INSERT INTO courses (title, language, description, difficulty, owner_id, create_date) VALUES ('${title}', '${language}', '${description}', '${difficulty}', '${owner_id}', UNIX_TIMESTAMP());`;
 
     db.getConnection((err, connection) => {
       if (err) {

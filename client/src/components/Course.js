@@ -25,29 +25,35 @@ class Course extends React.Component {
   renderDetails = () => {
     if (!this.props.app.course) {
       return (
-        <ul>
-          <li>Title:</li>
-          <li>Owner:</li>
-          <li>ID:</li>
-          <li>Create Date:</li>
-        </ul>
+        <div>
+          <ul>
+            <li>Title:</li>
+            <li>Owner:</li>
+            <li>ID:</li>
+            <li>Create Date:</li>
+          </ul>
+          <p />
+        </div>
       );
     } else {
       return (
-        <ul>
-          <li>Title: {this.props.app.course.title}</li>
-          <li>
-            Owner: {this.props.app.course.first_name}{' '}
-            {this.props.app.course.last_name}
-          </li>
-          <li>ID: {this.props.app.course.course_id}</li>
-          <li>
-            Create Date:{' '}
-            {new Date(
-              this.props.app.course.create_date * 1000
-            ).toLocaleString()}
-          </li>
-        </ul>
+        <div>
+          <ul>
+            <li>Title: {this.props.app.course.title}</li>
+            <li>
+              Owner: {this.props.app.course.first_name}{' '}
+              {this.props.app.course.last_name}
+            </li>
+            <li>ID: {this.props.app.course.course_id}</li>
+            <li>
+              Create Date:{' '}
+              {new Date(
+                this.props.app.course.create_date * 1000
+              ).toLocaleString()}
+            </li>
+          </ul>
+          <p>{this.props.app.course.description}</p>
+        </div>
       );
     }
   };

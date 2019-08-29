@@ -26,7 +26,7 @@ const appReducer = (state = initialAppState, action) => {
     case 'FETCH_COURSES':
       return { ...state, coursesTable: action.payload } || false;
     case 'FETCH_ALL_COURSES':
-          return { ...state, coursesTableStudent: action.payload } || false;
+      return { ...state, coursesTableStudent: action.payload } || false;
     case 'ADD_COURSE':
       return (
         { ...state, coursesTable: [...state.coursesTable, action.payload] } ||
@@ -59,5 +59,8 @@ const appReducer = (state = initialAppState, action) => {
 export default combineReducers({
   auth: authReducer,
   app: appReducer,
-  forms: combineForms({ course: {}, symbol: {} }, 'forms')
+  forms: combineForms(
+    { course: { language: 'english', difficulty: 'novice' }, symbol: {} },
+    'forms'
+  )
 });

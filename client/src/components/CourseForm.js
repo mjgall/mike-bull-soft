@@ -1,4 +1,10 @@
-import { Control, Form } from 'react-redux-form';
+import {
+  Control,
+  Form,
+  Errors,
+  actions as formActions,
+  modelReducer
+} from 'react-redux-form';
 import React from 'react';
 import { connect } from 'react-redux';
 import * as actions from '../actions';
@@ -8,9 +14,9 @@ class CourseForm extends React.Component {
     console.log(course);
     this.props.addCourse({
       title: course.title,
-      // language: course.language,
-      // description: course.description,
-      // difficulty: course.difficulty,
+      language: course.language,
+      description: course.description,
+      difficulty: course.difficulty,
       owner_id: this.props.auth.google_id
     });
   };
@@ -27,10 +33,23 @@ class CourseForm extends React.Component {
         className="ui form">
         <div className="three fields">
           <div className="field">
-            <Control.text model="forms.course.title" placeholder="Title" />
+            <Control.text
+              model="forms.course.title"
+              placeholder="Title"
+              validators={{ required: value => value && value.length }}
+            />
+            <Errors
+              className="error"
+              model="forms.course.title"
+              show="touched"
+              messages={{
+                required: 'Required'
+              }}
+            />
           </div>
           <div className="field">
             <Control.select
+              validators={{ required: value => value && value.length }}
               model="forms.course.language"
               className="ui selection dropdown"
               placeholder="Language">
@@ -38,9 +57,18 @@ class CourseForm extends React.Component {
               <option value="spanish">Spanish</option>
               <option value="german">German</option>
             </Control.select>
+            <Errors
+              className="error"
+              model="forms.course.title"
+              show="touched"
+              messages={{
+                required: 'Required'
+              }}
+            />
           </div>
           <div className="field">
             <Control.select
+              validators={{ required: value => value && value.length }}
               model="forms.course.difficulty"
               className="ui selection dropdown"
               placeholder="Difficulty">
@@ -48,13 +76,30 @@ class CourseForm extends React.Component {
               <option value="intermediate">Intermediate</option>
               <option value="advanced">Advanced</option>
             </Control.select>
+            <Errors
+              className="error"
+              model="forms.course.title"
+              show="touched"
+              messages={{
+                required: 'Required'
+              }}
+            />
           </div>
         </div>
 
         <div className="field">
           <Control.textarea
+            validators={{ required: value => value && value.length }}
             model="forms.course.description"
             placeholder="Description"
+          />
+          <Errors
+            className="error"
+            model="forms.course.title"
+            show="touched"
+            messages={{
+              required: 'Required'
+            }}
           />
         </div>
 
