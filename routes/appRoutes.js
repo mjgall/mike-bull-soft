@@ -26,7 +26,7 @@ module.exports = app => {
 
   app.post('/api/texttospeech', isAuthenticated, async (req, res) => {
     try {
-      const response = await polly({ text: req.body.text });
+      const response = await polly({ text: req.body.text, language: req.body.language });
       res.status(200).send({ location: response });
     } catch (error) {
       res.status(400).send(error);
@@ -82,10 +82,9 @@ module.exports = app => {
 
   //ADD SYMBOL
   app.post('/api/symbols', isAuthenticated, async (req, res) => {
-    const { owner_id, course_id, text } = req.body;
-
+    const { owner_id, course_id, text, language } = req.body;
     try {
-      const pollyURL = await polly({ text });
+      const pollyURL = await polly({ text, language });
       const course = await insertSymbol({
         owner_id,
         course_id,

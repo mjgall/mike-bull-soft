@@ -9,7 +9,8 @@ class SymbolForm extends React.Component {
     this.props.addSymbol({
       owner_id: this.props.auth.id,
       course_id: this.props.app.course.course_id,
-      text: symbol.text
+      text: symbol.text,
+      language: this.props.app.course.language
     });
   };
 

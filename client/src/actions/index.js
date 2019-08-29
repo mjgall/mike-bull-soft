@@ -40,7 +40,7 @@ export const fetchSymbols = course_id => async dispatch => {
 
 export const textToSpeech = () => async dispatch => {
   const response = await axios.post('/api/texttospeech', {
-    text: `${new Date(Date.now()).toString()}`
+    text: `${new Date(Date.now()).toString()}`,
   });
   dispatch({
     type: 'TEXT_TO_SPEECH',

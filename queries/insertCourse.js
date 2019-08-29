@@ -1,4 +1,5 @@
 const db = require('../config/db/mysql').pool;
+const sqlString = require('sqlstring');
 
 //CREATES A USER WITH A CALLBACK WITH TWO ARGS, ERROR THEN THE JUST CREATED USER -- TWO CONNECTIONS HAPPEN, SEEMS WEIRD BUT WORKS
 
@@ -7,8 +8,9 @@ const db = require('../config/db/mysql').pool;
 module.exports = course => {
   return new Promise((resolve, reject) => {
     const { title, language, description, difficulty, owner_id } = course;
-    const query = `INSERT INTO courses (title, language, description, difficulty, owner_id, create_date) VALUES ('${title}', '${language}', '${description}', '${difficulty}', '${owner_id}', UNIX_TIMESTAMP());`;
+    const query = `INSERT INTO courses (title, language, description, difficulty, owner_id, create_date) VALUES (${sqlString.escape(title)}, ${sqlString.escape(language)}, ${sqlString.escape(description)}, ${sqlString.escape(difficulty)}, ${sqlString.escape(owner_id)}, UNIX_TIMESTAMP());`;
 
+    console.log(query);
     db.getConnection((err, connection) => {
       if (err) {
         reject(err);

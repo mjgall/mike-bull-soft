@@ -19,10 +19,16 @@ module.exports = data => {
       VoiceId: 'Amy'
     };
 
-
+    switch (data.language) {
+      case 'german':
+        pollyparams.VoiceId = 'Hans';
+      case 'spanish':
+        pollyparams.VoiceId = 'Miguel';
+      default:
+        break;
+    }
 
     polly.synthesizeSpeech(pollyparams, (err, data) => {
-
       if (err) {
         reject(err.message);
       } else if (data) {
@@ -34,13 +40,10 @@ module.exports = data => {
           ACL: 'public-read'
         };
 
-
         s3.upload(s3params, function(err, data) {
           if (err) {
-
             reject(err.message);
           } else {
-
             resolve(data.Location);
           }
         });
