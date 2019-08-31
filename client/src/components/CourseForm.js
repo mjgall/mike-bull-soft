@@ -1,9 +1,7 @@
 import {
   Control,
   Form,
-  Errors,
-  actions as formActions,
-  modelReducer
+  Errors
 } from 'react-redux-form';
 import React from 'react';
 import { connect } from 'react-redux';
@@ -28,6 +26,7 @@ class CourseForm extends React.Component {
   render() {
     return (
       <Form
+        validateOn="submit"
         model="forms.course"
         onSubmit={course => this.handleSubmit(course)}
         className="ui form">
@@ -37,11 +36,12 @@ class CourseForm extends React.Component {
               model="forms.course.title"
               placeholder="Title"
               validators={{ required: value => value && value.length }}
+              validateOn="change"
             />
             <Errors
               className="error"
               model="forms.course.title"
-              show="touched"
+              show={{touched: true, focus: false}}
               messages={{
                 required: 'Required'
               }}
@@ -50,6 +50,7 @@ class CourseForm extends React.Component {
           <div className="field">
             <Control.select
               validators={{ required: value => value && value.length }}
+       
               model="forms.course.language"
               className="ui selection dropdown"
               placeholder="Language">
@@ -59,8 +60,8 @@ class CourseForm extends React.Component {
             </Control.select>
             <Errors
               className="error"
-              model="forms.course.title"
-              show="touched"
+              model="forms.course.language"
+              show={false}
               messages={{
                 required: 'Required'
               }}
@@ -69,6 +70,7 @@ class CourseForm extends React.Component {
           <div className="field">
             <Control.select
               validators={{ required: value => value && value.length }}
+           
               model="forms.course.difficulty"
               className="ui selection dropdown"
               placeholder="Difficulty">
@@ -78,8 +80,8 @@ class CourseForm extends React.Component {
             </Control.select>
             <Errors
               className="error"
-              model="forms.course.title"
-              show="touched"
+              model="forms.course.difficulty"
+              show={false}
               messages={{
                 required: 'Required'
               }}
@@ -90,12 +92,13 @@ class CourseForm extends React.Component {
         <div className="field">
           <Control.textarea
             validators={{ required: value => value && value.length }}
+            validateOn="change"
             model="forms.course.description"
             placeholder="Description"
           />
           <Errors
             className="error"
-            model="forms.course.title"
+            model="forms.course.description"
             show="touched"
             messages={{
               required: 'Required'

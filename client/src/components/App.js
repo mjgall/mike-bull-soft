@@ -10,6 +10,7 @@ import { connect } from 'react-redux';
 import Menu from './Menu';
 import { Grid, Container } from 'semantic-ui-react';
 import './app.css'
+import Drawing from './Drawing';
 
 class App extends React.Component {
   componentDidMount() {
@@ -30,6 +31,7 @@ class App extends React.Component {
               <Route component={Home} path="/home" exact />
               <Route component={Course} path="/course/:course" exact />
               <Route component={Symbol} path="/symbol/:symbol" exact />
+              <Route component={Drawing} path="/drawing" exact/>
             </Switch>
           );
         case false:
@@ -40,6 +42,7 @@ class App extends React.Component {
               <Route component={Home} path="/home" exact />
               <Route component={Course} path="/course/:course" exact />
               <Route component={Symbol} path="/symbol/:symbol" exact />
+              <Route component={Drawing} path="/drawing" exact/>
             </Switch>
           );
         default:

@@ -13,18 +13,20 @@ module.exports = data => {
     const s3 = new AWS.S3();
 
     const pollyparams = {
-      Text: `<speak>${data.text}</speak>`,
+      Text: `<speak><prosody rate="85%">${data.text}</prosody></speak>`,
       TextType: 'ssml',
-      OutputFormat: 'mp3',
-      VoiceId: 'Amy'
+      OutputFormat: 'mp3'
     };
 
     switch (data.language) {
       case 'german':
         pollyparams.VoiceId = 'Hans';
+        break;
       case 'spanish':
         pollyparams.VoiceId = 'Miguel';
+        break;
       default:
+        pollyparams.VoiceId = 'Amy';
         break;
     }
 
