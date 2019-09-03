@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 
 import * as actions from '../actions';
 
-import { Grid, Loader } from 'semantic-ui-react';
+import { Grid } from 'semantic-ui-react';
 
 import SymbolForm from './SymbolForm';
 import SymbolsTable from './SymbolsTable';

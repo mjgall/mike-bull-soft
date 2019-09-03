@@ -2,7 +2,7 @@ import React from 'react';
 import { Menu as SemanticMenu, Container } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import * as actions from '../actions';
-import { Link, Redirect } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 class Menu extends React.Component {
 

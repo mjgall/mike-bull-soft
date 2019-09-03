@@ -19,16 +19,12 @@ class CourseForm extends React.Component {
     });
   };
 
-  handleSubmit(course) {
-    this.addCourse(course);
-  }
-
   render() {
     return (
       <Form
         validateOn="submit"
         model="forms.course"
-        onSubmit={course => this.handleSubmit(course)}
+        onSubmit={course => this.addCourse(course)}
         className="ui form">
         <div className="three fields">
           <div className="field">

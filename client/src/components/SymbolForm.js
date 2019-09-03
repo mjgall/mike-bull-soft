@@ -14,15 +14,11 @@ class SymbolForm extends React.Component {
     });
   };
 
-  handleSubmit(symbol) {
-    this.addSymbol(symbol);
-  }
-
   render() {
     return (
       <Form
         model="forms.symbol"
-        onSubmit={symbol => this.handleSubmit(symbol)}
+        onSubmit={symbol => this.addSymbol(symbol)}
         className="ui form"
         validateOn="submit">
         <div className="fields">
