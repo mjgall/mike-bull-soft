@@ -51,6 +51,7 @@ class App extends React.Component {
     } else {
       return (
         <Switch>
+          <Route component={Drawing} path="/drawing" exact/>
           <Route component={Login} path="/*" exact />
         </Switch>
       );

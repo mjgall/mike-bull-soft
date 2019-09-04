@@ -4,10 +4,10 @@ import FabricCanvas from './FabricCanvas';
 const fabric = window.fabric;
 export default class Drawing extends React.Component {
   componentDidMount() {
-    this.canvas = new fabric.Canvas('c');
+    this.canvas = new fabric.Canvas('canvas');
   }
 
   render() {
-    return <FabricCanvas id="c" canvas={this.canvas}></FabricCanvas>;
+    return <FabricCanvas id="canvas" canvas={this.canvas}></FabricCanvas>;
   }
 }
