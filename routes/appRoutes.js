@@ -2,9 +2,13 @@ const insertCourse = require('../queries/insertCourse');
 const insertSymbol = require('../queries/insertSymbol');
 const getCourses = require('../queries/getCourses');
 const getSymbols = require('../queries/getSymbols');
+const getSymbol = require('../queries/getSymbol');
 const getCourse = require('../queries/getCourse');
 const getAllCourses = require('../queries/getAllCourses');
+const insertImage = require('../queries/insertImage');
+const getImages = require('../queries/getImages');
 const polly = require('../services/polly');
+const saveToS3 = require('../services/s3');
 
 module.exports = app => {
   //AUTHENTICATION PROTECTION
@@ -26,7 +30,10 @@ module.exports = app => {
 
   app.post('/api/texttospeech', isAuthenticated, async (req, res) => {
     try {
-      const response = await polly({ text: req.body.text, language: req.body.language });
+      const response = await polly({
+        text: req.body.text,
+        language: req.body.language
+      });
       res.status(200).send({ location: response });
     } catch (error) {
       res.status(400).send(error);
@@ -82,17 +89,53 @@ module.exports = app => {
 
   //ADD SYMBOL
   app.post('/api/symbols', isAuthenticated, async (req, res) => {
-    const { owner_id, course_id, text, language } = req.body;
+    const { owner_id, course_id, text, language, images } = req.body;
     try {
       const pollyURL = await polly({ text, language });
-      const course = await insertSymbol({
+      const symbol = await insertSymbol({
         owner_id,
         course_id,
         text,
         audio_url: pollyURL
       });
-      res.status(200).send(course);
+      images.forEach(async imageData => {
+        try {
+          const location = await saveToS3(imageData);
+          const imageObject = {
+            url: location,
+            user_id: symbol.owner_id,
+            symbol_id: symbol.id
+          };
+          const response = await insertImage(imageObject);
+          console.log(response);
+        } catch (error) {
+          res.status(error);
+          console.log(error);
+        }
+      });
+
+      res.status(200).send(symbol);
     } catch (error) {
+      console.log(error);
+      res.status(400).send(error);
+    }
+  });
+
+  //TEST image upload
+  app.post('/api/uploadimage', async (req, res) => {
+    const data = req.body.data;
+    try {
+      const location = await saveToS3(data);
+      const imageObject = {
+        url: location,
+        user_id: 7,
+        symbol_id: 104
+      };
+
+      const response = await insertImage(imageObject);
+      res.send(response);
+    } catch (error) {
+      console.log(error);
       res.status(400).send(error);
     }
   });
@@ -102,13 +145,26 @@ module.exports = app => {
     const { course } = req.params;
     try {
       const courses = await getSymbols(course);
+
       res.status(200).send(courses);
     } catch (error) {
       res.status(400).send(error);
     }
   });
 
-  app.get('/api/allcourses', isAuthenticated, async (req, res) => {
+  //GET SYMBOL
+  app.get('/api/symbol/:id', isAuthenticated, async (req, res) => {
+    const { id } = req.params;
+    try {
+      const images = await getImages(id)
+      const symbol = await getSymbol(id);
+      res.status(200).send({symbol, images});
+    } catch (error) {
+      res.status(400).send(error);
+    }
+  });
+
+  app.get('/api/allcourses', async (req, res) => {
     try {
       const courses = await getAllCourses();
       res.status(200).send(courses);

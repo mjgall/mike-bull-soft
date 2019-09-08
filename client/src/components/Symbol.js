@@ -6,7 +6,7 @@ import * as actions from '../actions';
 import { Grid } from 'semantic-ui-react';
 
 import ProfileCard from './ProfileCard';
-import SymbolsTable from './SymbolsTable';
+import ImagesTable from './ImagesTable';
 
 class Symbol extends React.Component {
   componentDidMount() {
@@ -43,7 +43,7 @@ class Symbol extends React.Component {
                 : null}
             </li>
           </ul>
-          <SymbolsTable />
+          <ImagesTable />
         </Grid.Column>
       </React.Fragment>
     );

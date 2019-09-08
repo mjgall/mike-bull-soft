@@ -1,0 +1,1 @@
+{"version":3,"sources":["app.css"],"names":[],"mappings":"AAAA,OACE,SACF,CAEA,aACE,WACF","file":"main.bbd4a318.chunk.css","sourcesContent":[".error {\n  color: red;\n}\n\n.colorpicker {\n  margin: 4% 0\n}"]}

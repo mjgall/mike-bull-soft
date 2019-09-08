@@ -6,12 +6,14 @@ import { Link } from 'react-router-dom';
 
 import * as actions from '../actions';
 
-import { Grid } from 'semantic-ui-react';
+import { Grid, Modal, Button, Image, Header } from 'semantic-ui-react';
 
 import SymbolForm from './SymbolForm';
 import SymbolsTable from './SymbolsTable';
 
 class Course extends React.Component {
+  state = { modalOpen: false };
+
   async componentDidMount() {
     await this.props.getCourse(this.props.match.params.course);
     await this.props.fetchSymbols(this.props.app.course.course_id);
@@ -58,6 +60,41 @@ class Course extends React.Component {
     }
   };
 
+  clearSymbolImages = () => {
+    this.props.clearSymbolImages();
+  };
+
+  close = () => {
+    this.setState({ modalOpen: false });
+    this.props.clearSymbolImages();
+  };
+
+  open = () => {
+    this.setState({ modalOpen: true });
+  };
+
+  saveImages = arrayOfImages => {
+    arrayOfImages.forEach(imageData => {
+      const imageObject = {
+        owner_id: this.props.auth.id,
+        data: imageData
+      };
+      this.props.saveSymbolImage(imageObject);
+    });
+  };
+
+  submit = () => {
+    const formValue = this.props.form.text;
+    this.props.addSymbol({
+      owner_id: this.props.auth.id,
+      course_id: this.props.app.course.course_id,
+      text: formValue,
+      language: this.props.app.course.language,
+      images: this.props.app.symbolImages
+    });
+    this.close();
+  };
+
   render() {
     return (
       <React.Fragment>
@@ -68,8 +105,36 @@ class Course extends React.Component {
 
           {this.renderDetails()}
           <h2>Symbols</h2>
-          {this.props.app.creatorMode ? <SymbolForm /> : null}
 
+          {this.props.app.creatorMode ? (
+            <Modal
+              trigger={
+                <Button onClick={this.open} positive>
+                  Add A Symbol
+                </Button>
+              }
+              onClose={this.props.clearSymbolImages}
+              open={this.state.modalOpen}>
+              <Modal.Header>Add a Symbol</Modal.Header>
+              <Modal.Content>
+                <Modal.Description>
+                  {this.props.app.creatorMode ? <SymbolForm /> : <SymbolForm />}
+                </Modal.Description>
+              </Modal.Content>
+              <Modal.Actions>
+                <Button onClick={this.close} negative>
+                  Cancel
+                </Button>
+                <Button
+                  onClick={this.submit}
+                  positive
+                  labelPosition="right"
+                  icon="checkmark"
+                  content="Add"
+                />
+              </Modal.Actions>
+            </Modal>
+          ) : null}
           <SymbolsTable />
         </Grid.Column>
       </React.Fragment>
@@ -80,7 +145,8 @@ class Course extends React.Component {
 const mapStateToProps = state => {
   return {
     auth: state.auth,
-    app: state.app
+    app: state.app,
+    form: state.forms.symbol
   };
 };
 

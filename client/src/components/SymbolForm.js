@@ -3,8 +3,15 @@ import { Control, Errors } from 'react-redux-form';
 import Form from './Form';
 import { connect } from 'react-redux';
 import * as actions from '../actions';
+import FabricCanvas from './FabricCanvas';
+const fabric = window.fabric;
+
 
 class SymbolForm extends React.Component {
+  componentDidMount() {
+    this.canvas = new fabric.Canvas('canvas' );
+  }
+
   addSymbol = symbol => {
     this.props.addSymbol({
       owner_id: this.props.auth.id,
@@ -16,33 +23,9 @@ class SymbolForm extends React.Component {
 
   render() {
     return (
-      <Form
-        model="forms.symbol"
-        onSubmit={symbol => this.addSymbol(symbol)}
-        className="ui form"
-        validateOn="submit">
-        <div className="fields">
-          <div className="field">
-            <Control.text
-              model="forms.symbol.text"
-              placeholder="Text"
-              validators={{ required: value => value && value.length }}
-              validateOn="change"
-            />
-            <Errors
-              className="error"
-              model="forms.course.title"
-              show={{ touched: true, focus: false }}
-              messages={{
-                required: 'Required'
-              }}
-            />
-          </div>
-          <button type="submit" className="ui button positive">
-            Add Symbol
-          </button>
-        </div>
-      </Form>
+      <div>
+        <FabricCanvas id="canvas" canvas={this.canvas} ></FabricCanvas>    
+      </div>
     );
   }
 }

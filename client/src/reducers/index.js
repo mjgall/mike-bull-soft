@@ -18,6 +18,7 @@ const initialAppState = {
   course: {},
   symbolsTable: [],
   symbol: {},
+  symbolImages: [],
   creatorMode: false
 };
 
@@ -46,11 +47,18 @@ const appReducer = (state = initialAppState, action) => {
     case 'GET_SYMBOL':
       return { ...state, symbol: action.payload } || false;
     case 'CLEAR_SYMBOL':
-      return { ...state, symbolsTable: [] } || false;
+      return { ...state, symbolsTable: [], symbol: {} } || false;
     case 'TOGGLE_MODE':
       return (
         { ...state, creatorMode: state.creatorMode ? false : true } || false
       );
+    case 'ADD_SYMBOL_IMAGE':
+      return {
+        ...state,
+        symbolImages: [...state.symbolImages, action.payload]
+      };
+    case 'CLEAR_SYMBOL_IMAGES':
+      return { ...state, symbolImages: [] };
     default:
       return state;
   }

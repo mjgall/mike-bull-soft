@@ -83,12 +83,14 @@ export const clearCourse = () => async dispatch => {
 };
 
 export const addSymbol = symbol => async dispatch => {
+
   const response = await axios.post('/api/symbols', {
     owner_id: symbol.owner_id,
     course_id: symbol.course_id,
     text: symbol.text,
     audio_url: symbol.audio_url,
-    language: symbol.language
+    language: symbol.language,
+    images: symbol.images
   });
   dispatch({
     type: 'ADD_SYMBOL',
@@ -98,9 +100,7 @@ export const addSymbol = symbol => async dispatch => {
 };
 
 export const getSymbol = id => async dispatch => {
-  const response = await axios.post('/api/symbol', {
-    id: id
-  });
+  const response = await axios.get(`/api/symbol/${id}`);
   dispatch({
     type: 'GET_SYMBOL',
     payload: response.data
@@ -121,3 +121,17 @@ export const switchMode = () => {
     payload: null
   };
 };
+
+export const addSymbolImage = (imageData) => {
+ return {
+   type: 'ADD_SYMBOL_IMAGE',
+   payload: imageData
+ }
+}
+
+export const clearSymbolImages = () => {
+  return {
+    type: 'CLEAR_SYMBOL_IMAGES',
+    payload: null
+  }
+ }
