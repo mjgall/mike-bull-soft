@@ -6,7 +6,7 @@ import * as actions from '../actions';
 class ProfileCard extends React.Component {
   render() {
     return (
-      <Card>
+      <Card style={{ width: '100%' }}>
         {/* <Image src={this.props.auth ? this.props.auth.photo_url : null} />  */}
         <Card.Content>
           <Card.Header>

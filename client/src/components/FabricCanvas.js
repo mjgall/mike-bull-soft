@@ -88,8 +88,8 @@ class FabricCanvas extends React.Component {
   renderImages = () => {
     return (
       <div>
-        {this.props.app.symbolImages.map(image => {
-          return <img width="30%" src={image}></img>;
+        {this.props.app.symbolImages.map((image, index) => {
+          return <img width="30%" src={image} key={index}></img>;
         })}
       </div>
     );
@@ -122,9 +122,7 @@ class FabricCanvas extends React.Component {
                     }}
                   />
                 </div>
-                {/* <button type="submit" className="ui button positive">
-              Add Symbol
-            </button> */}
+    
               </div>
             </Form>
             <canvas

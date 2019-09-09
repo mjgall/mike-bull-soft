@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 
 import * as actions from '../actions';
 
-import { Grid, Modal, Button, Image, Header } from 'semantic-ui-react';
+import { Grid, Modal, Button } from 'semantic-ui-react';
 
 import SymbolForm from './SymbolForm';
 import SymbolsTable from './SymbolsTable';

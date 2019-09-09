@@ -102,9 +102,6 @@ class CourseForm extends React.Component {
           />
         </div>
 
-        <button type="submit" className="ui button positive">
-          Create Course
-        </button>
       </Form>
     );
   }
