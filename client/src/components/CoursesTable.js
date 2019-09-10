@@ -15,7 +15,6 @@ class CoursesTable extends React.Component {
       <Table celled singleLine sortable>
         <Table.Header>
           <Table.Row>
-            <Table.HeaderCell>ID</Table.HeaderCell>
             <Table.HeaderCell>Course</Table.HeaderCell>
             <Table.HeaderCell>Owner</Table.HeaderCell>
             <Table.HeaderCell>Create Date</Table.HeaderCell>
@@ -27,7 +26,6 @@ class CoursesTable extends React.Component {
             ? this.props.app.coursesTableStudent.map((course, index) => {
                 return (
                   <Table.Row key={index}>
-                    <Table.Cell>{course.id}</Table.Cell>
                     <Table.Cell>
                       <Link to={`/course/${course.id}`}>{course.title}</Link>
                     </Table.Cell>
@@ -51,7 +49,6 @@ class CoursesTable extends React.Component {
       <Table celled singleLine sortable>
         <Table.Header>
           <Table.Row>
-            <Table.HeaderCell>ID</Table.HeaderCell>
             <Table.HeaderCell>Course</Table.HeaderCell>
             <Table.HeaderCell>Owner</Table.HeaderCell>
             <Table.HeaderCell>Create Date</Table.HeaderCell>
@@ -63,7 +60,6 @@ class CoursesTable extends React.Component {
             this.props.app.coursesTable.map((course, index) => {
               return (
                 <Table.Row key={index}>
-                  <Table.Cell>{course.course_id}</Table.Cell>
                   <Table.Cell>
                     <Link to={`/course/${course.course_id}`}>
                       {course.title}

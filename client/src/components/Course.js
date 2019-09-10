@@ -17,6 +17,12 @@ class Course extends React.Component {
   async componentDidMount() {
     await this.props.getCourse(this.props.match.params.course);
     await this.props.fetchSymbols(this.props.app.course.course_id);
+
+    document.addEventListener('click', e => {
+      if (e.target.className.indexOf('dimmer') > 0) {
+        this.close();
+      }
+    });
   }
 
   componentWillUnmount() {

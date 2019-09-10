@@ -12,6 +12,14 @@ import * as actions from '../actions';
 class Creator extends React.Component {
   state = { open: false };
 
+  componentDidMount() {
+    document.addEventListener("click", e => {
+      if (e.target.className.indexOf("dimmer") > 0 ) {
+        this.close();
+      }
+    })
+  }
+
   open = () => {
     this.setState({ open: true });
   };
@@ -35,10 +43,10 @@ class Creator extends React.Component {
   render() {
     return (
       <React.Fragment>
-        <Grid.Column width={6}>
+        <Grid.Column width={4}>
           <ProfileCard />
         </Grid.Column>
-        <Grid.Column width={10}>
+        <Grid.Column width={12}>
           <h2>My Created Courses</h2>
           <Modal
             trigger={

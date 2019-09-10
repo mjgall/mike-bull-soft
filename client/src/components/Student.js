@@ -8,14 +8,15 @@ import { connect } from 'react-redux';
 import * as actions from '../actions';
 
 class Student extends React.Component {
+  
   render() {
     return (
       <React.Fragment>
-        <Grid.Column width={6}>
+        <Grid.Column width={4}>
           <ProfileCard />
         </Grid.Column>
-        <Grid.Column width={10}>
-          <h2>Student Mode</h2>
+        <Grid.Column width={12}>
+          <h2>Available Courses</h2>
           <CoursesTable />
         </Grid.Column>
       </React.Fragment>

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card, Icon } from 'semantic-ui-react';
+import { Card, Icon, Image } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import * as actions from '../actions';
 
