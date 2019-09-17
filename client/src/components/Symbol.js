@@ -7,6 +7,7 @@ import { Grid } from 'semantic-ui-react';
 
 import ProfileCard from './ProfileCard';
 import ImagesTable from './ImagesTable';
+import Loader from './Loader';
 
 class Symbol extends React.Component {
   componentDidMount() {
@@ -20,31 +21,35 @@ class Symbol extends React.Component {
   render() {
     return (
       <React.Fragment>
-        <Grid.Column width={6} style={{ overflow: 'initial' }}>
+        <Grid.Column width={4} style={{ overflow: 'initial' }}>
           <ProfileCard />
         </Grid.Column>
-        <Grid.Column width={10}>
-          
-          <ul>
-            <li>
-              ID:{' '}
-              {this.props.app.symbol ? this.props.app.symbol.symbol_id : null}
-            </li>
-            <li>
-              Title:{' '}
-              {this.props.app.symbol ? this.props.app.symbol.title : null}
-            </li>
-            <li>
-              Create Date:{' '}
-              {this.props.app.symbol
-                ? new Date(
-                    this.props.app.symbol.create_date * 1000
-                  ).toLocaleString()
-                : null}
-            </li>
-          </ul>
-          <ImagesTable />
-        </Grid.Column>
+        {this.props.app.symbol.symbol ? (
+          <Grid.Column width={12}>
+            <ul>
+              <li>
+                {this.props.app.symbol.symbol
+                  ? this.props.app.symbol.symbol.id
+                  : null}
+              </li>
+              <li>
+                {this.props.app.symbol.symbol
+                  ? this.props.app.symbol.symbol.text
+                  : null}
+              </li>
+              <li>
+                {this.props.app.symbol.symbol
+                  ? new Date(
+                      this.props.app.symbol.symbol.create_date * 1000
+                    ).toLocaleString()
+                  : null}
+              </li>
+            </ul>
+            <ImagesTable />
+          </Grid.Column>
+        ) : (
+          <Loader></Loader>
+        )}
       </React.Fragment>
     );
   }

@@ -164,7 +164,7 @@ module.exports = app => {
     }
   });
 
-  app.get('/api/allcourses', async (req, res) => {
+  app.get('/api/allcourses', isAuthenticated, async (req, res) => {
     try {
       const courses = await getAllCourses();
       res.status(200).send(courses);

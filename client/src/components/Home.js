@@ -1,7 +1,7 @@
 import React from 'react';
 
-
 import Student from './Student';
+import Login from './Login';
 
 import { connect } from 'react-redux';
 import * as actions from '../actions';
@@ -17,7 +17,7 @@ class Home extends React.Component {
   };
 
   render() {
-    return this.renderStudentOrCreator();
+    return this.props.auth ? this.renderStudentOrCreator() : <Login></Login>;
   }
 }
 

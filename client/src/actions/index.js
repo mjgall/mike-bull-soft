@@ -72,7 +72,7 @@ export const getCourse = id => async dispatch => {
     type: 'GET_COURSE',
     payload: response.data
   });
-  return response.data;
+  // return response.data;
 };
 
 export const clearCourse = () => async dispatch => {

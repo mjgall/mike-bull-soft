@@ -3,5 +3,19 @@
 }
 
 .colorpicker {
-  margin: 4% 0
+  margin: 4% 0;
+}
+
+tr:hover {
+  cursor: pointer;
+  background-color: #f9fafb;
+}
+
+img.symbol-image {
+  width: 20%;
+  height: 20%;
+  border: 1px solid lightgray;
+  padding: 1%;
+  border-radius: 5px;
+  margin: 2px
 }

@@ -4,6 +4,7 @@ import Menu from './Menu';
 
 export default class Login extends Component {
   render() {
+    console.log(this.props.loggedIn)
     return (
       <div>
         <Menu />

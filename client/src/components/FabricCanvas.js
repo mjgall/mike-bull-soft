@@ -89,7 +89,7 @@ class FabricCanvas extends React.Component {
     return (
       <div>
         {this.props.app.symbolImages.map((image, index) => {
-          return <img width="30%" src={image} key={index}></img>;
+          return <img width="30%" src={image} key={index} alt=''></img>;
         })}
       </div>
     );
