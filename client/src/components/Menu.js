@@ -8,7 +8,6 @@ class Menu extends React.Component {
 
   switchMode = () => {
     this.props.switchMode();
-    this.props.history.push('/');
   };
 
   renderMenu = () => {

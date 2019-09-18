@@ -25,6 +25,7 @@ class Creator extends React.Component {
   };
 
   close = () => {
+    this.props.resetForm('forms.course', {language: 'english', difficulty: 'novice'})
     this.setState({ open: false });
   };
 

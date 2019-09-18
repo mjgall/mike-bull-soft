@@ -3,10 +3,9 @@ import { Modal, Button } from 'semantic-ui-react';
 
 import { connect } from 'react-redux';
 import * as actions from '../actions';
+import { actions as rrfActions, modelReducer } from 'react-redux-form';
 
 import SymbolForm from './SymbolForm';
-
-import Loader from './Loader';
 
 class AddSymbolModal extends React.Component {
   state = { modalOpen: this.props.modalOpen, isSubmitting: false };
@@ -25,6 +24,7 @@ class AddSymbolModal extends React.Component {
 
   close = () => {
     this.setState({ modalOpen: false });
+    this.props.resetForm('forms.symbol');
     this.props.clearSymbolImages();
   };
 
@@ -44,7 +44,7 @@ class AddSymbolModal extends React.Component {
 
   submit = async () => {
     const formValue = this.props.form.text;
-    const images = this.props.app.symbolImages;
+
     this.setState({ isSubmitting: true });
     await this.props.addSymbol({
       owner_id: this.props.auth.id,
@@ -83,7 +83,9 @@ class AddSymbolModal extends React.Component {
             Cancel
           </Button>
           {this.state.isSubmitting ? (
-            <Button loading positive>Loading</Button>
+            <Button loading positive>
+              Loading
+            </Button>
           ) : (
             <Button
               onClick={this.submit}

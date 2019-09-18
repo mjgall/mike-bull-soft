@@ -1,6 +1,6 @@
 import React from 'react';
-import { Table, Loader, Segment, Dimmer, Image } from 'semantic-ui-react';
-import { Link, Redirect } from 'react-router-dom';
+import { Table, Loader } from 'semantic-ui-react';
+import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import * as actions from '../actions';
 import history from '../history';

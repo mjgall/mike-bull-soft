@@ -1,4 +1,10 @@
 import axios from 'axios';
+import {actions} from 'react-redux-form'
+
+
+export const resetForm = (model, initialState = {}) => dispatch => {
+  dispatch(actions.change(model, initialState))
+}
 
 //FETCH USER - CALLED IN HOME COMPONENT TO GET CURRENT USER ACROSS APP
 export const fetchUser = () => async dispatch => {

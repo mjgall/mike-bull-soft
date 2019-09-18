@@ -1,5 +1,4 @@
 import React from 'react';
-import Login from './Login';
 import Home from './Home';
 import Course from './Course';
 import Symbol from './Symbol';
@@ -9,49 +8,34 @@ import history from '../history';
 import { connect } from 'react-redux';
 import Menu from './Menu';
 import { Grid, Container } from 'semantic-ui-react';
-import './app.css'
+import './app.css';
 import Drawing from './Drawing';
+import FullStory, {FullStoryAPI} from 'react-fullstory';
 
 class App extends React.Component {
-  componentDidMount() {
-    this.props.fetchUser();
+  async componentDidMount() {
+    const user = await this.props.fetchUser();
+    FullStoryAPI('identify', this.props.auth.id, {displayName: this.props.auth.first_name + ' ' + this.props.auth.last_name, email: this.props.auth.email});
+    console.log(user)
     this.props.fetchCourses();
     this.props.fetchAllCourses();
   }
 
-
   protectRoutes = () => {
     if (this.props.auth) {
-      switch (this.props.app.creatorMode) {
-        case true:
-          return (
-            //CREATOR MODE ROUTES
-            <Switch>
-              <Route component={Home} path="/" exact />
-              <Route component={Home} path="/home" exact />
-              <Route component={Course} path="/course/:course" exact />
-              <Route component={Symbol} path="/symbol/:symbol" exact />
-              <Route component={Drawing} path="/drawing" exact/>
-            </Switch>
-          );
-        case false:
-          return (
-            //STUDENT MODE (DEFAULT) ROUTES
-            <Switch>
-              <Route component={Home} path="/" exact />
-              <Route component={Home} path="/home" exact />
-              <Route component={Course} path="/course/:course" exact />
-              <Route component={Symbol} path="/symbol/:symbol" exact />
-              <Route component={Drawing} path="/drawing" exact/>
-            </Switch>
-          );
-        default:
-          break;
-      }
+      return (
+        <Switch>  
+          <Route component={Home} path="/home" exact />
+          <Route component={Course} path="/course/:course" exact />
+          <Route component={Symbol} path="/symbol/:symbol" exact />
+          <Route component={Drawing} path="/drawing" exact />
+          <Route component={Home} path="/*" exact />
+        </Switch>
+      );
     } else {
       return (
         <Switch>
-          <Route component={Drawing} path="/drawing" exact/>
+          <Route component={Drawing} path="/drawing" exact />
           <Route component={Home} path="/*" exact />
         </Switch>
       );
@@ -60,13 +44,15 @@ class App extends React.Component {
 
   render() {
     return (
+
       <Router history={history}>
-        <Menu history={history}/>
+        <FullStory org="H1N0D"></FullStory>
+        <Menu history={history} />
         <Container>
           <Grid container columns={16} style={{ paddingTop: '75px' }} stackable>
             {this.protectRoutes()}
           </Grid>
-        </Container>  
+        </Container>
       </Router>
     );
   }
