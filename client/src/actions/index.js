@@ -128,6 +128,20 @@ export const switchMode = () => {
   };
 };
 
+export const setCreatorMode = () => {
+  return {
+    type: 'SET_CREATOR_MODE',
+    payload: null
+  }
+}
+
+export const setStudentMode = () => {
+  return {
+    type: 'SET_STUDENT_MODE',
+    payload: null
+  }
+}
+
 export const addSymbolImage = (imageData) => {
  return {
    type: 'ADD_SYMBOL_IMAGE',

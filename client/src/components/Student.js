@@ -8,6 +8,11 @@ import { connect } from 'react-redux';
 import * as actions from '../actions';
 
 class Student extends React.Component {
+  componentDidMount() {
+    this.props.setStudentMode();
+    this.props.history.push('/student')
+  }
+
   render() {
     return (
       <React.Fragment>

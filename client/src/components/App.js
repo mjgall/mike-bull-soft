@@ -10,13 +10,17 @@ import Menu from './Menu';
 import { Grid, Container } from 'semantic-ui-react';
 import './app.css';
 import Drawing from './Drawing';
-import FullStory, {FullStoryAPI} from 'react-fullstory';
+import FullStory, { FullStoryAPI } from 'react-fullstory';
+import Student from './Student';
+import Creator from './Creator'
 
 class App extends React.Component {
   async componentDidMount() {
-    const user = await this.props.fetchUser();
-    FullStoryAPI('identify', this.props.auth.id, {displayName: this.props.auth.first_name + ' ' + this.props.auth.last_name, email: this.props.auth.email});
-    console.log(user)
+    await this.props.fetchUser();
+    FullStoryAPI('identify', this.props.auth.id, {
+      displayName: this.props.auth.first_name + ' ' + this.props.auth.last_name,
+      email: this.props.auth.email
+    });
     this.props.fetchCourses();
     this.props.fetchAllCourses();
   }
@@ -24,8 +28,15 @@ class App extends React.Component {
   protectRoutes = () => {
     if (this.props.auth) {
       return (
-        <Switch>  
-          <Route component={Home} path="/home" exact />
+        <Switch>
+          <Route
+            // component={Home}
+            render={() => <Home history={history}></Home>}
+            path="/home"
+            exact
+          />
+          <Route component={Creator} path='/creator' ></Route>
+          <Route component={Student} path='/student' ></Route>
           <Route component={Course} path="/course/:course" exact />
           <Route component={Symbol} path="/symbol/:symbol" exact />
           <Route component={Drawing} path="/drawing" exact />
@@ -44,7 +55,6 @@ class App extends React.Component {
 
   render() {
     return (
-
       <Router history={history}>
         <FullStory org="H1N0D"></FullStory>
         <Menu history={history} />

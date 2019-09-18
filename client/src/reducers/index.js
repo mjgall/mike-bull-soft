@@ -59,6 +59,10 @@ const appReducer = (state = initialAppState, action) => {
       };
     case 'CLEAR_SYMBOL_IMAGES':
       return { ...state, symbolImages: [] };
+    case 'SET_STUDENT_MODE':
+      return { ...state, creatorMode: false };
+    case 'SET_CREATOR_MODE':
+      return { ...state, creatorMode: true };
     default:
       return state;
   }

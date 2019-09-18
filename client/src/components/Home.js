@@ -10,9 +10,9 @@ import Creator from './Creator';
 class Home extends React.Component {
   renderStudentOrCreator = () => {
     if (this.props.app.creatorMode) {
-      return <Creator />;
+      return <Creator history={this.props.history}/>;
     } else {
-      return <Student />;
+      return <Student history={this.props.history}/>;
     }
   };
 

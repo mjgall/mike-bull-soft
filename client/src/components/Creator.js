@@ -13,6 +13,8 @@ class Creator extends React.Component {
   state = { open: false };
 
   componentDidMount() {
+    this.props.setCreatorMode();
+    this.props.history.push('/creator')
     document.addEventListener("click", e => {
       if (e.target.className.indexOf("dimmer") > 0 ) {
         this.close();

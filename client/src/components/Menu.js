@@ -8,7 +8,14 @@ class Menu extends React.Component {
 
   switchMode = () => {
     this.props.switchMode();
+    if (this.props.app.creatorMode) {
+      this.props.history.push('/student')
+    } else {
+      this.props.history.push('/creator')
+    }
+    
   };
+
 
   renderMenu = () => {
     if (this.props.auth) {
@@ -20,8 +27,8 @@ class Menu extends React.Component {
                 <Link to="/home">LLT</Link>
               </SemanticMenu.Item>
               <SemanticMenu.Menu position="right">
-                <SemanticMenu.Item>
-                  <div onClick={this.switchMode} style={{cursor:'pointer'}}>Go to Student Mode</div>
+                <SemanticMenu.Item onClick={this.switchMode} style={{cursor:'pointer'}}>
+                  <div>Go to Student Mode</div>
                 </SemanticMenu.Item>
                 <SemanticMenu.Item>
                   <a href="/api/logout">Log Out</a>
@@ -37,8 +44,8 @@ class Menu extends React.Component {
                 <Link to="/home">LLT</Link>
               </SemanticMenu.Item>
               <SemanticMenu.Menu position="right">
-                <SemanticMenu.Item>
-                  <div onClick={this.switchMode} style={{cursor:'pointer'}}>Go to Creator Mode</div>
+              <SemanticMenu.Item onClick={this.switchMode} style={{cursor:'pointer'}}>
+                  <div>Go to Creator Mode</div>
                 </SemanticMenu.Item>
                 <SemanticMenu.Item>
                   <a href="/api/logout">Log Out</a>
