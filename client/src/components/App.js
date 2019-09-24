@@ -1,7 +1,7 @@
 import React from 'react';
 import Home from './Home';
-import Course from './Course';
-import Symbol from './Symbol';
+import Course from './NotNeeded/Course';
+import Symbol from './Student/StudentSymbol';
 import * as actions from '../actions';
 import { Router, Route, Switch } from 'react-router-dom';
 import history from '../history';
@@ -11,8 +11,8 @@ import { Grid, Container } from 'semantic-ui-react';
 import './app.css';
 import Drawing from './Drawing';
 import FullStory, { FullStoryAPI } from 'react-fullstory';
-import Student from './Student';
-import Creator from './Creator'
+import Student from './Student/Student';
+import Creator from './Creator/Creator';
 
 class App extends React.Component {
   async componentDidMount() {
@@ -25,6 +25,24 @@ class App extends React.Component {
     this.props.fetchAllCourses();
   }
 
+  routes = () => {
+    if (this.props.auth) {
+      return (
+        <Switch>
+          <Route path="/creator" component={Creator}></Route>
+          <Route path="/student" component={Student}></Route>
+        </Switch>
+      );
+    } else {
+      return (
+        <Switch>
+          <Route component={Drawing} path="/drawing" exact />
+          <Route component={Home} path="/*" exact />
+        </Switch>
+      );
+    }
+  };
+
   protectRoutes = () => {
     if (this.props.auth) {
       return (
@@ -35,8 +53,8 @@ class App extends React.Component {
             path="/home"
             exact
           />
-          <Route component={Creator} path='/creator' ></Route>
-          <Route component={Student} path='/student' ></Route>
+          <Route component={Creator} path="/creator"></Route>
+          <Route component={Student} path="/student"></Route>
           <Route component={Course} path="/course/:course" exact />
           <Route component={Symbol} path="/symbol/:symbol" exact />
           <Route component={Drawing} path="/drawing" exact />
@@ -60,7 +78,7 @@ class App extends React.Component {
         <Menu history={history} />
         <Container>
           <Grid container columns={16} style={{ paddingTop: '75px' }} stackable>
-            {this.protectRoutes()}
+            {this.routes()}
           </Grid>
         </Container>
       </Router>

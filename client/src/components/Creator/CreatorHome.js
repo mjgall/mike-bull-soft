@@ -1,13 +1,13 @@
 import React from 'react';
 
-import ProfileCard from './ProfileCard';
-import CourseForm from './CourseForm';
+import ProfileCard from '../ProfileCard';
+import CourseForm from '../CourseForm';
 
-import CoursesTable from './CoursesTable';
+import CoursesTable from '../CoursesTable';
 
 import { Grid, Modal, Button } from 'semantic-ui-react';
 import { connect } from 'react-redux';
-import * as actions from '../actions';
+import * as actions from '../../actions';
 
 class Creator extends React.Component {
   state = { open: false };
@@ -77,8 +77,7 @@ class Creator extends React.Component {
               />
             </Modal.Actions>
           </Modal>
-          
-          <CoursesTable />
+          <CoursesTable renderLocation={this.props.match.url}/>
         </Grid.Column>
       </React.Fragment>
     );

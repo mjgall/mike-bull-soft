@@ -9,6 +9,9 @@ class SymbolsTable extends React.Component {
   handleNav = id => {
     history.push(`/symbol/${id}`);
   };
+  handleCreatorNav = id => {
+    history.push(`/creator/symbol/${id}`);
+  };
 
   renderStudentTable() {
     return (
@@ -62,7 +65,7 @@ class SymbolsTable extends React.Component {
         <Table.Body>
           {this.props.symbols.map((symbol, index) => {
             return (
-              <Table.Row key={index} onClick={() => this.handleNav(symbol.id)}>
+              <Table.Row key={index} onClick={() => this.handleCreatorNav(symbol.id)}>
                 <Table.Cell>{symbol.id}</Table.Cell>
                 <Table.Cell>{symbol.text}</Table.Cell>
                 <Table.Cell>

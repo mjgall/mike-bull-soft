@@ -13,7 +13,6 @@ class Menu extends React.Component {
     } else {
       this.props.history.push('/creator')
     }
-    
   };
 
 

@@ -1,0 +1,57 @@
+import React from 'react';
+
+import ProfileCard from '../ProfileCard';
+import CoursesTable from '../CoursesTable';
+
+import { Grid } from 'semantic-ui-react';
+import { connect } from 'react-redux';
+import * as actions from '../../actions';
+
+import {Switch, Route} from 'react-router-dom';
+
+import StudentHome from './StudentHome'
+import StudentCourse from './StudentCourse';
+import StudentSymbol from './StudentSymbol';
+
+class Student extends React.Component {
+  componentDidMount() {
+    this.props.setStudentMode();
+  }
+
+  routes = () => {
+    return (
+      <Switch>
+        <Route exact path={`${this.props.match.url}/`} component={StudentHome}></Route>
+        <Route exact path={`${this.props.match.url}/course/:id`} component={StudentCourse}></Route>
+        <Route exact path={`${this.props.match.url}/symbol/:id`} component={StudentSymbol}></Route>
+      </Switch>
+    )
+  }
+
+  render() {
+    return this.routes();
+  }
+
+//   render() {
+//     return (
+//       <React.Fragment>
+//         <Grid.Column width={4}>
+//           <ProfileCard />
+//         </Grid.Column>
+//         <Grid.Column width={12}>
+//           <h2>Available Courses</h2>
+//           <CoursesTable />
+//         </Grid.Column>
+//       </React.Fragment>
+//     );
+//   }
+}
+
+const mapStateToProps = state => {
+  return { auth: state.auth };
+};
+
+export default connect(
+  mapStateToProps,
+  actions
+)(Student);

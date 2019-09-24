@@ -1,11 +1,11 @@
 import React from 'react';
 
-import Student from './Student';
+import Student from './Student/Student';
 import Login from './Login';
 
 import { connect } from 'react-redux';
 import * as actions from '../actions';
-import Creator from './Creator';
+import Creator from './Creator/Creator';
 
 class Home extends React.Component {
   renderStudentOrCreator = () => {

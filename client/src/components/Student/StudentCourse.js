@@ -1,10 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import * as actions from '../actions';
+import * as actions from '../../actions';
 
 class StudentCourse extends React.Component {
   async componentWillMount() {
-    await this.props.getCourse(this.props.courseId);
+    await this.props.getCourse(this.props.match.params.id);
   }
 
   render() {

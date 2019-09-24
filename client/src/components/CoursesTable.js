@@ -27,7 +27,7 @@ class CoursesTable extends React.Component {
                 return (
                   <Table.Row key={index}>
                     <Table.Cell>
-                      <Link to={`/course/${course.id}`}>{course.title}</Link>
+                      <Link to={`${this.props.renderLocation}/course/${course.id}`}>{course.title}</Link>
                     </Table.Cell>
                     <Table.Cell>
                       {course.first_name} {course.last_name}
@@ -61,7 +61,7 @@ class CoursesTable extends React.Component {
               return (
                 <Table.Row key={index}>
                   <Table.Cell>
-                    <Link to={`/course/${course.course_id}`}>
+                    <Link to={`${this.props.renderLocation}/course/${course.course_id}`}>
                       {course.title}
                     </Link>
                   </Table.Cell>
@@ -83,6 +83,7 @@ class CoursesTable extends React.Component {
   };
 
   render() {
+    console.log(this.props)
     if (this.props.app.creatorMode) {
       return this.renderCreatorTable();
     } else {

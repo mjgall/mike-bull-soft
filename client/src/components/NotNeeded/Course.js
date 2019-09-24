@@ -1,9 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import * as actions from '../actions';
+import * as actions from '../../actions';
 
-import CreatorCourse from './CreatorCourse';
-import StudentCourse from './StudentCourse';
+import CreatorCourse from '../Creator/CreatorCourse';
+import StudentCourse from '../Student/StudentCourse';
 
 
 class Course extends React.Component {

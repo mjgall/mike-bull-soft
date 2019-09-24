@@ -1,16 +1,15 @@
 import React from 'react';
 
-import ProfileCard from './ProfileCard';
-import CoursesTable from './CoursesTable';
+import ProfileCard from '../ProfileCard';
+import CoursesTable from '../CoursesTable';
 
 import { Grid } from 'semantic-ui-react';
 import { connect } from 'react-redux';
-import * as actions from '../actions';
+import * as actions from '../../actions';
 
 class Student extends React.Component {
   componentDidMount() {
     this.props.setStudentMode();
-    this.props.history.push('/student')
   }
 
   render() {
@@ -21,7 +20,7 @@ class Student extends React.Component {
         </Grid.Column>
         <Grid.Column width={12}>
           <h2>Available Courses</h2>
-          <CoursesTable />
+          <CoursesTable renderLocation={this.props.match.url}/>
         </Grid.Column>
       </React.Fragment>
     );

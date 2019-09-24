@@ -1,6 +1,6 @@
 import React from 'react';
 
-import EditableChildren from './EditableChildren';
+import EditableChildren from './NotNeeded/EditableChildren';
 
 export default class Drawing extends React.Component {
   render() {

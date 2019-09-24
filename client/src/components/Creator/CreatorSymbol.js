@@ -1,17 +1,17 @@
 import React from 'react';
 
 import { connect } from 'react-redux';
-import * as actions from '../actions';
+import * as actions from '../../actions';
 
 import { Grid } from 'semantic-ui-react';
 
-import ProfileCard from './ProfileCard';
-import ImagesTable from './ImagesTable';
-import Loader from './Loader';
+import ProfileCard from '../ProfileCard';
+import ImagesTable from '../ImagesTable';
+import Loader from '../Loader';
 
 class Symbol extends React.Component {
   componentDidMount() {
-    this.props.getSymbol(this.props.match.params.symbol);
+    this.props.getSymbol(this.props.match.params.id);
   }
 
   componentWillUnmount() {
