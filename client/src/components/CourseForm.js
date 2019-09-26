@@ -9,7 +9,7 @@ import * as actions from '../actions';
 
 class CourseForm extends React.Component {
   addCourse = course => {
-    console.log(course);
+
     this.props.addCourse({
       title: course.title,
       language: course.language,
@@ -29,6 +29,7 @@ class CourseForm extends React.Component {
         <div className="three fields">
           <div className="field">
             <Control.text
+              defaultValue={this.props.editing ? this.props.title : ''}
               model="forms.course.title"
               placeholder="Title"
               validators={{ required: value => value && value.length }}
@@ -46,7 +47,7 @@ class CourseForm extends React.Component {
           <div className="field">
             <Control.select
               validators={{ required: value => value && value.length }}
-       
+              defaultValue={this.props.editing ? this.props.language : 'english'}
               model="forms.course.language"
               className="ui selection dropdown"
               placeholder="Language">
@@ -66,7 +67,7 @@ class CourseForm extends React.Component {
           <div className="field">
             <Control.select
               validators={{ required: value => value && value.length }}
-           
+              defaultValue={this.props.editing ? this.props.difficulty : 'novice'}
               model="forms.course.difficulty"
               className="ui selection dropdown"
               placeholder="Difficulty">
@@ -88,6 +89,7 @@ class CourseForm extends React.Component {
         <div className="field">
           <Control.textarea
             validators={{ required: value => value && value.length }}
+            defaultValue={this.props.editing ? this.props.description : ''}
             validateOn="change"
             model="forms.course.description"
             placeholder="Description"

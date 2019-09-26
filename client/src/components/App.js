@@ -31,6 +31,7 @@ class App extends React.Component {
         <Switch>
           <Route path="/creator" component={Creator}></Route>
           <Route path="/student" component={Student}></Route>
+          <Route path="/*" exact component={Student}></Route> 
         </Switch>
       );
     } else {

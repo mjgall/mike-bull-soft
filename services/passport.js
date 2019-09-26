@@ -6,14 +6,15 @@ const getUserByGoogleId = require('../queries/getUserByGoogleId');
 const createUser = require('../queries/insertUser');
 
 passport.serializeUser((user, done) => {
-  done(null, user.google_id);
+  console.log(user);
+  done(null, user.id);
 });
 
 passport.deserializeUser((id, done) => {
   db.getConnection((err, connection) => {
     if (err) throw err;
     connection.query(
-      `SELECT * FROM users WHERE google_id = ${id}`,
+      `SELECT * FROM users WHERE id = ${id}`,
       (err, users, fields) => {
         if (err) throw err;
         done(null, users[0]);

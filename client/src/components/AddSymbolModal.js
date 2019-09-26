@@ -3,7 +3,6 @@ import { Modal, Button } from 'semantic-ui-react';
 
 import { connect } from 'react-redux';
 import * as actions from '../actions';
-import { actions as rrfActions, modelReducer } from 'react-redux-form';
 
 import SymbolForm from './SymbolForm';
 

@@ -35,6 +35,11 @@ const appReducer = (state = initialAppState, action) => {
       );
     case 'GET_COURSE':
       return { ...state, course: action.payload } || false;
+    case 'DELETE_COURSE':
+      return { ...state, coursesTable:  [
+        ...state.coursesTable.slice(0, action.payload.index),
+        ...state.coursesTable.slice(action.payload.index + 1)
+    ]}
     case 'CLEAR_COURSE':
       return { ...state, course: action.payload } || false;
     case 'FETCH_SYMBOLS':

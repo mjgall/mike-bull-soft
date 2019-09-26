@@ -1,8 +1,9 @@
 import axios from 'axios'
 
-export const fetchCourse = async (id) => {
+export const fetchCourse = async (id, userId) => {
   const response = await axios.post('/api/course', {
-    id: id
+    id: id,
+    userId: userId
   });
   return response.data;
 }

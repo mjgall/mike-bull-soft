@@ -4,6 +4,7 @@ const getCourses = require('../queries/getCourses');
 const getSymbols = require('../queries/getSymbols');
 const getSymbol = require('../queries/getSymbol');
 const getCourse = require('../queries/getCourse');
+const deleteCourse = require('../queries/deleteCourse');
 const getAllCourses = require('../queries/getAllCourses');
 const insertImage = require('../queries/insertImage');
 const getImages = require('../queries/getImages');
@@ -21,7 +22,7 @@ module.exports = app => {
   };
 
   const isOwner = (req, res, next) => {
-    if (req.user.id === req.params.body.owner_id) {
+    if (req.user.id === req.body.userId) {
       return next();
     } else {
       res.status(404).send('Unauthorized Request');
@@ -60,6 +61,7 @@ module.exports = app => {
   //GET ALL USER COURSES
   app.get('/api/courses', isAuthenticated, async (req, res) => {
     const owner_id = req.session.passport.user;
+    console.log(owner_id)
     try {
       const courses = await getCourses(owner_id);
       res.status(200).send(courses);
@@ -72,20 +74,24 @@ module.exports = app => {
   app.post('/api/course', isAuthenticated, async (req, res) => {
     try {
       const course = await getCourse(req.body.id);
-      res.status(200).send(course);
+      console.log(course);
+      if (course.user_id === req.body.userId) {
+        res.status(200).send({ ...course, owner: true });
+      } else {
+        res.status(200).send({ ...course, owner: false });
+      }
     } catch (error) {
       res.status(400).send(error);
     }
   });
 
   //EDIT COURSE
-  app.put('/api/course/:course'),
-    isAuthenticated,
-    isOwner,
-    async (req, res) => {
-      //
-      const { course } = req.params;
-    };
+  app.put('/api/course', isAuthenticated, async (req, res) => {
+    const { title, language, description, difficulty, owner_id } = req.body;
+    const course = {title, language, description, difficulty, owner_id};
+    console.log(course);
+    res.send(course);
+  });
 
   //ADD SYMBOL
   app.post('/api/symbols', isAuthenticated, async (req, res) => {
@@ -156,9 +162,9 @@ module.exports = app => {
   app.get('/api/symbol/:id', isAuthenticated, async (req, res) => {
     const { id } = req.params;
     try {
-      const images = await getImages(id)
+      const images = await getImages(id);
       const symbol = await getSymbol(id);
-      res.status(200).send({symbol, images});
+      res.status(200).send({ symbol, images });
     } catch (error) {
       res.status(400).send(error);
     }
@@ -170,6 +176,20 @@ module.exports = app => {
       res.status(200).send(courses);
     } catch (error) {
       res.status(400).send(error);
+    }
+  });
+
+  app.delete('/api/course/:id', async (req, res) => {
+    try {
+      const course = await getCourse(req.params.id);
+      if (course.user_id === req.user.id) {
+        const response = await deleteCourse(req.params.id);
+        res.status(200).send({ success: true });
+      } else {
+        res.status(401).send({ error: 'Not the owner' });
+      }
+    } catch (error) {
+      res.status(500).send(error);
     }
   });
 };

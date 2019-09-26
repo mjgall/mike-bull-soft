@@ -78,7 +78,6 @@ export default class EditableField extends React.Component {
       <Formik
         onClick={this.toggleView}
         onSubmit={(values, actions) => {
-          console.log(values)
           this.toggleView();
         }}>
         {props => {

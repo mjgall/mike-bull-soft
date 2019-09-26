@@ -19,3 +19,7 @@ img.symbol-image {
   border-radius: 5px;
   margin: 2px
 }
+
+.warning {
+  color: red;
+}

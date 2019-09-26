@@ -24,7 +24,7 @@ module.exports = course => {
               reject(err);
             }
             connection.query(
-              `SELECT courses.id AS course_id, users.id AS user_id, users.google_id, courses.title, users.first_name, users.last_name, courses.create_date FROM courses INNER JOIN users ON courses.owner_id=users.google_id WHERE courses.id='${
+              `SELECT courses.id AS course_id, users.id AS user_id, users.id, courses.title, users.first_name, users.last_name, courses.create_date FROM courses INNER JOIN users ON courses.owner_id=users.id WHERE courses.id='${
                 results.insertId
               }';`,
               (err, courses, fields) => {

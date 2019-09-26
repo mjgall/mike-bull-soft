@@ -63,6 +63,7 @@ export const addCourse = course => async dispatch => {
     difficulty: course.difficulty,
     owner_id: course.owner_id
   });
+  console.log(response);
   dispatch({
     type: 'ADD_COURSE',
     payload: response.data
@@ -79,6 +80,15 @@ export const getCourse = id => async dispatch => {
     payload: response.data
   });
   // return response.data;
+};
+
+export const deleteCourse = (id, index) => async dispatch => {
+  const response = await axios.delete(`/api/course/${id}`);
+  dispatch({
+    type: 'DELETE_COURSE',
+    payload: {...response.data, id, index}
+  });
+  return response.data;
 };
 
 export const clearCourse = () => async dispatch => {
@@ -154,4 +164,12 @@ export const clearSymbolImages = () => {
     type: 'CLEAR_SYMBOL_IMAGES',
     payload: null
   }
- }
+}
+
+export const editCourse = course => async dispatch => {
+  const response = await axios.put('/api/course', course);
+  dispatch({
+    type: 'EDIT_COURSE',
+    payload: response.data
+  })
+}
