@@ -24,7 +24,7 @@ module.exports = user => {
               }
             );
           });
-          connection.release();
+          // connection.release();
         }
       });
       connection.release();

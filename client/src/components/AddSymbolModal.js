@@ -57,9 +57,7 @@ class AddSymbolModal extends React.Component {
     this.updateParent();
   };
 
-  updateParent() {
-    this.props.toggleShowModalCallback();
-  }
+
 
   render() {
     return (

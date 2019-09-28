@@ -6,6 +6,7 @@ const getSymbol = require('../queries/getSymbol');
 const getCourse = require('../queries/getCourse');
 const deleteCourse = require('../queries/deleteCourse');
 const getAllCourses = require('../queries/getAllCourses');
+const updateCourse = require('../queries/updateCourse');
 const insertImage = require('../queries/insertImage');
 const getImages = require('../queries/getImages');
 const polly = require('../services/polly');
@@ -87,10 +88,10 @@ module.exports = app => {
 
   //EDIT COURSE
   app.put('/api/course', isAuthenticated, async (req, res) => {
-    const { title, language, description, difficulty, owner_id } = req.body;
-    const course = {title, language, description, difficulty, owner_id};
-    console.log(course);
-    res.send(course);
+    const { title, language, description, difficulty, owner_id, id } = req.body;
+    const course = {title, language, description, difficulty, owner_id, id};
+    const updatedCourse = await updateCourse(course); 
+    res.send(updatedCourse);
   });
 
   //ADD SYMBOL
@@ -117,29 +118,9 @@ module.exports = app => {
         } catch (error) {
           res.status(error);
           console.log(error);
-        }
+        } 
       });
-
       res.status(200).send(symbol);
-    } catch (error) {
-      console.log(error);
-      res.status(400).send(error);
-    }
-  });
-
-  //TEST image upload
-  app.post('/api/uploadimage', async (req, res) => {
-    const data = req.body.data;
-    try {
-      const location = await saveToS3(data);
-      const imageObject = {
-        url: location,
-        user_id: 7,
-        symbol_id: 104
-      };
-
-      const response = await insertImage(imageObject);
-      res.send(response);
     } catch (error) {
       console.log(error);
       res.status(400).send(error);

@@ -39,7 +39,11 @@ class CreatorCourse extends React.Component {
   rerenderAfterSubmit = async () => {
     this.setState({ isFetching: true });
     const symbols = await utils.fetchSymbols(this.props.match.params.id);
-    this.setState({ symbols });
+    const course = await utils.fetchCourse(
+      this.props.match.params.id,
+      this.props.auth.id
+    );
+    this.setState({ symbols, course });
     this.setState({ isFetching: false });
   };
 
@@ -77,8 +81,9 @@ class CreatorCourse extends React.Component {
             title={this.state.course.title}
             description={this.state.course.description}
             difficulty={this.state.course.difficulty}
-            language={this.state.course.language}>
-          </EditCourseModal>
+            language={this.state.course.language}
+            courseId={this.props.match.params.id}
+            toggleShowModalCallback={this.rerenderAfterSubmit}></EditCourseModal>
           <SymbolsTable
             symbols={this.state.symbols}
             renderLocation={this.props.match.url}

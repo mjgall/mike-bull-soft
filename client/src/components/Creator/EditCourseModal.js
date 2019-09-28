@@ -5,7 +5,7 @@ import * as actions from '../../actions';
 import { connect } from 'react-redux';
 
 class EditCourseModal extends React.Component {
-  state = { open: false };
+  state = { open: false, isSubmitting: false };
 
   componentDidMount() {
     document.addEventListener('click', e => {
@@ -27,17 +27,26 @@ class EditCourseModal extends React.Component {
     this.setState({ open: false });
   };
 
-  submit = () => {
-    this.props.editCourse({
+  updateParent() {
+    this.props.toggleShowModalCallback();
+  }
+
+  submit = async () => {
+    this.setState({isSubmitting: true})
+    await this.props.editCourse({
       title: this.props.forms.course.title,
       language: this.props.forms.course.language,
       description: this.props.forms.course.description,
       difficulty: this.props.forms.course.difficulty,
-      owner_id: this.props.auth.google_id
+      owner_id: this.props.auth.google_id,
+      id: this.props.courseId
     });
-
+    this.updateParent();
+    this.setState({isSubmitting: false})
     this.close();
   };
+
+ 
 
   render() {
     return (
@@ -64,13 +73,19 @@ class EditCourseModal extends React.Component {
           <Button onClick={this.close} negative>
             Cancel
           </Button>
-          <Button
-            onClick={this.submit}
-            positive
-            labelPosition="right"
-            icon="checkmark"
-            content="Edit"
-          />
+          {this.state.isSubmitting ? (
+            <Button loading positive>
+              Loading
+            </Button>
+          ) : (
+            <Button
+              onClick={this.submit}
+              positive
+              labelPosition="right"
+              icon="checkmark"
+              content="Edit"
+            />
+          )}
         </Modal.Actions>
       </Modal>
     );
