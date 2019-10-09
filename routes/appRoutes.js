@@ -11,6 +11,8 @@ const insertImage = require('../queries/insertImage');
 const getImages = require('../queries/getImages');
 const polly = require('../services/polly');
 const saveToS3 = require('../services/s3');
+const getLessons = require('../queries/getLessons');
+const getSymbolsByLesson = require('../queries/getSymbolsByLesson');
 
 module.exports = app => {
   //AUTHENTICATION PROTECTION
@@ -62,7 +64,7 @@ module.exports = app => {
   //GET ALL USER COURSES
   app.get('/api/courses', isAuthenticated, async (req, res) => {
     const owner_id = req.session.passport.user;
-    console.log(owner_id)
+    console.log(owner_id);
     try {
       const courses = await getCourses(owner_id);
       res.status(200).send(courses);
@@ -89,8 +91,8 @@ module.exports = app => {
   //EDIT COURSE
   app.put('/api/course', isAuthenticated, async (req, res) => {
     const { title, language, description, difficulty, owner_id, id } = req.body;
-    const course = {title, language, description, difficulty, owner_id, id};
-    const updatedCourse = await updateCourse(course); 
+    const course = { title, language, description, difficulty, owner_id, id };
+    const updatedCourse = await updateCourse(course);
     res.send(updatedCourse);
   });
 
@@ -118,7 +120,7 @@ module.exports = app => {
         } catch (error) {
           res.status(error);
           console.log(error);
-        } 
+        }
       });
       res.status(200).send(symbol);
     } catch (error) {
@@ -160,6 +162,15 @@ module.exports = app => {
     }
   });
 
+  app.get('/api/lessons/:course_id', async (req, res) => {
+    try {
+      const lessons = await getLessons(req.params.course_id);
+      res.status(200).send(lessons);
+    } catch (error) {
+      res.status(500).send(error);
+    }
+  });
+
   app.delete('/api/course/:id', async (req, res) => {
     try {
       const course = await getCourse(req.params.id);
@@ -169,6 +180,15 @@ module.exports = app => {
       } else {
         res.status(401).send({ error: 'Not the owner' });
       }
+    } catch (error) {
+      res.status(500).send(error);
+    }
+  });
+
+  app.get('/api/symbolsbylesson/:lessonId', async (req, res) => {
+    try {
+      const symbols = await getSymbolsByLesson(req.params.lessonId);
+      res.status(200).send(symbols);
     } catch (error) {
       res.status(500).send(error);
     }

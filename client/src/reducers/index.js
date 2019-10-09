@@ -16,6 +16,7 @@ const initialAppState = {
   coursesTable: [],
   coursesTableStudent: [],
   course: {},
+  lessons: [],
   symbolsTable: [],
   symbol: {},
   symbolImages: [],

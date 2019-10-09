@@ -3,13 +3,18 @@ import React from 'react';
 import { connect } from 'react-redux';
 import * as actions from '../../actions';
 
-import { Grid } from 'semantic-ui-react';
+import { Grid, Button, Icon } from 'semantic-ui-react';
 
 import ProfileCard from '../ProfileCard';
 import ImagesTable from '../ImagesTable';
 import Loader from '../Loader';
 
 class Symbol extends React.Component {
+  constructor(props) {
+    super(props);
+    this.audioPlayer = React.createRef();
+  }
+
   componentDidMount() {
     this.props.getSymbol(this.props.match.params.id);
   }
@@ -17,6 +22,10 @@ class Symbol extends React.Component {
   componentWillUnmount() {
     this.props.clearSymbol();
   }
+
+  playAudio = () => {
+    this.audioPlayer.current.play();
+  };
 
   render() {
     return (
@@ -45,6 +54,13 @@ class Symbol extends React.Component {
                   : null}
               </li>
             </ul>
+            <Button onClick={this.playAudio}>
+              <Icon name="play"></Icon>
+            </Button>
+            <audio ref={this.audioPlayer} id="audio-player">
+              <source src={this.props.app.symbol.symbol.audio_url}></source>
+            </audio>
+
             <ImagesTable />
           </Grid.Column>
         ) : (

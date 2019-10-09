@@ -41,6 +41,10 @@ class AddSymbolModal extends React.Component {
     });
   };
 
+  updateParent() {
+    this.props.toggleShowModalCallback();
+  }
+
   submit = async () => {
     const formValue = this.props.form.text;
 

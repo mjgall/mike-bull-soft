@@ -32,7 +32,7 @@ class EditCourseModal extends React.Component {
   }
 
   submit = async () => {
-    this.setState({isSubmitting: true})
+    this.setState({ isSubmitting: true });
     await this.props.editCourse({
       title: this.props.forms.course.title,
       language: this.props.forms.course.language,
@@ -42,22 +42,16 @@ class EditCourseModal extends React.Component {
       id: this.props.courseId
     });
     this.updateParent();
-    this.setState({isSubmitting: false})
+    this.setState({ isSubmitting: false });
     this.close();
   };
-
- 
 
   render() {
     return (
       <Modal
-        trigger={
-          <Button onClick={this.open} positive>
-            Edit Course
-          </Button>
-        }
+        trigger={<Button icon="pencil" onClick={this.open}></Button>}
         open={this.state.open}>
-        <Modal.Header> Edit Course</Modal.Header>
+        <Modal.Header>Edit Course</Modal.Header>
         <Modal.Content>
           <Modal.Description>
             <CourseForm

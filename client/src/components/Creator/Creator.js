@@ -7,6 +7,7 @@ import { Switch, Route } from 'react-router-dom';
 import CreatorCourse from './CreatorCourse';
 import CreatorHome from './CreatorHome';
 import CreatorSymbol from './CreatorSymbol';
+import CreatorLesson from './CreatorLesson';
 
 class Creator extends React.Component {
   componentDidMount() {
@@ -28,6 +29,10 @@ class Creator extends React.Component {
           exact
           path={`${this.props.match.url}/symbol/:id`}
           component={CreatorSymbol}></Route>
+         <Route
+          exact
+          path={`${this.props.match.url}/course/:courseId/lesson/:lessonId`}
+          component={CreatorLesson}></Route>
       </Switch>
     );
   };

@@ -12,3 +12,13 @@ export const fetchSymbols = async id => {
   const response = await axios.get(`/api/symbols/${id}`);
   return response.data;
 }
+
+export const fetchLessons = async course_id => {
+  const response = await axios.get(`/api/lessons/${course_id}`);
+  return response.data;
+}
+
+export const fetchSymbolsByLessons = async lessonId => {
+  const response = await axios.get(`/api/symbolsbylesson/${lessonId}`)
+  return response.data;
+}
