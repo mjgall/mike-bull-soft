@@ -37,12 +37,17 @@ img.symbol-image {
   float: right;
 }
 
-.creator-course-details > *{
+.creator-course-details > * {
   clear: both;
   font-style: italic;
-  margin: 0
+  margin: 0;
 }
 
 .creator-course-description {
   margin-top: 1rem;
+}
+
+.ui.table tr td,
+.ui.table thead th {
+  border-left: 1px solid rgba(34, 36, 38, 0.1);
 }

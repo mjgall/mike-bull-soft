@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import * as actions from '../actions';
 import history from '../history';
 import * as utils from '../utils';
+import LessonsTableDnd from './LessonsTableDnd';
 
 class LessonsTable extends React.Component {
   state = { lessons: this.props.lessons, symbols: [] };
@@ -94,7 +95,8 @@ class LessonsTable extends React.Component {
   // }
 
   render() {
-    return this.renderTable();
+    // return this.renderTable();
+    return <LessonsTableDnd lessons={this.props.lessons}></LessonsTableDnd>;
   }
 }
 

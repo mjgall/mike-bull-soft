@@ -26,7 +26,6 @@ class AddLessonModal extends React.Component {
   };
 
   submit = () => {
-
     this.props.addLesson();
     this.close();
   };

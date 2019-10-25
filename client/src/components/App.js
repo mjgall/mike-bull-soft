@@ -13,14 +13,20 @@ import Drawing from './Drawing';
 import FullStory, { FullStoryAPI } from 'react-fullstory';
 import Student from './Student/Student';
 import Creator from './Creator/Creator';
+import Dnd from './LessonsTableDnd';
 
 class App extends React.Component {
   async componentDidMount() {
     await this.props.fetchUser();
-    FullStoryAPI('identify', this.props.auth.id, {
-      displayName: this.props.auth.first_name + ' ' + this.props.auth.last_name,
-      email: this.props.auth.email
-    });
+
+    if (this.props.auth) {
+      FullStoryAPI('identify', this.props.auth.id, {
+        displayName:
+          this.props.auth.first_name + ' ' + this.props.auth.last_name,
+        email: this.props.auth.email
+      });
+    }
+
     this.props.fetchCourses();
     this.props.fetchAllCourses();
   }
@@ -31,13 +37,15 @@ class App extends React.Component {
         <Switch>
           <Route path="/creator" component={Creator}></Route>
           <Route path="/student" component={Student}></Route>
-          <Route path="/*" exact component={Student}></Route> 
+          <Route component={Dnd} path="/dnd" exact />
+          <Route path="/*" exact component={Student}></Route>
         </Switch>
       );
     } else {
       return (
         <Switch>
           <Route component={Drawing} path="/drawing" exact />
+          <Route component={Dnd} path="/dnd" exact />
           <Route component={Home} path="/*" exact />
         </Switch>
       );
@@ -65,7 +73,7 @@ class App extends React.Component {
     } else {
       return (
         <Switch>
-          <Route component={Drawing} path="/drawing" exact />
+          <Route component={Dnd} path="/dnd" exact />
           <Route component={Home} path="/*" exact />
         </Switch>
       );
