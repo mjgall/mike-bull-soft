@@ -2,6 +2,8 @@ import React from 'react';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import { Table, Ref } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
+import * as utils from '../utils';
+
 
 const reorder = (list, startIndex, endIndex) => {
   const result = Array.from(list);
@@ -15,7 +17,7 @@ export default class LessonsTableDnD extends React.Component {
     lessons: this.props.lessons
   };
 
-  onDragEnd = result => {
+  onDragEnd = async result => {
     if (!result.destination) {
       return;
     }
@@ -29,6 +31,21 @@ export default class LessonsTableDnD extends React.Component {
     this.setState({
       lessons
     });
+
+    const lessonOrder = lessons.map(lesson => lesson.id).toString();
+    utils.editCourse({
+      title: this.props.course.title,
+      language: this.props.course.language,
+      description: this.props.course.description,
+      difficulty: this.props.course.difficulty,
+      owner_id: this.props.course.owner_id,
+      id: this.props.course.id,
+      lessonsOrder: lessonOrder
+    });
+  };
+
+  getStyles = (isDragging, providedStyles) => {
+    return { ...providedStyles };
   };
 
   render() {
@@ -53,30 +70,33 @@ export default class LessonsTableDnD extends React.Component {
                         draggableId={lesson.id}
                         index={index}
                         key={lesson.id}>
-                        {(provided, snapshot) => (
-                          <Ref innerRef={provided.innerRef}>
-                            <Table.Row
-                              {...provided.draggableProps}
-                              {...provided.dragHandleProps}>
-                              {
+                        {(provided, snapshot) => {
+                          return (
+                            <Ref innerRef={provided.innerRef}>
+                              <Table.Row
+                                {...provided.draggableProps}
+                                {...provided.dragHandleProps}>
                                 <Table.Cell>
-                                  {' '}
                                   <Link
                                     to={`${this.props.location}/lesson/${lesson.id}`}>
                                     {lesson.title}
                                   </Link>
                                 </Table.Cell>
-                              }
-                              <Table.Cell></Table.Cell>
-                              <Table.Cell></Table.Cell>
-                              <Table.Cell>
-                                {new Date(
-                                  lesson.create_date * 1000
-                                ).toLocaleString()}
-                              </Table.Cell>
-                            </Table.Row>
-                          </Ref>
-                        )}
+                                <Table.Cell>
+                                  {lesson.categories ? lesson.categories : ''}
+                                </Table.Cell>
+                                <Table.Cell>
+                                  {lesson.symbols ? lesson.symbols.length : ''}
+                                </Table.Cell>
+                                <Table.Cell>
+                                  {new Date(
+                                    lesson.create_date * 1000
+                                  ).toLocaleString()}
+                                </Table.Cell>
+                              </Table.Row>
+                            </Ref>
+                          );
+                        }}
                       </Draggable>
                     ))}
                   {provided.placeholder}

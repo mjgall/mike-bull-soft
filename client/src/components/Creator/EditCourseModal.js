@@ -39,7 +39,8 @@ class EditCourseModal extends React.Component {
       description: this.props.forms.course.description,
       difficulty: this.props.forms.course.difficulty,
       owner_id: this.props.auth.google_id,
-      id: this.props.courseId
+      id: this.props.courseId,
+      lessonsOrder: this.props.forms.course.lessonsOrder
     });
     this.updateParent();
     this.setState({ isSubmitting: false });

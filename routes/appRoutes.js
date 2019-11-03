@@ -90,8 +90,8 @@ module.exports = app => {
 
   //EDIT COURSE
   app.put('/api/course', isAuthenticated, async (req, res) => {
-    const { title, language, description, difficulty, owner_id, id } = req.body;
-    const course = { title, language, description, difficulty, owner_id, id };
+    const { title, language, description, difficulty, owner_id, id, lessonsOrder } = req.body;
+    const course = { title, language, description, difficulty, owner_id, id, lessonsOrder };
     const updatedCourse = await updateCourse(course);
     res.send(updatedCourse);
   });

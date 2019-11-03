@@ -7,7 +7,7 @@ module.exports = course_id => {
     db.getConnection((err, connection) => {
       if (err) throw err;
       connection.query(
-        `SELECT courses.id AS course_id, users.id AS user_id, courses.title, courses.language, courses.difficulty, courses.description, users.first_name, users.last_name, courses.create_date FROM courses CROSS JOIN users ON courses.owner_id = users.id WHERE courses.id=${course_id};`,
+        `SELECT courses.id AS course_id, users.id AS user_id, courses.title, courses.language, courses.difficulty, courses.description, users.first_name, users.last_name, courses.create_date, courses.lessons_order FROM courses CROSS JOIN users ON courses.owner_id = users.id WHERE courses.id=${course_id};`,
         (err, courses, fields) => {
           if (err) {
             reject(err);

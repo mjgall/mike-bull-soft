@@ -21,10 +21,28 @@ import AddLessonModal from './AddLessonModal';
 class CreatorCourse extends React.Component {
   state = {
     course: {},
+    lessons: {},
     symbols: [],
     isLoaded: false,
     showModal: false,
     isFetching: false
+  };
+
+  sortLessons = (lessons, lessonOrder) => {
+    return lessons.sort(function(a, b) {
+      //Calculate index value of a
+      var A = lessonOrder.indexOf(a.id);
+      if (A === -1) {
+        A = lessonOrder.length;
+      }
+      //Calculate index value of b
+      var B = lessonOrder.indexOf(b.id);
+      if (B === -1) {
+        B = lessonOrder.length;
+      }
+      //Return comparison
+      return A - B;
+    });
   };
 
   async componentWillMount() {
@@ -32,12 +50,18 @@ class CreatorCourse extends React.Component {
       this.props.match.params.id,
       this.props.auth.id
     );
-    const lessons = await utils.fetchLessons(this.props.match.params.id);
+    // const lessons = await utils.fetchLessons(this.props.match.params.id);
     const symbols = await utils.fetchSymbols(this.props.match.params.id);
-    this.setState({ course });
+    const lessonOrder = course.lessons_order.split(',').map(id => parseInt(id));
+    const lessons = this.sortLessons(
+      await utils.fetchLessons(this.props.match.params.id),
+      lessonOrder
+    );
+    this.setState({ course: {...course, id: this.props.match.params.id, owner_id: this.props.auth.id} });
     this.setState({ symbols });
     this.setState({ lessons });
     this.setState({ isLoaded: true });
+    console.log(this.state);
   }
 
   rerenderAfterSubmit = async () => {
@@ -89,7 +113,8 @@ class CreatorCourse extends React.Component {
             toggleShowModalCallback={this.rerenderAfterSubmit}></AddLessonModal>
           <LessonsTable
             location={this.props.match.url}
-            lessons={this.state.lessons}></LessonsTable>
+            lessons={ this.state.lessons }
+          course={this.state.course}></LessonsTable>
           <h2>Symbols</h2>
           {this.props.app.creatorMode ? (
             <AddSymbolModal
