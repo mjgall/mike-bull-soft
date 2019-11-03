@@ -57,7 +57,13 @@ class CreatorCourse extends React.Component {
       await utils.fetchLessons(this.props.match.params.id),
       lessonOrder
     );
-    this.setState({ course: {...course, id: this.props.match.params.id, owner_id: this.props.auth.id} });
+    this.setState({
+      course: {
+        ...course,
+        id: this.props.match.params.id,
+        owner_id: this.props.auth.id
+      }
+    });
     this.setState({ symbols });
     this.setState({ lessons });
     this.setState({ isLoaded: true });
@@ -113,8 +119,8 @@ class CreatorCourse extends React.Component {
             toggleShowModalCallback={this.rerenderAfterSubmit}></AddLessonModal>
           <LessonsTable
             location={this.props.match.url}
-            lessons={ this.state.lessons }
-          course={this.state.course}></LessonsTable>
+            lessons={this.state.lessons}
+            course={this.state.course}></LessonsTable>
           <h2>Symbols</h2>
           {this.props.app.creatorMode ? (
             <AddSymbolModal
