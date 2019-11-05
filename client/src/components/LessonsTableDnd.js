@@ -54,8 +54,10 @@ export default class LessonsTableDnD extends React.Component {
   };
 
   deleteLesson = async (id, index, userId) => {
-    const response = await utils.deleteLesson(id);
-    console.log(response)
+    await utils.deleteLesson(id);
+    const lessons = [...this.state.lessons];
+    lessons.splice(index, 1);
+    this.setState({ lessons });
   };
 
   render() {
