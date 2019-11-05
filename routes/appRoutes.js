@@ -5,6 +5,7 @@ const getSymbols = require('../queries/getSymbols');
 const getSymbol = require('../queries/getSymbol');
 const getCourse = require('../queries/getCourse');
 const deleteCourse = require('../queries/deleteCourse');
+const deleteLesson = require('../queries/deleteLesson');
 const getAllCourses = require('../queries/getAllCourses');
 const updateCourse = require('../queries/updateCourse');
 const insertImage = require('../queries/insertImage');
@@ -216,7 +217,17 @@ module.exports = app => {
       const response = await insertLesson(req.body.lesson);
       res.status(200).send(response);
     } catch (error) {
-      console.log(error)
+      console.log(error);
+      res.status(500).send(error);
+    }
+  });
+
+  app.delete('/api/lessons/:id', async (req, res) => {
+    try {
+      // const lesson = await getCourse(req.params.id);
+      const response = await deleteLesson(req.params.id);
+      res.status(200).send({ success: true, response });
+    } catch (error) {
       res.status(500).send(error);
     }
   });

@@ -53,7 +53,7 @@ class LessonForm extends React.Component {
               multiple
               selection
               onChange={this.handleSelect}
-              options={this.props.symbols.map(symbol => {
+              options={ this.props.symbols.map(symbol => {
                 return {
                   key: symbol.text,
                   text: symbol.text,

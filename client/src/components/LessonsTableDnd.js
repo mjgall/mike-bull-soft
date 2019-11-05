@@ -1,6 +1,6 @@
 import React from 'react';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
-import { Table, Ref } from 'semantic-ui-react';
+import { Table, Ref, Icon } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 import * as utils from '../utils';
 
@@ -53,6 +53,11 @@ export default class LessonsTableDnD extends React.Component {
     return { ...providedStyles };
   };
 
+  deleteLesson = async (id, index, userId) => {
+    const response = await utils.deleteLesson(id);
+    console.log(response)
+  };
+
   render() {
     return (
       <DragDropContext onDragEnd={this.onDragEnd}>
@@ -63,6 +68,7 @@ export default class LessonsTableDnD extends React.Component {
               <Table.HeaderCell>Categories</Table.HeaderCell>
               <Table.HeaderCell># Symbols</Table.HeaderCell>
               <Table.HeaderCell>Create Date</Table.HeaderCell>
+              <Table.HeaderCell>Delete</Table.HeaderCell>
             </Table.Row>
           </Table.Header>
           <Droppable droppableId="table">
@@ -97,6 +103,14 @@ export default class LessonsTableDnD extends React.Component {
                                   {new Date(
                                     lesson.create_date * 1000
                                   ).toLocaleString()}
+                                </Table.Cell>
+                                <Table.Cell
+                                  onClick={() =>
+                                    this.deleteLesson(lesson.id, index)
+                                  }>
+                                  <Icon
+                                    name="delete"
+                                    style={{ color: 'red' }}></Icon>
                                 </Table.Cell>
                               </Table.Row>
                             </Ref>

@@ -34,3 +34,9 @@ export const addLesson = async lesson => {
   const response = await axios.post('/api/lessons', { lesson });
   return response.data;
 };
+
+export const deleteLesson = async lessonId => {
+  console.log(lessonId)
+  const response = await axios.delete(`/api/lessons/${lessonId}`);
+  return response.data;
+}
