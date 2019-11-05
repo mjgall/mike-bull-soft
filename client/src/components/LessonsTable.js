@@ -4,7 +4,7 @@ import * as actions from '../actions';
 import LessonsTableDnd from './LessonsTableDnd';
 
 class LessonsTable extends React.Component {
-  
+
   render() {
     return <LessonsTableDnd location={this.props.location} lessons={this.props.lessons} course={this.props.course}></LessonsTableDnd>;
   }

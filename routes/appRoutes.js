@@ -13,6 +13,7 @@ const polly = require('../services/polly');
 const saveToS3 = require('../services/s3');
 const getLessons = require('../queries/getLessons');
 const getSymbolsByLesson = require('../queries/getSymbolsByLesson');
+const insertLesson = require('../queries/insertLesson.js');
 
 module.exports = app => {
   //AUTHENTICATION PROTECTION
@@ -90,8 +91,24 @@ module.exports = app => {
 
   //EDIT COURSE
   app.put('/api/course', isAuthenticated, async (req, res) => {
-    const { title, language, description, difficulty, owner_id, id, lessonsOrder } = req.body;
-    const course = { title, language, description, difficulty, owner_id, id, lessonsOrder };
+    const {
+      title,
+      language,
+      description,
+      difficulty,
+      owner_id,
+      id,
+      lessonsOrder
+    } = req.body;
+    const course = {
+      title,
+      language,
+      description,
+      difficulty,
+      owner_id,
+      id,
+      lessonsOrder
+    };
     const updatedCourse = await updateCourse(course);
     res.send(updatedCourse);
   });
@@ -190,6 +207,16 @@ module.exports = app => {
       const symbols = await getSymbolsByLesson(req.params.lessonId);
       res.status(200).send(symbols);
     } catch (error) {
+      res.status(500).send(error);
+    }
+  });
+
+  app.post('/api/lessons', async (req, res) => {
+    try {
+      const response = await insertLesson(req.body.lesson);
+      res.status(200).send(response);
+    } catch (error) {
+      console.log(error)
       res.status(500).send(error);
     }
   });

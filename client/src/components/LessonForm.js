@@ -1,54 +1,73 @@
 import {
   Control,
   Form,
-  Errors
+  Errors,
+  modelReducer,
+  actions as rrfActions
 } from 'react-redux-form';
+import { Dropdown } from 'semantic-ui-react';
 import React from 'react';
 import { connect } from 'react-redux';
 import * as actions from '../actions';
 
-class CourseForm extends React.Component {
-  addCourse = course => {
+class LessonForm extends React.Component {
 
-    this.props.addCourse({
-      title: course.title,
-      language: course.language,
-      description: course.description,
-      difficulty: course.difficulty,
-      owner_id: this.props.auth.google_id
-    });
+  state = {
+    selectedSymbols: []
+  };
+
+  handleSelect = (event, data) => {
+    this.props.resetForm('forms.lesson', { symbols: data.value, title: this.props.forms.lesson.title });
+    this.setState({ selectedSymbols: data.value });
   };
 
   render() {
     return (
       <Form
         validateOn="submit"
-        model="forms.course"
-        onSubmit={course => this.addCourse(course)}
+        model="forms.lesson"
+        // onSubmit={course => this.addCourse(course)}
         className="ui form">
-        <div className="three fields">
+        <div className="two fields">
           <div className="field">
             <Control.text
               defaultValue={this.props.editing ? this.props.title : ''}
-              model="forms.course.title"
+              model="forms.lesson.title"
               placeholder="Title"
               validators={{ required: value => value && value.length }}
               validateOn="change"
             />
             <Errors
               className="error"
-              model="forms.course.title"
-              show={{touched: true, focus: false}}
+              model="forms.lesson.title"
+              show={{ touched: true, focus: false }}
               messages={{
                 required: 'Required'
               }}
             />
           </div>
           <div className="field">
-            <Control.select
+            <Dropdown
+              placeholder="Symbols"
+              fluid
+              multiple
+              selection
+              onChange={this.handleSelect}
+              options={this.props.symbols.map(symbol => {
+                return {
+                  key: symbol.text,
+                  text: symbol.text,
+                  value: symbol.id
+                };
+              })}
+            />
+
+            {/* <Control.select
               disabled={this.props.editing}
               validators={{ required: value => value && value.length }}
-              defaultValue={this.props.editing ? this.props.language : 'english'}
+              defaultValue={
+                this.props.editing ? this.props.language : 'english'
+              }
               model="forms.course.language"
               className="ui selection dropdown"
               placeholder="Language">
@@ -63,9 +82,9 @@ class CourseForm extends React.Component {
               messages={{
                 required: 'Required'
               }}
-            />
+            /> */}
           </div>
-          <div className="field">
+          {/* <div className="field">
             <Control.select
               validators={{ required: value => value && value.length }}
               defaultValue={this.props.editing ? this.props.difficulty : 'novice'}
@@ -84,10 +103,10 @@ class CourseForm extends React.Component {
                 required: 'Required'
               }}
             />
-          </div>
+          </div> */}
         </div>
 
-        <div className="field">
+        {/* <div className="field">
           <Control.textarea
             validators={{ required: value => value && value.length }}
             defaultValue={this.props.editing ? this.props.description : ''}
@@ -103,8 +122,7 @@ class CourseForm extends React.Component {
               required: 'Required'
             }}
           />
-        </div>
-
+        </div> */}
       </Form>
     );
   }
@@ -121,4 +139,4 @@ const mapStateToProps = state => {
 export default connect(
   mapStateToProps,
   actions
-)(CourseForm);
+)(LessonForm);

@@ -24,11 +24,13 @@ export const fetchSymbolsByLessons = async lessonId => {
 };
 
 export const editCourse = async course => {
-  console.log(course)
+  console.log(course);
   const response = await axios.put('/api/course', course);
   return response.data;
-  // dispatch({
-  //   type: 'EDIT_COURSE',
-  //   payload: response.data
-  // })
+};
+
+export const addLesson = async lesson => {
+  console.log(lesson);
+  const response = await axios.post('/api/lessons', { lesson });
+  return response.data;
 };

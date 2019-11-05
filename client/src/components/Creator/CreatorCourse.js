@@ -45,7 +45,11 @@ class CreatorCourse extends React.Component {
     });
   };
 
-  async componentWillMount() {
+  componentDidUpdate() {
+    console.log(this.state);
+  }
+
+  async componentDidMount() {
     const course = await utils.fetchCourse(
       this.props.match.params.id,
       this.props.auth.id
@@ -77,7 +81,14 @@ class CreatorCourse extends React.Component {
       this.props.match.params.id,
       this.props.auth.id
     );
-    const lessons = await utils.fetchLessons(this.props.match.params.id);
+    const lessonOrder = await course.lessons_order
+      .split(',')
+      .map(id => parseInt(id));
+    const lessons = await this.sortLessons(
+      await utils.fetchLessons(this.props.match.params.id),
+      lessonOrder
+    );
+
     this.setState({ symbols, course, lessons });
     this.setState({ isFetching: false });
   };
@@ -116,7 +127,9 @@ class CreatorCourse extends React.Component {
           </Segment>
           <h2>Lessons</h2>
           <AddLessonModal
-            toggleShowModalCallback={this.rerenderAfterSubmit}></AddLessonModal>
+            symbols={this.state.symbols}
+            toggleShowModalCallback={this.rerenderAfterSubmit}
+            course={this.state.course}></AddLessonModal>
           <LessonsTable
             location={this.props.match.url}
             lessons={this.state.lessons}

@@ -47,7 +47,6 @@ class AddSymbolModal extends React.Component {
 
   submit = async () => {
     const formValue = this.props.form.text;
-
     this.setState({ isSubmitting: true });
     await this.props.addSymbol({
       owner_id: this.props.auth.id,

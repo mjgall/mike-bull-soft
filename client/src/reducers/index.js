@@ -78,7 +78,7 @@ export default combineReducers({
   auth: authReducer,
   app: appReducer,
   forms: combineForms(
-    { course: { language: 'english', difficulty: 'novice' }, symbol: {} },
+    { course: { language: 'english', difficulty: 'novice' }, symbol: {}, lesson: {} },
     'forms'
   )
 });

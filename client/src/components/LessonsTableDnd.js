@@ -4,7 +4,6 @@ import { Table, Ref } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 import * as utils from '../utils';
 
-
 const reorder = (list, startIndex, endIndex) => {
   const result = Array.from(list);
   const [removed] = result.splice(startIndex, 1);
@@ -16,6 +15,12 @@ export default class LessonsTableDnD extends React.Component {
   state = {
     lessons: this.props.lessons
   };
+
+  componentDidUpdate(prevProps) {
+    if (this.props.lessons !== prevProps.lessons) {
+      this.setState({ lessons: this.props.lessons });
+    }
+  }
 
   onDragEnd = async result => {
     if (!result.destination) {
