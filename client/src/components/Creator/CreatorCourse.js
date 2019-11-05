@@ -45,7 +45,7 @@ class CreatorCourse extends React.Component {
     });
   };
 
-  componentDidUpdate() {
+  componentDidUpdate = async () => {
     console.log(this.state);
   }
 
@@ -81,6 +81,7 @@ class CreatorCourse extends React.Component {
       this.props.match.params.id,
       this.props.auth.id
     );
+    console.log(course);
     const lessonOrder = await course.lessons_order
       .split(',')
       .map(id => parseInt(id));

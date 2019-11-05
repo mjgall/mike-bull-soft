@@ -9,6 +9,7 @@ class AddLessonModal extends React.Component {
   state = { open: false };
 
   componentDidMount() {
+
     document.addEventListener('click', e => {
       if (e.target.className.indexOf('dimmer') > 0) {
         this.close();
@@ -23,6 +24,7 @@ class AddLessonModal extends React.Component {
 
   open = () => {
     this.setState({ open: true });
+    console.log(this.props.course.id)
   };
 
   close = () => {
@@ -34,7 +36,7 @@ class AddLessonModal extends React.Component {
     this.setState({ isSubmitting: true });
     await utils.addLesson({
       ...this.props.forms.lesson,
-      courseId: this.props.course.id
+      courseId: this.props.course.course_id
     });
     this.setState({ isSubmitting: false });
     this.close();
