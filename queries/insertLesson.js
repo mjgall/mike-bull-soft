@@ -13,12 +13,11 @@ module.exports = lesson => {
       courseId
     )}, ${sqlString.escape(title)}, UNIX_TIMESTAMP());`;
 
-    console.log(query);
     db.getConnection((err, connection) => {
       if (err) {
         reject(err);
       }
-      connection.query(query, (err, results, fields) => {
+      connection.query(query, (err, lessonResults, fields) => {
         if (err) {
           reject(err);
         } else {
@@ -26,15 +25,25 @@ module.exports = lesson => {
             if (err) {
               reject(err);
             }
-            connection.query(
-              `SELECT * FROM lessons WHERE lessons.id='${results.insertId}';`,
-              (err, lessons, fields) => {
-                if (err) {
-                  reject(err);
-                }
-                resolve(lessons[0]);
+            const secondQuery = `INSERT INTO lessons_symbols (symbol_id, lesson_id) VALUES ?;`;
+            const params = lesson.symbols.map(symbol => {
+              return [symbol, lessonResults.insertId];
+            });
+            connection.query(secondQuery, [params], (err, results, fields) => {
+              if (err) {
+                reject(err);
+              } else {
+                connection.query(
+                  `SELECT * FROM lessons WHERE lessons.id='${lessonResults.insertId}';`,
+                  (err, lessons, fields) => {
+                    if (err) {
+                      reject(err);
+                    }
+                    resolve(lessons[0]);
+                  }
+                );
               }
-            );
+            });
           });
           // connection.release();
         }
