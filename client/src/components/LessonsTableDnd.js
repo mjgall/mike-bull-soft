@@ -22,6 +22,15 @@ export default class LessonsTableDnD extends React.Component {
     }
   }
 
+  // onDragStart = details => {
+  //   const startingWidths = Array.from(
+  //     document.querySelector('#table-body').children[details.source.index]
+  //       .children
+  //   ).map(child => child.clientWidth + 'px');
+
+  //   this.setState({ draggingWidths: startingWidths });
+  // };
+
   onDragEnd = async result => {
     if (!result.destination) {
       return;
@@ -49,9 +58,11 @@ export default class LessonsTableDnD extends React.Component {
     });
   };
 
-  getStyles = (isDragging, providedStyles) => {
-    return { ...providedStyles };
-  };
+  getItemStyle = (isDragging, draggableStyle) => ({
+    background: isDragging && 'lightblue',
+    display: isDragging && 'table',
+    ...draggableStyle
+  });
 
   deleteLesson = async (id, index, userId) => {
     await utils.deleteLesson(id);
@@ -61,9 +72,12 @@ export default class LessonsTableDnD extends React.Component {
   };
 
   render() {
+    console.log(this.state);
     return (
-      <DragDropContext onDragEnd={this.onDragEnd}>
-        <Table>
+      <DragDropContext
+        onDragEnd={this.onDragEnd}
+        onDragStart={this.onDragStart}>
+        <Table celled singleLine>
           <Table.Header>
             <Table.Row>
               <Table.HeaderCell>Title</Table.HeaderCell>
@@ -76,7 +90,7 @@ export default class LessonsTableDnD extends React.Component {
           <Droppable droppableId="table">
             {(provided, snapshot) => (
               <Ref innerRef={provided.innerRef}>
-                <Table.Body {...provided.droppableProps}>
+                <Table.Body {...provided.droppableProps} id="table-body">
                   {this.state.lessons &&
                     this.state.lessons.map((lesson, index) => (
                       <Draggable
@@ -88,25 +102,30 @@ export default class LessonsTableDnD extends React.Component {
                             <Ref innerRef={provided.innerRef}>
                               <Table.Row
                                 {...provided.draggableProps}
-                                {...provided.dragHandleProps}>
-                                <Table.Cell>
+                                {...provided.dragHandleProps}
+                                style={this.getItemStyle(
+                                  snapshot.isDragging,
+                                  provided.draggableProps.style
+                                )}>
+                                <Table.Cell style={{ width: '30%' }}>
                                   <Link
                                     to={`${this.props.location}/lesson/${lesson.id}`}>
                                     {lesson.title}
                                   </Link>
                                 </Table.Cell>
-                                <Table.Cell>
+                                <Table.Cell style={{ width: '15%' }}>
                                   {lesson.categories ? lesson.categories : ''}
                                 </Table.Cell>
-                                <Table.Cell>
+                                <Table.Cell style={{ width: '15%' }}>
                                   {lesson.symbols ? lesson.symbols.length : ''}
                                 </Table.Cell>
-                                <Table.Cell>
+                                <Table.Cell style={{ width: '30%' }}>
                                   {new Date(
                                     lesson.create_date * 1000
                                   ).toLocaleString()}
                                 </Table.Cell>
                                 <Table.Cell
+                                  style={{ width: '10%' }}
                                   onClick={() =>
                                     this.deleteLesson(lesson.id, index)
                                   }>

@@ -51,3 +51,22 @@ img.symbol-image {
 .ui.table thead th {
   border-left: 1px solid rgba(34, 36, 38, 0.1);
 }
+
+.cell {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  box-sizing: border-box;
+  display: block;
+  padding: 8px;
+  width: 100%;
+}
+
+.cell-overflow {
+  box-sizing: border-box;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
