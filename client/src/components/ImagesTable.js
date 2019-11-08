@@ -17,7 +17,7 @@ class ImagesTable extends React.Component {
 
   render() {
     return (
-      <div>
+      <div className='images-table'>
         {this.props.app.symbol.images
           ? this.props.app.symbol.images.map((image, index) => {
               return (

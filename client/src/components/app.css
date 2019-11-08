@@ -11,9 +11,13 @@ tr:hover {
   background-color: #f9fafb;
 }
 
+.images-table {
+  margin-top: 10px;
+  display: flex;
+}
+
 img.symbol-image {
-  width: 20%;
-  height: 20%;
+  width: 90%;
   border: 1px solid lightgray;
   padding: 1%;
   border-radius: 5px;

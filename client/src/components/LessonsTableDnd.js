@@ -22,15 +22,6 @@ export default class LessonsTableDnD extends React.Component {
     }
   }
 
-  // onDragStart = details => {
-  //   const startingWidths = Array.from(
-  //     document.querySelector('#table-body').children[details.source.index]
-  //       .children
-  //   ).map(child => child.clientWidth + 'px');
-
-  //   this.setState({ draggingWidths: startingWidths });
-  // };
-
   onDragEnd = async result => {
     if (!result.destination) {
       return;
@@ -47,6 +38,7 @@ export default class LessonsTableDnD extends React.Component {
     });
 
     const lessonOrder = lessons.map(lesson => lesson.id).toString();
+    
     utils.editCourse({
       title: this.props.course.title,
       language: this.props.course.language,

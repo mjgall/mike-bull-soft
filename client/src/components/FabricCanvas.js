@@ -5,6 +5,7 @@ import { Control, Errors } from 'react-redux-form';
 import Form from './Form';
 import { SketchPicker } from 'react-color';
 import { connect } from 'react-redux';
+import Dropzone from '../components/Dropzone'
 import * as actions from '../actions';
 
 const fabric = window.fabric;
@@ -52,7 +53,7 @@ class FabricCanvas extends React.Component {
   };
 
   freeDraw = async () => {
-    await this.setState({
+    this.setState({
       ...this.state,
       brush: { ...this.state.brush },
       freeDraw: !this.state.freeDraw
@@ -80,7 +81,7 @@ class FabricCanvas extends React.Component {
 
   addImage = async () => {
     const pngDataURL = this.props.canvas.toDataURL({ format: 'png' });
-    await this.setState({ images: [...this.state.images, pngDataURL] });
+    this.setState({ images: [...this.state.images, pngDataURL] });
     await this.props.addSymbolImage(pngDataURL);
     this.clear();
   };
@@ -129,7 +130,8 @@ class FabricCanvas extends React.Component {
               id={this.props.id}
               width="300"
               height="300"
-              style={{ border: '1px solid black' }}></canvas>
+              style={ { border: '1px solid black' } }></canvas>
+
           </Grid.Column>
           <Grid.Column width={5}>
           <div>
@@ -192,8 +194,13 @@ class FabricCanvas extends React.Component {
             />
           </Grid.Column>
           <Grid.Column width={5}>
+            <Dropzone>
+              <div style={{border: '1px solid black', height: '100px'}}>
+
+              </div>
+            </Dropzone>
+            <div>{ this.renderImages() }</div>
             
-            <div>{this.renderImages()}</div>
           </Grid.Column>
         </Grid.Row>
       </Grid>
