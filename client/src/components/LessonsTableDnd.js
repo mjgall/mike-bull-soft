@@ -53,6 +53,7 @@ export default class LessonsTableDnD extends React.Component {
   getItemStyle = (isDragging, draggableStyle) => ({
     background: isDragging && 'lightblue',
     display: isDragging && 'table',
+    borderRadius: '5px',
     ...draggableStyle
   });
 

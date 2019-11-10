@@ -1,4 +1,7 @@
 const db = require('../config/db/mysql').pool;
+const sqlString = require('sqlstring');
+
+
 
 module.exports = (symbolId) => {
   return new Promise((resolve, reject) => {
@@ -7,7 +10,7 @@ module.exports = (symbolId) => {
         reject(err)
       }
       connection.query(
-        `SELECT * FROM symbols WHERE id=${symbolId};`,
+        `SELECT * FROM symbols WHERE id=${sqlString.escape(symbolId)};`,
         (err, symbols, fields) => {
           if (err) {
             reject(err);

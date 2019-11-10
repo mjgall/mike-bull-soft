@@ -1,4 +1,5 @@
 const db = require('../config/db/mysql').pool;
+const sqlString = require('sqlstring');
 
 module.exports = () => {
   return new Promise((resolve, reject) => {

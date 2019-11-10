@@ -1,4 +1,5 @@
 const db = require('../config/db/mysql').pool;
+const sqlString = require('sqlstring');
 
 //SHOULD USE PROMISES AND NOT A CALLBACK
 
@@ -7,7 +8,7 @@ module.exports = course_id => {
     db.getConnection((err, connection) => {
       if (err) throw err;
       connection.query(
-        `DELETE FROM courses WHERE id=${course_id};`,
+        `DELETE FROM courses WHERE id=${sqlString.escape(course_id)};`,
         (err, response, fields) => {
           if (err) {
             reject(err);

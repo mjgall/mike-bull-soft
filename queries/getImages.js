@@ -1,4 +1,5 @@
 const db = require('../config/db/mysql').pool;
+const sqlString = require('sqlstring');
 
 module.exports = (symbolId) => {
   return new Promise((resolve, reject) => {
@@ -8,7 +9,7 @@ module.exports = (symbolId) => {
       }
 
       connection.query(
-        `SELECT * FROM images WHERE symbol_id=${symbolId};`,
+        `SELECT * FROM images WHERE symbol_id=${sqlString.escape(symbolId)};`,
         (err, images, fields) => {
           if (err) {
             reject(err);
