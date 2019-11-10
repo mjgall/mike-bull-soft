@@ -45,10 +45,6 @@ class CreatorCourse extends React.Component {
     });
   };
 
-  componentDidUpdate = async () => {
-    console.log(this.state);
-  }
-
   async componentDidMount() {
     const course = await utils.fetchCourse(
       this.props.match.params.id,
@@ -71,7 +67,6 @@ class CreatorCourse extends React.Component {
     this.setState({ symbols });
     this.setState({ lessons });
     this.setState({ isLoaded: true });
-    console.log(this.state);
   }
 
   rerenderAfterSubmit = async () => {
@@ -131,6 +126,7 @@ class CreatorCourse extends React.Component {
             toggleShowModalCallback={this.rerenderAfterSubmit}
             course={this.state.course}></AddLessonModal>
           <LessonsTable
+            mode='creator'
             location={this.props.match.url}
             lessons={this.state.lessons}
             course={this.state.course}></LessonsTable>

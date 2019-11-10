@@ -7,7 +7,7 @@ import history from '../history';
 
 class SymbolsTable extends React.Component {
   handleNav = id => {
-    history.push(`/symbol/${id}`);
+    history.push(`/student/symbol/${id}`);
   };
   handleCreatorNav = id => {
     history.push(`/creator/symbol/${id}`);
@@ -16,38 +16,28 @@ class SymbolsTable extends React.Component {
   renderStudentTable() {
     return (
       <Table celled singleLine sortable>
-        <Table.Header>
-          <Table.Row>
-            <Table.HeaderCell>ID</Table.HeaderCell>
-            <Table.HeaderCell>Text</Table.HeaderCell>
-            <Table.HeaderCell>Audio URL</Table.HeaderCell>
-            <Table.HeaderCell>Create Date</Table.HeaderCell>
-          </Table.Row>
-        </Table.Header>
+      <Table.Header>
+        <Table.Row>
+          <Table.HeaderCell>ID</Table.HeaderCell>
+          <Table.HeaderCell>Text</Table.HeaderCell>
+          <Table.HeaderCell>Create Date</Table.HeaderCell>
+        </Table.Row>
+      </Table.Header>
 
-        <Table.Body>
-          {this.props.app && this.props.app.symbolsTable ? (
-            this.props.app.symbolsTable.map((symbol, index) => {
-              return (
-                <Table.Row key={index}>
-                  <Table.Cell>
-                    <Link to={`/symbol/${symbol.id}`}>{symbol.id}</Link>
-                  </Table.Cell>
-                  <Table.Cell>{symbol.text}</Table.Cell>
-                  <Table.Cell>
-                    <audio src={symbol.audio_url} type="audio/mpeg" controls />
-                  </Table.Cell>
-                  <Table.Cell>
-                    {new Date(symbol.create_date * 1000).toLocaleString()}
-                  </Table.Cell>
-                </Table.Row>
-              );
-            })
-          ) : (
-            <Loader active />
-          )}
-        </Table.Body>
-      </Table>
+      <Table.Body>
+        {this.props.symbols.map((symbol, index) => {
+          return (
+            <Table.Row key={index} onClick={() => this.handleNav(symbol.id)}>
+              <Table.Cell>{symbol.id}</Table.Cell>
+              <Table.Cell>{symbol.text}</Table.Cell>
+              <Table.Cell>
+                {new Date(symbol.create_date * 1000).toLocaleString()}
+              </Table.Cell>
+            </Table.Row>
+          );
+        })}
+      </Table.Body>
+    </Table>
     );
   }
 

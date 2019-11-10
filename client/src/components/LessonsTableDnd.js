@@ -38,7 +38,7 @@ export default class LessonsTableDnD extends React.Component {
     });
 
     const lessonOrder = lessons.map(lesson => lesson.id).toString();
-    
+
     utils.editCourse({
       title: this.props.course.title,
       language: this.props.course.language,
@@ -65,7 +65,7 @@ export default class LessonsTableDnD extends React.Component {
   };
 
   render() {
-    console.log(this.state);
+
     return (
       <DragDropContext
         onDragEnd={this.onDragEnd}
@@ -77,7 +77,9 @@ export default class LessonsTableDnD extends React.Component {
               <Table.HeaderCell>Categories</Table.HeaderCell>
               <Table.HeaderCell># Symbols</Table.HeaderCell>
               <Table.HeaderCell>Create Date</Table.HeaderCell>
-              <Table.HeaderCell>Delete</Table.HeaderCell>
+              {this.props.mode === 'creator' ? (
+                <Table.HeaderCell>Delete</Table.HeaderCell>
+              ) : null}
             </Table.Row>
           </Table.Header>
           <Droppable droppableId="table">
@@ -117,15 +119,17 @@ export default class LessonsTableDnD extends React.Component {
                                     lesson.create_date * 1000
                                   ).toLocaleString()}
                                 </Table.Cell>
-                                <Table.Cell
-                                  style={{ width: '10%' }}
-                                  onClick={() =>
-                                    this.deleteLesson(lesson.id, index)
-                                  }>
-                                  <Icon
-                                    name="delete"
-                                    style={{ color: 'red' }}></Icon>
-                                </Table.Cell>
+                                {this.props.mode === 'creator' ? (
+                                  <Table.Cell
+                                    style={{ width: '10%' }}
+                                    onClick={() =>
+                                      this.deleteLesson(lesson.id, index)
+                                    }>
+                                    <Icon
+                                      name="delete"
+                                      style={{ color: 'red' }}></Icon>
+                                  </Table.Cell>
+                                ) : null}
                               </Table.Row>
                             </Ref>
                           );

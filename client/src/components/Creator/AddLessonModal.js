@@ -18,13 +18,13 @@ class AddLessonModal extends React.Component {
   }
 
   updateParent() {
-    console.log('updating parent')
+
     this.props.toggleShowModalCallback();
   }
 
   open = () => {
     this.setState({ open: true });
-    console.log(this.props.course.id)
+    
   };
 
   close = () => {

@@ -63,7 +63,7 @@ export const addCourse = course => async dispatch => {
     difficulty: course.difficulty,
     owner_id: course.owner_id
   });
-  console.log(response);
+
   dispatch({
     type: 'ADD_COURSE',
     payload: response.data

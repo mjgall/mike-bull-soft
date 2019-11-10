@@ -32,22 +32,26 @@ img.symbol-image {
   background-color: rgba(0, 0, 0, 0.1);
 }
 
-.creator-course-title-bar > h2 {
+.creator-course-title-bar > h2,
+.student-course-title-bar {
   float: left;
   margin: 0;
 }
+
 
 .creator-course-title-bar > button {
   float: right;
 }
 
-.creator-course-details > * {
+.creator-course-details > *,
+.student-course-details > * {
   clear: both;
   font-style: italic;
   margin: 0;
 }
 
-.creator-course-description {
+.creator-course-description,
+.student-course-description {
   margin-top: 1rem;
 }
 
