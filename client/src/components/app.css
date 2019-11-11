@@ -1,9 +1,25 @@
-
-* {
+*,
+h1,
+h2,
+h3,
+h4,
+h5,
+p,
+.ui.modal > .header,
+.ui.button,
+button,
+input,
+optgroup,
+select,
+textarea,
+.ui.card > .content > .header,
+.ui.cards > .card > .content > .header,
+.ui.card > .extra,
+.ui.cards > .card > .extra {
   font-family: 'Nunito Sans';
 }
 
-.error {
+p .error {
   color: red;
 }
 
@@ -42,7 +58,6 @@ img.symbol-image {
   float: left;
   margin: 0;
 }
-
 
 .creator-course-title-bar > button {
   float: right;
