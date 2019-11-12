@@ -1,3 +1,8 @@
+.error {
+  color: red;
+}
+
+
 *,
 h1,
 h2,
@@ -19,9 +24,6 @@ textarea,
   font-family: 'Nunito Sans';
 }
 
-p .error {
-  color: red;
-}
 
 .colorpicker {
   margin: 4% 0;

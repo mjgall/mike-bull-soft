@@ -131,7 +131,6 @@ class FabricCanvas extends React.Component {
               width="300"
               height="300"
               style={ { border: '1px solid black' } }></canvas>
-
           </Grid.Column>
           <Grid.Column width={5}>
           <div>

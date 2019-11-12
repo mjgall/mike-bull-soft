@@ -6,7 +6,7 @@ module.exports = (id) => {
     db.getConnection((err, connection) => {
       if (err) throw err;
       connection.query(
-        `SELECT * FROM users WHERE google_id = ${sqlString.escape(id)}`,
+        `SELECT * FROM users WHERE service_id = ${sqlString.escape(id)}`,
         (err, users, fields) => {
           if (err) {
             reject(err);

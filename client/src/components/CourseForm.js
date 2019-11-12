@@ -15,7 +15,7 @@ class CourseForm extends React.Component {
       language: course.language,
       description: course.description,
       difficulty: course.difficulty,
-      owner_id: this.props.auth.google_id
+      owner_id: this.props.auth.id
     });
   };
 

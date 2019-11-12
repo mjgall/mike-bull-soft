@@ -5,6 +5,7 @@ const db = require('../config/db/mysql').pool;
 const getUserByGoogleId = require('../queries/getUserByGoogleId');
 const createUser = require('../queries/insertUser');
 
+
 passport.serializeUser((user, done) => {
   console.log(user);
   done(null, user.id);
@@ -41,7 +42,7 @@ passport.use(
         } else if (!user) {
           try {
             const user = await createUser({
-              google_id: profile.id,
+              service_id: profile.id,
               first_name: profile._json.given_name,
               last_name: profile._json.family_name,
               email: profile._json.email,

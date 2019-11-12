@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "cypress:open": "cypress open",
     "test": "echo \"Error: no test specified\" && exit 1",
     "server": "nodemon --exec babel-node server.js",
     "aws-deploy": "npm run build && eb deploy",
@@ -32,6 +33,7 @@
     "@babel/core": "^7.5.5",
     "@babel/node": "^7.5.5",
     "@babel/preset-env": "^7.5.5",
+    "cypress": "^3.6.1",
     "nodemon": "^1.19.1"
   }
 }

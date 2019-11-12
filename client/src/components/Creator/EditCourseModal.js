@@ -38,7 +38,7 @@ class EditCourseModal extends React.Component {
       language: this.props.forms.course.language,
       description: this.props.forms.course.description,
       difficulty: this.props.forms.course.difficulty,
-      owner_id: this.props.auth.google_id,
+      owner_id: this.props.auth.id,
       id: this.props.courseId,
       lessonsOrder: this.props.forms.course.lessonsOrder
     });
