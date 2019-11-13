@@ -61,7 +61,7 @@ class Menu extends React.Component {
           </SemanticMenu.Item>
           <SemanticMenu.Menu position="right">
             <SemanticMenu.Item>
-              <a href="/auth/google">Log In</a>
+              <Link to="/login">Log In</Link>
             </SemanticMenu.Item>
           </SemanticMenu.Menu>
         </React.Fragment>

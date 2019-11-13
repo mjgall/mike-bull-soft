@@ -14,6 +14,8 @@ import FullStory, { FullStoryAPI } from 'react-fullstory';
 import Student from './Student/Student';
 import Creator from './Creator/Creator';
 import Dnd from './LessonsTableDnd';
+import LoginScreen from './LoginScreen';
+import RegisterScreen from './RegisterScreen';
 
 class App extends React.Component {
   async componentDidMount() {
@@ -38,6 +40,8 @@ class App extends React.Component {
           <Route path="/creator" component={Creator}></Route>
           <Route path="/student" component={Student}></Route>
           <Route component={Dnd} path="/dnd" exact />
+          <Route component={LoginScreen} path="/login" exact />
+          <Route component={RegisterScreen} path="/register" exact />
           <Route path="/*" exact component={Student}></Route>
         </Switch>
       );
@@ -46,6 +50,8 @@ class App extends React.Component {
         <Switch>
           <Route component={Drawing} path="/drawing" exact />
           <Route component={Dnd} path="/dnd" exact />
+          <Route component={LoginScreen} path="/login" exact />
+          <Route component={RegisterScreen} path="/register" exact />
           <Route component={Home} path="/*" exact />
         </Switch>
       );
@@ -75,6 +81,7 @@ class App extends React.Component {
         <Switch>
           <Route component={Dnd} path="/dnd" exact />
           <Route component={Home} path="/*" exact />
+          <Route component={LoginScreen} path="/login" exact />
         </Switch>
       );
     }
