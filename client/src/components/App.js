@@ -39,49 +39,21 @@ class App extends React.Component {
         <Switch>
           <Route path="/creator" component={Creator}></Route>
           <Route path="/student" component={Student}></Route>
-          <Route component={Dnd} path="/dnd" exact />
+          <Route path="/home" component={Student}></Route>
           <Route component={LoginScreen} path="/login" exact />
           <Route component={RegisterScreen} path="/register" exact />
-          <Route path="/*" exact component={Student}></Route>
+          <Route path="/" exact component={Student}></Route>
         </Switch>
       );
     } else {
       return (
         <Switch>
+          <Route path="/home" component={Student}></Route>
           <Route component={Drawing} path="/drawing" exact />
           <Route component={Dnd} path="/dnd" exact />
           <Route component={LoginScreen} path="/login" exact />
           <Route component={RegisterScreen} path="/register" exact />
-          <Route component={Home} path="/*" exact />
-        </Switch>
-      );
-    }
-  };
-
-  protectRoutes = () => {
-    if (this.props.auth) {
-      return (
-        <Switch>
-          <Route
-            // component={Home}
-            render={() => <Home history={history}></Home>}
-            path="/home"
-            exact
-          />
-          <Route component={Creator} path="/creator"></Route>
-          <Route component={Student} path="/student"></Route>
-          <Route component={Course} path="/course/:course" exact />
-          <Route component={Symbol} path="/symbol/:symbol" exact />
-          <Route component={Drawing} path="/drawing" exact />
-          <Route component={Home} path="/*" exact />
-        </Switch>
-      );
-    } else {
-      return (
-        <Switch>
-          <Route component={Dnd} path="/dnd" exact />
-          <Route component={Home} path="/*" exact />
-          <Route component={LoginScreen} path="/login" exact />
+          <Route component={LoginScreen} path="/" exact />
         </Switch>
       );
     }

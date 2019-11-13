@@ -15,7 +15,7 @@ module.exports = app => {
   );
 
   app.post('/auth/login', passport.authenticate('local'), function(req, res) {
-    res.redirect('/');
+    res.redirect('/home');
   });
 
   app.post('/auth/register', async (req, res) => {
@@ -29,14 +29,14 @@ module.exports = app => {
       email,
       photo_url: null
     });
-    res.redirect('/');
+    res.redirect('/home');
   });
 
   app.get(
     '/auth/google/callback',
     passport.authenticate('google'),
     (req, res) => {
-      res.redirect('/');
+      res.redirect('/home');
     }
   );
 

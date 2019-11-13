@@ -20,7 +20,7 @@ export default class LoginScreen extends React.Component {
         <Grid.Column width={5}></Grid.Column>
         <Grid.Column style={{ maxWidth: 450 }} width={6}>
           <Header as="h2" textAlign="center">
-            Log-in to your account
+            Log In
           </Header>
           <Form
             size="large"
