@@ -11,8 +11,49 @@ import {
 } from 'semantic-ui-react';
 import Menu from './Menu';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
+import * as actions from '../actions';
+import { connect } from 'react-redux';
 
-export default class LoginScreen extends React.Component {
+class RegisterScreen extends React.Component {
+  state = {
+    email: '',
+    firstName: '',
+    lastName: '',
+    password: ''
+  };
+
+  handlePasswordChange = event => {
+    this.setState({ password: event.target.value });
+  };
+
+  handleFirstNameChange = event => {
+    this.setState({ firstName: event.target.value });
+  };
+
+  handleLastNameChange = event => {
+    this.setState({ lastName: event.target.value });
+  };
+
+  handleEmailChange = event => {
+    this.setState({ email: event.target.value });
+  };
+
+  submit = async () => {
+    const response = await axios.post('/auth/register', {
+      email: this.state.email,
+      first_name: this.state.firstName,
+      last_name: this.state.lastName,
+      password: this.state.password
+    });
+
+    if (response.data.message === 'success') {
+      this.props.history.push('/login');
+    } else {
+      this.setState({ error: response.data.message });
+    }
+  };
+
   render() {
     return (
       <React.Fragment>
@@ -22,12 +63,10 @@ export default class LoginScreen extends React.Component {
           <Header as="h2" textAlign="center">
             Register
           </Header>
-          <Form
-            size="large"
-            action={`${window.location.origin}/auth/register`}
-            method="POST">
+          <Form size="large">
             <Segment>
               <Form.Input
+                onChange={this.handleEmailChange}
                 name="email"
                 fluid
                 icon="envelope"
@@ -35,6 +74,7 @@ export default class LoginScreen extends React.Component {
                 placeholder="E-mail address"
               />
               <Form.Input
+                onChange={this.handleFirstNameChange}
                 name="first_name"
                 fluid
                 icon="user"
@@ -42,6 +82,7 @@ export default class LoginScreen extends React.Component {
                 placeholder="First Name"
               />
               <Form.Input
+                onChange={this.handleLastNameChange}
                 name="last_name"
                 fluid
                 icon="user"
@@ -49,6 +90,7 @@ export default class LoginScreen extends React.Component {
                 placeholder="Last Name"
               />
               <Form.Input
+                onChange={this.handlePasswordChange}
                 name="password"
                 fluid
                 icon="lock"
@@ -56,7 +98,7 @@ export default class LoginScreen extends React.Component {
                 placeholder="Password"
                 type="password"
               />
-              <Button fluid size="large">
+              <Button fluid size="large" onClick={this.submit}>
                 Register
               </Button>
             </Segment>
@@ -74,3 +116,12 @@ export default class LoginScreen extends React.Component {
     );
   }
 }
+
+const mapStateToProps = state => {
+  return { auth: state.auth, app: state.app };
+};
+
+export default connect(
+  mapStateToProps,
+  actions
+)(RegisterScreen);

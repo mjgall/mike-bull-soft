@@ -51,7 +51,7 @@ module.exports = app => {
       email,
       photo_url: null
     });
-    res.redirect('/login');
+    res.status(200).send({message: 'success'});
   });
 
   app.get(
