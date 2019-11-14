@@ -50,10 +50,10 @@ class App extends React.Component {
         <Switch>
           <Route path="/home" component={Student}></Route>
           <Route component={Drawing} path="/drawing" exact />
-          <Route component={Dnd} path="/dnd" exact />
+          <Route  component={Dnd} path="/dnd" exact />
           <Route component={LoginScreen} path="/login" exact />
           <Route component={RegisterScreen} path="/register" exact />
-          <Route component={LoginScreen} path="/" exact />
+          <Route history={history} component={LoginScreen} path="/" exact />
         </Switch>
       );
     }

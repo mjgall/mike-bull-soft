@@ -6,6 +6,7 @@ const getUserByGoogleId = require('../queries/getUserByGoogleId');
 const getUserByEmailAddress = require('../queries/getUserByEmailAddress');
 const createUser = require('../queries/insertUser');
 const LocalStrategy = require('passport-local').Strategy;
+const bcrypt = require('bcryptjs');
 
 passport.serializeUser((user, done) => {
   console.log(user);
@@ -68,19 +69,31 @@ passport.use(
   new LocalStrategy(
     { usernameField: 'email', password: 'password', passReqToCallback: true },
     async (req, username, password, done) => {
-      console.log(username, password);
       try {
-        const user = await getUserByEmailAddress(username);
+        const user = await getUserByEmailAddress(username).catch(err => {
+          console.log(err);
+        });
 
-        if (user) {
-          done(null, user);
-          console.log({ passportjs77: user });
+        if (user && user.password) {
+          console.log(password, user.password);
+          if (
+            await bcrypt.compare(password, user.password).catch(e => {
+              console.log(e);
+            })
+          ) {
+            done(false, user, { message: 'redirect' });
+          } else {
+            done(false, null, { message: 'Incorrect password.' });
+          }
         } else if (!user) {
           try {
-            done('No user found', null);
+            done(false, null, { message: 'No user found.' });
           } catch (error) {
             throw error;
           }
+        } else {
+          //already exists from oauth login
+          done(false, null, { message: 'Should log in with Google' });
         }
       } catch (error) {
         console.log(error);

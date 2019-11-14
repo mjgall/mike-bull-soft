@@ -5,6 +5,7 @@ const path = require('path');
 const bodyParser = require('body-parser');
 const keys = require('./config/keys');
 
+
 require('./services/passport');
 
 const app = express();
@@ -18,6 +19,7 @@ app.use(
 
 app.use(passport.initialize());
 app.use(passport.session());
+
 
 //ROUTES
 //AUTH

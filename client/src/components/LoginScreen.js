@@ -10,9 +10,43 @@ import {
   Icon
 } from 'semantic-ui-react';
 import Menu from './Menu';
-import {Link} from 'react-router-dom'
+import { Link } from 'react-router-dom';
+import axios from 'axios';
+import * as actions from '../actions';
+import { connect } from 'react-redux';
 
-export default class LoginScreen extends React.Component {
+class LoginScreen extends React.Component {
+  state = {
+    email: '',
+    password: ''
+  };
+
+  handlePasswordChange = event => {
+    this.setState({ password: event.target.value });
+  };
+
+  handleEmailChange = event => {
+    this.setState({ email: event.target.value });
+  };
+
+  componentDidUpdate = () => {
+    console.log(this.state);
+  };
+
+  submit = async () => {
+    const response = await axios.post('/auth/login', {
+      email: this.state.email,
+      password: this.state.password
+    });
+    console.log(response);
+    if (response.data.message === 'redirect') {
+      await this.props.fetchUser();
+      this.props.history.push('/home');
+    } else {
+      this.setState({ error: response.data.message });
+    }
+  };
+
   render() {
     return (
       <React.Fragment>
@@ -22,10 +56,14 @@ export default class LoginScreen extends React.Component {
           <Header as="h2" textAlign="center">
             Log In
           </Header>
+          <h4 className="error">
+            {this.state.error ? this.state.error : null}
+          </h4>
           <Form
             size="large"
-            action={`${window.location.origin}/auth/login`}
-            method="POST">
+            // action={`${window.location.origin}/auth/login`}
+            // method="POST"
+          >
             <Segment stacked>
               <Form.Input
                 name="email"
@@ -33,6 +71,8 @@ export default class LoginScreen extends React.Component {
                 icon="user"
                 iconPosition="left"
                 placeholder="E-mail address"
+                onChange={this.handleEmailChange}
+                value={this.state.email}
               />
               <Form.Input
                 name="password"
@@ -41,19 +81,22 @@ export default class LoginScreen extends React.Component {
                 iconPosition="left"
                 placeholder="Password"
                 type="password"
+                onChange={this.handlePasswordChange}
+                value={this.state.password}
               />
 
-              <Button fluid size="large">
+              <Button fluid size="large" onClick={this.submit}>
                 Login
               </Button>
             </Segment>
           </Form>
-          
+
           <Message>
             New? <Link to="/register">Sign Up</Link>
           </Message>
           <Message>
-          <Icon name="google"></Icon><a href="/auth/google">Log in with Google</a>
+            <Icon name="google"></Icon>
+            <a href="/auth/google">Log in with Google</a>
           </Message>
         </Grid.Column>
         <Grid.Column width={5}></Grid.Column>
@@ -61,3 +104,12 @@ export default class LoginScreen extends React.Component {
     );
   }
 }
+
+const mapStateToProps = state => {
+  return { auth: state.auth, app: state.app };
+};
+
+export default connect(
+  mapStateToProps,
+  actions
+)(LoginScreen);
