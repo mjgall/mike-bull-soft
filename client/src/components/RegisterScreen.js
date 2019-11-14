@@ -26,7 +26,7 @@ export default class LoginScreen extends React.Component {
             size="large"
             action={`${window.location.origin}/auth/register`}
             method="POST">
-            <Segment stacked>
+            <Segment>
               <Form.Input
                 name="email"
                 fluid

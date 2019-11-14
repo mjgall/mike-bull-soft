@@ -29,16 +29,12 @@ class LoginScreen extends React.Component {
     this.setState({ email: event.target.value });
   };
 
-  componentDidUpdate = () => {
-    console.log(this.state);
-  };
-
   submit = async () => {
     const response = await axios.post('/auth/login', {
       email: this.state.email,
       password: this.state.password
     });
-    console.log(response);
+
     if (response.data.message === 'redirect') {
       await this.props.fetchUser();
       this.props.history.push('/home');
@@ -61,10 +57,8 @@ class LoginScreen extends React.Component {
           </h4>
           <Form
             size="large"
-            // action={`${window.location.origin}/auth/login`}
-            // method="POST"
           >
-            <Segment stacked>
+            <Segment>
               <Form.Input
                 name="email"
                 fluid
