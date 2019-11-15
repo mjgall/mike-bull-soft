@@ -21,7 +21,8 @@ class RegisterScreen extends React.Component {
     firstName: '',
     lastName: '',
     password: '',
-    message: ''
+    message: '',
+    error: ''
   };
 
   handlePasswordChange = event => {
@@ -41,18 +42,23 @@ class RegisterScreen extends React.Component {
   };
 
   submit = async () => {
-    const response = await axios.post('/auth/register', {
-      email: this.state.email,
-      first_name: this.state.firstName,
-      last_name: this.state.lastName,
-      password: this.state.password
-    });
+    const { email, firstName, lastName, password } = this.state;
+    if (email && firstName && lastName && password) {
+      const response = await axios.post('/auth/register', {
+        email: email,
+        first_name: firstName,
+        last_name: lastName,
+        password: password
+      });
 
-    if (response.data.message === 'success') {
-      this.setState({ message: 'User created' });
-      setTimeout(() => this.props.history.push('/login'), 2000);
+      if (response.data.message === 'success') {
+        this.setState({ message: 'User created' });
+        setTimeout(() => this.props.history.push('/login'), 1000);
+      } else {
+        this.setState({ error: response.data.message });
+      }
     } else {
-      this.setState({ error: response.data.message });
+      this.setState({ error: 'Please complete all fields.' });
     }
   };
 
@@ -65,12 +71,16 @@ class RegisterScreen extends React.Component {
           <Header as="h2" textAlign="center">
             Register
           </Header>
-         
-          { this.state.message ? <Message success>{ this.state.message }</Message> : null}
-          
+          {this.state.message ? (
+            <Message success>{this.state.message}</Message>
+          ) : null}
+          {this.state.error ? (
+            <Message negative>{this.state.error}</Message>
+          ) : null}
           <Form size="large">
             <Segment>
               <Form.Input
+                ref={this.emailField}
                 onChange={this.handleEmailChange}
                 name="email"
                 fluid
@@ -79,6 +89,7 @@ class RegisterScreen extends React.Component {
                 placeholder="E-mail address"
               />
               <Form.Input
+                ref={this.firstNameField}
                 onChange={this.handleFirstNameChange}
                 name="first_name"
                 fluid
@@ -87,6 +98,7 @@ class RegisterScreen extends React.Component {
                 placeholder="First Name"
               />
               <Form.Input
+                ref={this.lastNameField}
                 onChange={this.handleLastNameChange}
                 name="last_name"
                 fluid
@@ -95,6 +107,7 @@ class RegisterScreen extends React.Component {
                 placeholder="Last Name"
               />
               <Form.Input
+                ref={this.passwordField}
                 onChange={this.handlePasswordChange}
                 name="password"
                 fluid

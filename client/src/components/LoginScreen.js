@@ -31,17 +31,20 @@ class LoginScreen extends React.Component {
   };
 
   submit = async () => {
-    const response = await axios.post('/auth/login', {
-      email: this.state.email,
-      password: this.state.password
-    });
-
-    if (response.data.message === 'redirect') {
-      await this.props.fetchUser();
-      this.props.history.push('/home');
-    } else {
-      this.setState({ error: response.data.message });
-    }
+  
+      const response = await axios.post('/auth/login', {
+        email: this.state.email,
+        password: this.state.password
+      });
+  
+      if (response.data.message === 'redirect') {
+        await this.props.fetchUser();
+        this.props.history.push('/home');
+      } else {
+        this.setState({ error: response.data.message });
+      }
+    
+    
   };
 
   render() {
