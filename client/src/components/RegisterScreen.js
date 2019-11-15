@@ -20,7 +20,8 @@ class RegisterScreen extends React.Component {
     email: '',
     firstName: '',
     lastName: '',
-    password: ''
+    password: '',
+    message: ''
   };
 
   handlePasswordChange = event => {
@@ -48,7 +49,8 @@ class RegisterScreen extends React.Component {
     });
 
     if (response.data.message === 'success') {
-      this.props.history.push('/login');
+      this.setState({ message: 'User created' });
+      setTimeout(() => this.props.history.push('/login'), 2000);
     } else {
       this.setState({ error: response.data.message });
     }
@@ -63,6 +65,9 @@ class RegisterScreen extends React.Component {
           <Header as="h2" textAlign="center">
             Register
           </Header>
+         
+          { this.state.message ? <Message success>{ this.state.message }</Message> : null}
+          
           <Form size="large">
             <Segment>
               <Form.Input

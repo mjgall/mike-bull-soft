@@ -18,7 +18,8 @@ import { connect } from 'react-redux';
 class LoginScreen extends React.Component {
   state = {
     email: '',
-    password: ''
+    password: '',
+    error: ''
   };
 
   handlePasswordChange = event => {
@@ -53,11 +54,11 @@ class LoginScreen extends React.Component {
             Log In
           </Header>
           <h4 className="error">
-            {this.state.error ? this.state.error : null}
+            {this.state.error ? (
+              <Message negative>{this.state.error}</Message>
+            ) : null}
           </h4>
-          <Form
-            size="large"
-          >
+          <Form size="large">
             <Segment>
               <Form.Input
                 name="email"
