@@ -8,6 +8,11 @@ export const fetchCourse = async (id, userId) => {
   return response.data;
 };
 
+export const fetchLesson = async id => {
+  const response = await axios.get(`/api/lesson/${id}`);
+  return response.data;
+};
+
 export const fetchSymbols = async id => {
   const response = await axios.get(`/api/symbols/${id}`);
   return response.data;
@@ -36,7 +41,7 @@ export const addLesson = async lesson => {
 };
 
 export const deleteLesson = async lessonId => {
-  console.log(lessonId)
+  console.log(lessonId);
   const response = await axios.delete(`/api/lessons/${lessonId}`);
   return response.data;
-}
+};

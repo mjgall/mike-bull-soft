@@ -70,7 +70,8 @@ class LoginScreen extends React.Component {
                 iconPosition="left"
                 placeholder="E-mail address"
                 onChange={this.handleEmailChange}
-                value={this.state.email}
+                value={ this.state.email }
+            
               />
               <Form.Input
                 name="password"
@@ -80,7 +81,8 @@ class LoginScreen extends React.Component {
                 placeholder="Password"
                 type="password"
                 onChange={this.handlePasswordChange}
-                value={this.state.password}
+                value={ this.state.password }
+         
               />
 
               <Button fluid size="large" onClick={this.submit}>

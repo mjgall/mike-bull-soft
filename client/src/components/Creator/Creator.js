@@ -11,6 +11,8 @@ import CreatorLesson from './CreatorLesson';
 
 class Creator extends React.Component {
   componentDidMount() {
+    this.props.fetchCourses();
+      this.props.fetchAllCourses();
     this.props.setCreatorMode();
   }
 

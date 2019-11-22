@@ -83,17 +83,17 @@ passport.use(
           ) {
             done(false, user, { message: 'redirect' });
           } else {
-            done(false, null, { message: 'Incorrect password.' });
+            done(false, null, { message: 'Incorrect email and/or password.' });
           }
         } else if (!user) {
           try {
-            done(false, null, { message: 'No user found.' });
+            done(false, null, { message: 'Incorrect email and/or password.' });
           } catch (error) {
             throw error;
           }
         } else {
           //already exists from oauth login
-          done(false, null, { message: 'Should log in with Google' });
+          done(false, null, { message: 'Existing Google account found.' });
         }
       } catch (error) {
         console.log(error);

@@ -1,12 +1,11 @@
 import React from 'react';
-import { Table, Loader, Icon, Confirm, Button } from 'semantic-ui-react';
+import { Table, Loader, Icon, Confirm, Button, Popup } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import * as actions from '../actions';
 import history from '../history';
+import ConfirmDelete from './ConfirmDelete';
 
 class CoursesTable extends React.Component {
-  state = { confirmOpen: true };
-
   componentWillMount() {
     this.props.fetchCourses();
     this.props.fetchAllCourses();
@@ -19,13 +18,10 @@ class CoursesTable extends React.Component {
     history.push(`/creator/course/${id}`);
   };
 
-  deleteCourse = (id, index, userId) => {
-    this.props.deleteCourse(id, index, userId);
-  };
 
   renderStudentTable = () => {
     return (
-      <Table celled singleLine sortable>
+      <Table celled singleLine sortable compact>
         <Table.Header>
           <Table.Row>
             <Table.HeaderCell>Course</Table.HeaderCell>
@@ -59,7 +55,7 @@ class CoursesTable extends React.Component {
 
   renderCreatorTable = () => {
     return (
-      <Table celled singleLine sortable>
+      <Table celled singleLine sortable compact basic>
         <Table.Header>
           <Table.Row>
             <Table.HeaderCell>Course</Table.HeaderCell>
@@ -72,6 +68,7 @@ class CoursesTable extends React.Component {
         <Table.Body>
           {this.props.app && this.props.app.coursesTable ? (
             this.props.app.coursesTable.map((course, index) => {
+
               return (
                 <Table.Row key={index}>
                   <Table.Cell
@@ -86,10 +83,18 @@ class CoursesTable extends React.Component {
                     onClick={() => this.handleCreatorNav(course.course_id)}>
                     {new Date(course.create_date * 1000).toLocaleString()}
                   </Table.Cell>
-                  <Table.Cell
-                    onClick={() => this.deleteCourse(course.course_id, index)}>
-                    <Icon name="delete" style={{ color: 'red' }}></Icon>
-                  </Table.Cell>
+
+                  <ConfirmDelete
+                    trigger={
+                      <Table.Cell>
+                        <Icon name="delete" style={ { color: 'red' } }></Icon>
+                      </Table.Cell> }
+                    on="click"
+                    position="top center"
+                    courseId={course.course_id}
+                    index={ index }
+                    recordType = 'course'
+                  />
                 </Table.Row>
               );
             })
@@ -117,7 +122,4 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(
-  mapStateToProps,
-  actions
-)(CoursesTable);
+export default connect(mapStateToProps, actions)(CoursesTable);

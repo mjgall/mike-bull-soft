@@ -26,7 +26,7 @@ module.exports = app => {
   app.post('/auth/login', (req, res, next) => {
     passport.authenticate('local', (err, user, info) => {
       if (err) {
-        return res.status(200).send(err);
+        return res.status(400).send({error: 'Something went wrong.'});
       }
       if (!user) {
         return res.status(200).send(info);

@@ -6,7 +6,7 @@ import LessonsTableDnd from './LessonsTableDnd';
 class LessonsTable extends React.Component {
 
   render() {
-    return <LessonsTableDnd mode={this.props.mode} location={this.props.location} lessons={this.props.lessons} course={this.props.course}></LessonsTableDnd>;
+    return <LessonsTableDnd symbols={this.props.symbols} mode={this.props.mode} location={this.props.location} lessons={this.props.lessons} course={this.props.course}></LessonsTableDnd>;
   }
 }
 

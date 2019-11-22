@@ -16,10 +16,17 @@ import Creator from './Creator/Creator';
 import Dnd from './LessonsTableDnd';
 import LoginScreen from './LoginScreen';
 import RegisterScreen from './RegisterScreen';
+import Profile from './Profile';
+import Loader from './Loader';
 
 class App extends React.Component {
-  async componentDidMount() {
+  state = {
+    authLoaded: false
+  };
+
+  componentDidMount = async () => {
     await this.props.fetchUser();
+    this.setState({ authLoaded: true });
 
     if (this.props.auth) {
       FullStoryAPI('identify', this.props.auth.id, {
@@ -28,10 +35,7 @@ class App extends React.Component {
         email: this.props.auth.email
       });
     }
-
-    this.props.fetchCourses();
-    this.props.fetchAllCourses();
-  }
+  };
 
   routes = () => {
     if (this.props.auth) {
@@ -40,17 +44,18 @@ class App extends React.Component {
           <Route path="/creator" component={Creator}></Route>
           <Route path="/student" component={Student}></Route>
           <Route path="/home" component={Student}></Route>
-          <Route component={LoginScreen} path="/login" exact />
-          <Route component={RegisterScreen} path="/register" exact />
+          <Route path="/profile" component={Profile}></Route>
+          <Route path="/login" component={LoginScreen} exact />
+          <Route path="/register" component={RegisterScreen} exact />
           <Route path="/" exact component={Student}></Route>
         </Switch>
       );
     } else {
       return (
         <Switch>
-          <Route path="/home" component={Student}></Route>
+          <Route component={Student} path="/home"></Route>
           <Route component={Drawing} path="/drawing" exact />
-          <Route  component={Dnd} path="/dnd" exact />
+          <Route component={Dnd} path="/dnd" exact />
           <Route component={LoginScreen} path="/login" exact />
           <Route component={RegisterScreen} path="/register" exact />
           <Route history={history} component={LoginScreen} path="/" exact />
@@ -66,7 +71,7 @@ class App extends React.Component {
         <Menu history={history} />
         <Container>
           <Grid container columns={16} style={{ paddingTop: '75px' }} stackable>
-            {this.routes()}
+            {this.state.authLoaded ? this.routes() : <Loader></Loader>}
           </Grid>
         </Container>
       </Router>

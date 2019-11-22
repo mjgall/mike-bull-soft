@@ -137,7 +137,7 @@ class FabricCanvas extends React.Component {
               <Popup
                 trigger={
                   <Button icon onClick={this.freeDraw}>
-                    <Icon name="world" />
+                    <Icon name="paint brush" />
                   </Button>
                 }
                 content="Draw"
@@ -150,7 +150,7 @@ class FabricCanvas extends React.Component {
                     <Icon name="remove" />
                   </Button>
                 }
-                content="Clear"
+                content="Clear Canvas"
                 position="bottom center"
               />
 

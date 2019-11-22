@@ -28,7 +28,7 @@ export default class Dropzone extends React.Component {
               {this.props.children}
             </div>
             <aside>
-              <h4>Files</h4>
+            
               <ul>{files}</ul>
             </aside>
           </section>

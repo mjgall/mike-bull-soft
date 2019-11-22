@@ -15,6 +15,7 @@ const saveToS3 = require('../services/s3');
 const getLessons = require('../queries/getLessons');
 const getSymbolsByLesson = require('../queries/getSymbolsByLesson');
 const insertLesson = require('../queries/insertLesson.js');
+const getLesson = require('../queries/getLesson');
 
 module.exports = app => {
   //AUTHENTICATION PROTECTION
@@ -226,6 +227,15 @@ module.exports = app => {
     try {
       // const lesson = await getCourse(req.params.id);
       const response = await deleteLesson(req.params.id);
+      res.status(200).send({ success: true, response });
+    } catch (error) {
+      res.status(500).send(error);
+    }
+  });
+
+  app.get('/api/lesson/:id', async (req, res) => {
+    try {
+      const response = await getLesson(req.params.id);
       res.status(200).send({ success: true, response });
     } catch (error) {
       res.status(500).send(error);

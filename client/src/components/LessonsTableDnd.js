@@ -65,7 +65,6 @@ export default class LessonsTableDnD extends React.Component {
   };
 
   render() {
-
     return (
       <DragDropContext
         onDragEnd={this.onDragEnd}
@@ -89,6 +88,7 @@ export default class LessonsTableDnD extends React.Component {
                   {this.state.lessons &&
                     this.state.lessons.map((lesson, index) => (
                       <Draggable
+                        isDragDisabled={this.props.mode === 'creator' ? false : true}
                         draggableId={lesson.id}
                         index={index}
                         key={lesson.id}>
@@ -96,6 +96,7 @@ export default class LessonsTableDnD extends React.Component {
                           return (
                             <Ref innerRef={provided.innerRef}>
                               <Table.Row
+                        
                                 {...provided.draggableProps}
                                 {...provided.dragHandleProps}
                                 style={this.getItemStyle(

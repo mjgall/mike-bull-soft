@@ -87,6 +87,7 @@ class RegisterScreen extends React.Component {
                 icon="envelope"
                 iconPosition="left"
                 placeholder="E-mail address"
+          
               />
               <Form.Input
                 ref={this.firstNameField}
@@ -96,6 +97,7 @@ class RegisterScreen extends React.Component {
                 icon="user"
                 iconPosition="left"
                 placeholder="First Name"
+            
               />
               <Form.Input
                 ref={this.lastNameField}
@@ -105,6 +107,7 @@ class RegisterScreen extends React.Component {
                 icon="user"
                 iconPosition="left"
                 placeholder="Last Name"
+           
               />
               <Form.Input
                 ref={this.passwordField}
@@ -115,6 +118,7 @@ class RegisterScreen extends React.Component {
                 iconPosition="left"
                 placeholder="Password"
                 type="password"
+                
               />
               <Button fluid size="large" onClick={this.submit}>
                 Register
