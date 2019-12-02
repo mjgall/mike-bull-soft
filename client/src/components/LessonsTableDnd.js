@@ -79,7 +79,9 @@ export default class LessonsTableDnD extends React.Component {
               <Table.HeaderCell>Create Date</Table.HeaderCell>
               {this.props.mode === 'creator' ? (
                 <Table.HeaderCell>Delete</Table.HeaderCell>
-              ) : null}
+              ) : (
+                <Table.HeaderCell>Begin</Table.HeaderCell>
+              )}
             </Table.Row>
           </Table.Header>
           <Droppable droppableId="table">
@@ -106,10 +108,7 @@ export default class LessonsTableDnD extends React.Component {
                                   provided.draggableProps.style
                                 )}>
                                 <Table.Cell style={{ width: '30%' }}>
-                                  <Link
-                                    to={`${this.props.location}/lesson/${lesson.id}`}>
-                                    {lesson.title}
-                                  </Link>
+                                  {lesson.title}
                                 </Table.Cell>
                                 <Table.Cell style={{ width: '15%' }}>
                                   {lesson.categories ? lesson.categories : ''}
@@ -135,7 +134,14 @@ export default class LessonsTableDnD extends React.Component {
                                           style={{ color: 'red' }}></Icon>
                                       </Table.Cell>
                                     }></ConfirmDelete>
-                                ) : null}
+                                ) : (
+                                  <Table.Cell style={{ width: '10%' }}>
+                                    <Link
+                                      to={`${this.props.location}/lesson/${lesson.id}`}>
+                                      Begin
+                                    </Link>
+                                  </Table.Cell>
+                                )}
                               </Table.Row>
                             </Ref>
                           );

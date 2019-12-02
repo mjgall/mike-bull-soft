@@ -7,7 +7,7 @@ import { Grid } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import * as actions from '../../actions';
 
-class Student extends React.Component {
+class StudentHome extends React.Component {
   componentDidMount() {
     this.props.setStudentMode();
   }
@@ -34,4 +34,4 @@ const mapStateToProps = state => {
 export default connect(
   mapStateToProps,
   actions
-)(Student);
+)(StudentHome);

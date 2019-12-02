@@ -64,11 +64,11 @@ class StudentCourse extends React.Component {
 
   startCourse = () => {
     utils.startCourse(this.props.auth.id, parseInt(this.props.match.params.id));
-    console.log(this.props.auth.id, parseInt(this.props.match.params.id));
+    this.setState({courseStarted: true})
   };
 
   continueCourse = () => {
-    console.log('course continuing');
+    console.log('continuing course')
   };
 
   renderCourse = () => {
