@@ -69,6 +69,8 @@ const appReducer = (state = initialAppState, action) => {
       return { ...state, creatorMode: false };
     case 'SET_CREATOR_MODE':
       return { ...state, creatorMode: true };
+    case 'GET_STARTED_COURSES':
+      return {...state, startedCourses: action.payload}
     default:
       return state;
   }

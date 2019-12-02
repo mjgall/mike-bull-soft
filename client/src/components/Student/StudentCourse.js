@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import * as actions from '../../actions';
 import * as utils from '../../utils';
 import Loader from '../Loader';
-import { Grid, Segment } from 'semantic-ui-react';
+import { Grid, Segment, Header, Icon, Button } from 'semantic-ui-react';
 import ProfileCard from '../ProfileCard';
 import { Link } from 'react-router-dom';
 
@@ -11,7 +11,7 @@ import LessonsTable from '../LessonsTable';
 import SymbolsTable from '../SymbolsTable';
 
 class StudentCourse extends React.Component {
-  state = { isLoaded: false };
+  state = { isLoaded: false, courseStarted: false };
 
   sortLessons = (lessons, lessonOrder) => {
     return lessons.sort(function(a, b) {
@@ -46,24 +46,41 @@ class StudentCourse extends React.Component {
       lessonOrder
     );
 
+    if (
+      this.props.app.startedCourses
+        .map(course => {
+          return course.course_id;
+        })
+        .indexOf(parseInt(this.props.match.params.id)) >= 0
+    ) {
+      this.setState({ courseStarted: true });
+    }
+
     this.setState({ course });
     this.setState({ symbols });
     this.setState({ lessons });
     this.setState({ isLoaded: true });
-
-
   }
+
+  startCourse = () => {
+    utils.startCourse(this.props.auth.id, parseInt(this.props.match.params.id));
+    console.log(this.props.auth.id, parseInt(this.props.match.params.id));
+  };
+
+  continueCourse = () => {
+    console.log('course continuing');
+  };
 
   renderCourse = () => {
     return (
       <div>
         <div>
           <h4>
-            <Link to="/creator">Back to courses</Link>
+            <Link to="/student">Back to courses</Link>
           </h4>
         </div>
-        <Segment>
-          <div className="student=course-title-bar">
+        <Segment attached>
+          <div className="student-course-title-bar">
             <h2>{this.state.course.title}</h2>
           </div>
           <div className="student-course-details">
@@ -78,15 +95,41 @@ class StudentCourse extends React.Component {
             <p>{this.state.course.description}</p>
           </div>
         </Segment>
+        <Segment attached="bottom">
+          <Grid>
+            <Grid.Row columns={1}>
+              <Grid.Column>
+                {this.state.courseStarted ? (
+                  <Button
+                    animated="fade"
+                    style={{ background: 'lightgreen', width: '100%' }}
+                    onClick={this.continueCourse}>
+                    <Button.Content visible>Continue Course</Button.Content>
+                    <Button.Content hidden>
+                      <Icon name="arrow right" />
+                    </Button.Content>
+                  </Button>
+                ) : (
+                  <Button
+                    style={{ background: 'lightgreen', width: '100%' }}
+                    onClick={this.startCourse}>
+                    Begin course
+                  </Button>
+                )}
+              </Grid.Column>
+            </Grid.Row>
+          </Grid>
+        </Segment>
         <h2>Lessons</h2>
         <LessonsTable
           location={this.props.match.url}
           lessons={this.state.lessons}
-          course={ this.state.course }></LessonsTable>
-        <h2>
-          Symbols
-        </h2>
-        <SymbolsTable symbols={this.state.symbols} renderLocation={this.props.match.url}/>
+          course={this.state.course}></LessonsTable>
+        <h2>Symbols</h2>
+        <SymbolsTable
+          symbols={this.state.symbols}
+          renderLocation={this.props.match.url}
+        />
       </div>
     );
   };
@@ -113,7 +156,4 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(
-  mapStateToProps,
-  actions
-)(StudentCourse);
+export default connect(mapStateToProps, actions)(StudentCourse);

@@ -45,3 +45,9 @@ export const deleteLesson = async lessonId => {
   const response = await axios.delete(`/api/lessons/${lessonId}`);
   return response.data;
 };
+
+export const startCourse = async (userId, courseId) => {
+  console.log(userId, courseId)
+  const response = await axios.post(`/api/users_courses`, { userId, courseId })
+  return response.data
+}

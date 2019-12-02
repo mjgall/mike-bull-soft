@@ -14,8 +14,10 @@ class Student extends React.Component {
   componentDidMount() {
     this.props.setStudentMode();
     this.props.fetchCourses();
-      this.props.fetchAllCourses();
+    this.props.fetchAllCourses();
+    this.props.fetchStartedCourses(this.props.auth.id)
   }
+
 
   routes = () => {
     return (

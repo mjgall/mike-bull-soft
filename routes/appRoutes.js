@@ -16,6 +16,8 @@ const getLessons = require('../queries/getLessons');
 const getSymbolsByLesson = require('../queries/getSymbolsByLesson');
 const insertLesson = require('../queries/insertLesson.js');
 const getLesson = require('../queries/getLesson');
+const createUserCourse = require('../queries/createUserCourse')
+const getUserCoursesByUser = require('../queries/getUserCoursesByUser')
 
 module.exports = app => {
   //AUTHENTICATION PROTECTION
@@ -236,6 +238,31 @@ module.exports = app => {
   app.get('/api/lesson/:id', async (req, res) => {
     try {
       const response = await getLesson(req.params.id);
+      res.status(200).send({ success: true, response });
+    } catch (error) {
+      res.status(500).send(error);
+    }
+  });
+
+  app.post(`/api/users_courses`, async (req, res) => {
+    console.log(req.body)
+    try {
+      const response = await createUserCourse(
+        req.body.userId,
+        req.body.courseId
+      );
+      res.status(200).send({ success: true, response });
+    } catch (error) {
+      res.status(500).send(error);
+    }
+  });
+
+  app.get(`/api/users_courses/:userId`, async (req, res) => {
+    console.log(req.params)
+    try {
+      const response = await getUserCoursesByUser(
+        req.params.userId
+      );
       res.status(200).send({ success: true, response });
     } catch (error) {
       res.status(500).send(error);

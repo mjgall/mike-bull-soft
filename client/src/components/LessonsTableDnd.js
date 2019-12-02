@@ -2,6 +2,7 @@ import React from 'react';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import { Table, Ref, Icon } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
+import ConfirmDelete from './ConfirmDelete';
 import * as utils from '../utils';
 
 const reorder = (list, startIndex, endIndex) => {
@@ -88,7 +89,9 @@ export default class LessonsTableDnD extends React.Component {
                   {this.state.lessons &&
                     this.state.lessons.map((lesson, index) => (
                       <Draggable
-                        isDragDisabled={this.props.mode === 'creator' ? false : true}
+                        isDragDisabled={
+                          this.props.mode === 'creator' ? false : true
+                        }
                         draggableId={lesson.id}
                         index={index}
                         key={lesson.id}>
@@ -96,7 +99,6 @@ export default class LessonsTableDnD extends React.Component {
                           return (
                             <Ref innerRef={provided.innerRef}>
                               <Table.Row
-                        
                                 {...provided.draggableProps}
                                 {...provided.dragHandleProps}
                                 style={this.getItemStyle(
@@ -121,15 +123,18 @@ export default class LessonsTableDnD extends React.Component {
                                   ).toLocaleString()}
                                 </Table.Cell>
                                 {this.props.mode === 'creator' ? (
-                                  <Table.Cell
-                                    style={{ width: '10%' }}
-                                    onClick={() =>
-                                      this.deleteLesson(lesson.id, index)
-                                    }>
-                                    <Icon
-                                      name="delete"
-                                      style={{ color: 'red' }}></Icon>
-                                  </Table.Cell>
+                                  <ConfirmDelete
+                                    trigger={
+                                      <Table.Cell
+                                        style={{ width: '10%' }}
+                                        onClick={() =>
+                                          this.deleteLesson(lesson.id, index)
+                                        }>
+                                        <Icon
+                                          name="delete"
+                                          style={{ color: 'red' }}></Icon>
+                                      </Table.Cell>
+                                    }></ConfirmDelete>
                                 ) : null}
                               </Table.Row>
                             </Ref>
