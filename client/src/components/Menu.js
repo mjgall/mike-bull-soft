@@ -3,18 +3,17 @@ import { Menu as SemanticMenu, Container } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import * as actions from '../actions';
 import { Link } from 'react-router-dom';
+import ProfileCard from './ProfileCard';
 
 class Menu extends React.Component {
-
   switchMode = () => {
     this.props.switchMode();
     if (this.props.app.creatorMode) {
-      this.props.history.push('/student')
+      this.props.history.push('/student');
     } else {
-      this.props.history.push('/creator')
+      this.props.history.push('/creator');
     }
   };
-
 
   renderMenu = () => {
     if (this.props.auth) {
@@ -25,10 +24,16 @@ class Menu extends React.Component {
               <SemanticMenu.Item header>
                 <Link to="/home">LLT</Link>
               </SemanticMenu.Item>
+              <SemanticMenu.Item>
+                <ProfileCard></ProfileCard>
+              </SemanticMenu.Item>
               <SemanticMenu.Menu position="right">
-                <SemanticMenu.Item onClick={this.switchMode} style={{cursor:'pointer'}}>
+                <SemanticMenu.Item
+                  onClick={this.switchMode}
+                  style={{ cursor: 'pointer' }}>
                   <div>Go to Student Mode</div>
                 </SemanticMenu.Item>
+
                 <SemanticMenu.Item>
                   <a href="/api/logout">Log Out</a>
                 </SemanticMenu.Item>
@@ -42,10 +47,16 @@ class Menu extends React.Component {
               <SemanticMenu.Item header>
                 <Link to="/home">LLT</Link>
               </SemanticMenu.Item>
+              <SemanticMenu.Item>
+                <ProfileCard></ProfileCard>
+              </SemanticMenu.Item>
               <SemanticMenu.Menu position="right">
-              <SemanticMenu.Item onClick={this.switchMode} style={{cursor:'pointer'}}>
+                <SemanticMenu.Item
+                  onClick={this.switchMode}
+                  style={{ cursor: 'pointer' }}>
                   <div>Go to Creator Mode</div>
                 </SemanticMenu.Item>
+
                 <SemanticMenu.Item>
                   <a href="/api/logout">Log Out</a>
                 </SemanticMenu.Item>
@@ -72,10 +83,13 @@ class Menu extends React.Component {
   render() {
     return (
       <SemanticMenu
-        inverted
-        fixed={'top'}
+        // inverted
+        vertical
+        fixed={'left'}
         style={{ boxShadow: '0 6px 6px 2px #ccc' }}>
-        <Container>{this.renderMenu()}</Container>
+        {/* <Container> */}
+        {this.renderMenu()}
+        {/* </Container> */}
       </SemanticMenu>
     );
   }
@@ -88,7 +102,4 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(
-  mapStateToProps,
-  actions
-)(Menu);
+export default connect(mapStateToProps, actions)(Menu);

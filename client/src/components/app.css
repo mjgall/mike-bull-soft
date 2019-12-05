@@ -2,6 +2,14 @@
   color: red;
 }
 
+.ui.container.base {
+  margin-left: 19%!important;
+}
+
+.ui.vertical.menu {
+  width: 17rem;
+}
+
 
 *,
 h1,

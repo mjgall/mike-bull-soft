@@ -15,7 +15,7 @@ class SymbolsTable extends React.Component {
 
   renderStudentTable() {
     return (
-      <Table celled singleLine sortable>
+      <Table compact celled singleLine sortable>
       <Table.Header>
         <Table.Row>
           <Table.HeaderCell>ID</Table.HeaderCell>
@@ -43,7 +43,7 @@ class SymbolsTable extends React.Component {
 
   renderCreatorTable() {
     return (
-      <Table celled singleLine sortable>
+      <Table compact celled singleLine sortable>
         <Table.Header>
           <Table.Row>
             <Table.HeaderCell>ID</Table.HeaderCell>
@@ -77,6 +77,8 @@ class SymbolsTable extends React.Component {
     }
   }
 }
+
+//this is a test
 
 const mapStateToProps = state => {
   return {

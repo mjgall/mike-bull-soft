@@ -99,11 +99,11 @@ class Symbol extends React.Component {
   render() {
     return (
       <React.Fragment>
-        <Grid.Column width={4} style={{ overflow: 'initial' }}>
-          <ProfileCard />
+        <Grid.Column width={0} style={{ overflow: 'initial' }}>
+          {/* <ProfileCard /> */}
         </Grid.Column>
         {this.props.app.symbol.symbol ? (
-          <Grid.Column width={12}>
+          <Grid.Column width={16}>
             <ul>
               <li>
                 {this.props.app.symbol.symbol

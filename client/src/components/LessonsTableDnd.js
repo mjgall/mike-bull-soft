@@ -70,7 +70,7 @@ export default class LessonsTableDnD extends React.Component {
       <DragDropContext
         onDragEnd={this.onDragEnd}
         onDragStart={this.onDragStart}>
-        <Table celled singleLine>
+        <Table celled singleLine compact>
           <Table.Header>
             <Table.Row>
               <Table.HeaderCell>Title</Table.HeaderCell>

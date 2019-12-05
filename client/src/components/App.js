@@ -68,9 +68,9 @@ class App extends React.Component {
     return (
       <Router history={history}>
         <FullStory org="H1N0D"></FullStory>
-        <Menu history={history} />
-        <Container>
-          <Grid container columns={16} style={{ paddingTop: '75px' }} stackable>
+        <Menu history={history}/>
+        <Container className="base">
+          <Grid container columns={16} stackable>
             {this.state.authLoaded ? this.routes() : <Loader></Loader>}
           </Grid>
         </Container>
