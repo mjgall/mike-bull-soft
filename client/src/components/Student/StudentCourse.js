@@ -137,9 +137,6 @@ class StudentCourse extends React.Component {
   render() {
     return (
       <React.Fragment>
-        <Grid.Column width={0}>
-          {/* <ProfileCard /> */}
-        </Grid.Column>
         <Grid.Column width={16}>
           {this.state.isLoaded ? this.renderCourse() : <Loader></Loader>}
         </Grid.Column>

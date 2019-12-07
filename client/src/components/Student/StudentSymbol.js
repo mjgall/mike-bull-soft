@@ -99,9 +99,6 @@ class Symbol extends React.Component {
   render() {
     return (
       <React.Fragment>
-        <Grid.Column width={0} style={{ overflow: 'initial' }}>
-          {/* <ProfileCard /> */}
-        </Grid.Column>
         {this.props.app.symbol.symbol ? (
           <Grid.Column width={16}>
             <ul>

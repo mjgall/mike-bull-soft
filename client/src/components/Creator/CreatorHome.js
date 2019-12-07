@@ -48,9 +48,6 @@ class Creator extends React.Component {
   render() {
     return (
       <React.Fragment>
-            <Grid.Column width={0}>
-          {/* <ProfileCard /> */}
-        </Grid.Column>
         <Grid.Column width={16}>
           <h2>My Created Courses</h2>
           <AddCourseModal></AddCourseModal>
