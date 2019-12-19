@@ -18,6 +18,7 @@ const insertLesson = require('../queries/insertLesson.js');
 const getLesson = require('../queries/getLesson');
 const createUserCourse = require('../queries/createUserCourse')
 const getUserCoursesByUser = require('../queries/getUserCoursesByUser')
+const getRandomImages = require('../queries/getRandomImages')
 
 module.exports = app => {
   //AUTHENTICATION PROTECTION
@@ -268,4 +269,13 @@ module.exports = app => {
       res.status(500).send(error);
     }
   });
+
+  app.get('/api/randomImages/:count', async (req, res) => {
+    try {
+      const response = await getRandomImages(req.params.count)
+      res.status(200).send({ success: true, response });
+    } catch (error) {
+      res.status(500).send(error);
+    }
+  })
 };

@@ -51,3 +51,8 @@ export const startCourse = async (userId, courseId) => {
   const response = await axios.post(`/api/users_courses`, { userId, courseId })
   return response.data
 }
+
+export const fetchRandomImages = async (count) => {
+  const response = await axios.get(`/api/randomImages/${count}`)
+  return response.data
+}

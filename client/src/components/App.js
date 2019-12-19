@@ -70,7 +70,7 @@ class App extends React.Component {
         <FullStory org="H1N0D"></FullStory>
         <Menu history={history}/>
         <Container className="base">
-          <Grid container columns={16} stackable>
+          <Grid columns={16} stackable>
             {this.state.authLoaded ? this.routes() : <Loader></Loader>}
           </Grid>
         </Container>
