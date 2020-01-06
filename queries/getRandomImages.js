@@ -14,7 +14,6 @@ module.exports = count => {
           if (err) {
             reject(err);
           }
-          console.log(symbols);
           resolve(symbols);
         }
       );

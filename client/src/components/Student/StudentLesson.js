@@ -13,7 +13,7 @@ export default class StudentLesson extends React.Component {
   state = {
     loaded: false,
     courseId: this.props.match.params.courseid,
-    lessonId: this.props.match.params.lessonid,
+    lessonId: parseInt(this.props.match.params.lessonid),
     symbols: [],
     lesson: {}
   };
@@ -23,17 +23,12 @@ export default class StudentLesson extends React.Component {
     const lesson = await utils.fetchLesson(this.state.lessonId);
     const symbols = await utils.fetchSymbols(this.state.courseId);
     const randomImages = await utils.fetchRandomImages(4);
-
+    
+    
     this.setState({ lesson: lesson.response, symbols });
-    const panes = this.state.symbols.map(symbol => {
-      return {
-        // menuItem: () => <div><Icon name="dot circle"></Icon>{symbol.id}</div>,
-        menuItem: symbol.id,
-        render: () => <Tab.Pane>{ symbol.text }</Tab.Pane>
-      };
-    });
-    this.setState({ panes });
     this.setState({ images: randomImages.response });
+    // const challenege = await utils.createChallenge(this.state.lessonId, this.state.symbols[0].id); 
+    // console.log(challenege)
     this.setState({ loaded: true });
   };
 
@@ -98,7 +93,6 @@ export default class StudentLesson extends React.Component {
   }
 
   render() {
-    console.log(this.state);
     return this.state.loaded ? (
       <div style={ { width: '100%', height: '100%' } }>
         <h1>{ this.state.lesson.title }</h1>

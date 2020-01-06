@@ -16,9 +16,10 @@ const getLessons = require('../queries/getLessons');
 const getSymbolsByLesson = require('../queries/getSymbolsByLesson');
 const insertLesson = require('../queries/insertLesson.js');
 const getLesson = require('../queries/getLesson');
-const createUserCourse = require('../queries/createUserCourse')
-const getUserCoursesByUser = require('../queries/getUserCoursesByUser')
-const getRandomImages = require('../queries/getRandomImages')
+const createUserCourse = require('../queries/createUserCourse');
+const getUserCoursesByUser = require('../queries/getUserCoursesByUser');
+const getRandomImages = require('../queries/getRandomImages');
+const createChallenge = require('../queries/createChallenge');
 
 module.exports = app => {
   //AUTHENTICATION PROTECTION
@@ -70,7 +71,7 @@ module.exports = app => {
   //GET ALL USER COURSES
   app.get('/api/courses', isAuthenticated, async (req, res) => {
     const owner_id = req.session.passport.user;
-    console.log(owner_id);
+
     try {
       const courses = await getCourses(owner_id);
       res.status(200).send(courses);
@@ -83,7 +84,7 @@ module.exports = app => {
   app.post('/api/course', isAuthenticated, async (req, res) => {
     try {
       const course = await getCourse(req.body.id);
-      console.log(course);
+
       if (course.user_id === req.body.userId) {
         res.status(200).send({ ...course, owner: true });
       } else {
@@ -138,7 +139,7 @@ module.exports = app => {
             symbol_id: symbol.id
           };
           const response = await insertImage(imageObject);
-          console.log(response);
+   
         } catch (error) {
           res.status(error);
           console.log(error);
@@ -246,7 +247,7 @@ module.exports = app => {
   });
 
   app.post(`/api/users_courses`, async (req, res) => {
-    console.log(req.body)
+    console.log(req.body);
     try {
       const response = await createUserCourse(
         req.body.userId,
@@ -259,11 +260,9 @@ module.exports = app => {
   });
 
   app.get(`/api/users_courses/:userId`, async (req, res) => {
-    console.log(req.params)
+    console.log(req.params);
     try {
-      const response = await getUserCoursesByUser(
-        req.params.userId
-      );
+      const response = await getUserCoursesByUser(req.params.userId);
       res.status(200).send({ success: true, response });
     } catch (error) {
       res.status(500).send(error);
@@ -272,10 +271,20 @@ module.exports = app => {
 
   app.get('/api/randomImages/:count', async (req, res) => {
     try {
-      const response = await getRandomImages(req.params.count)
+      const response = await getRandomImages(req.params.count);
+      // const response = await createChallenge(req.body.lessonId)
       res.status(200).send({ success: true, response });
     } catch (error) {
       res.status(500).send(error);
     }
-  })
+  });
+
+  app.post('/api/challenges/', async (req, res) => {
+    try {
+      const response = await createChallenge(req.body.lessonId, req.body.symbolId, req.user.id);
+      res.status(200).send({ success: true, response });
+    } catch (error) {
+      res.status(500).send(error);
+    }
+  });
 };

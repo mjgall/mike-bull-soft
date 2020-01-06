@@ -1,23 +1,29 @@
-import React from 'react'
+import React from 'react';
 import { connect } from 'react-redux';
 import * as actions from '../actions';
 
+import { Button } from 'semantic-ui-react';
+
 class Profile extends React.Component {
+
+  changePassword = () => {
+    console.log('change password')
+  }
+
+  deleteAccount = () => {
+    console.log('delete account')
+  }
 
   render() {
     return (
-      <ul>
-        <li>
-          {this.props.auth.first_name} {this.props.auth.last_name}
-        </li>
-        <li>
-          {this.props.auth.email}
-        </li>
-        <li>
-          {this.props.auth.photo_url}
-        </li>
-      </ul>
-    )
+      <div>
+        {this.props.auth.first_name} {this.props.auth.last_name}
+        {this.props.auth.email}
+        {this.props.auth.photo_url}
+        <Button onClick={this.changePassword}>Change password</Button>
+        <Button onClick={this.deleteAccount}>Delete account</Button>
+      </div>
+    );
   }
 }
 
@@ -28,7 +34,4 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(
-  mapStateToProps,
-  actions
-)(Profile);
+export default connect(mapStateToProps, actions)(Profile);

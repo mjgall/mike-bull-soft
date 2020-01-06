@@ -125,7 +125,7 @@ export const getSymbol = id => async dispatch => {
 };
 
 export const fetchStartedCourses = userId => async dispatch => {
-  console.log(userId)
+
   const response = await axios.get(`/api/users_courses/${userId}`);
   dispatch({
     type: 'GET_STARTED_COURSES',

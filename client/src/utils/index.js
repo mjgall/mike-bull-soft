@@ -29,25 +29,25 @@ export const fetchSymbolsByLessons = async lessonId => {
 };
 
 export const editCourse = async course => {
-  console.log(course);
+
   const response = await axios.put('/api/course', course);
   return response.data;
 };
 
 export const addLesson = async lesson => {
-  console.log(lesson);
+
   const response = await axios.post('/api/lessons', { lesson });
   return response.data;
 };
 
 export const deleteLesson = async lessonId => {
-  console.log(lessonId);
+
   const response = await axios.delete(`/api/lessons/${lessonId}`);
   return response.data;
 };
 
 export const startCourse = async (userId, courseId) => {
-  console.log(userId, courseId)
+
   const response = await axios.post(`/api/users_courses`, { userId, courseId })
   return response.data
 }
@@ -55,4 +55,14 @@ export const startCourse = async (userId, courseId) => {
 export const fetchRandomImages = async (count) => {
   const response = await axios.get(`/api/randomImages/${count}`)
   return response.data
+}
+
+export const createChallenge = async (lessonId, symbolId) => {
+  try {
+    const response = await axios.post(`/api/challenges`, {lessonId, symbolId})
+    return response.data
+  } catch (error) {
+    console.log(error)
+  }
+
 }

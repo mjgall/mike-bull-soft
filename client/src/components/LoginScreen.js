@@ -43,8 +43,6 @@ class LoginScreen extends React.Component {
       } else {
         this.setState({ error: response.data.message });
       }
-    
-    
   };
 
   render() {

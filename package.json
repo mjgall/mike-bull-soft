@@ -6,7 +6,7 @@
   "scripts": {
     "cypress:open": "cypress open",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "server": "nodemon --exec babel-node server.js",
+    "server": "NODE_ENV=development DB_USER=mike DB_PASS=12345678 nodemon --exec babel-node server.js",
     "aws-deploy": "npm run build && eb deploy",
     "build": "babel server.js --out-file server.compiled.js && npm run build --prefix client",
     "sloc": "sloc -e node_modules */build ./"

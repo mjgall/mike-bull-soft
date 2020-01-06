@@ -17,7 +17,7 @@ module.exports = lesson_id => {
           if (err) {
             reject(err);
           }
-          console.log(symbols);
+ 
           resolve(symbols);
         }
       );

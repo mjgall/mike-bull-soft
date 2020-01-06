@@ -10,7 +10,7 @@ module.exports = (userId, courseId) => {
 
     const query = `INSERT INTO users_courses (user_id, course_id) VALUES (${sqlString.escape(userId)}, ${sqlString.escape(courseId)});`;
 
-    console.log(query);
+  
     db.getConnection((err, connection) => {
       if (err) {
         reject(err);
@@ -28,7 +28,7 @@ module.exports = (userId, courseId) => {
                 results.insertId
               }';`,
               (err, courses, fields) => {
-                console.log(courses)
+          
                 if (err) {
                   reject(err);
                 }

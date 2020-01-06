@@ -10,7 +10,6 @@ module.exports = course => {
     const { title, language, description, difficulty, owner_id } = course;
     const query = `INSERT INTO courses (title, language, description, difficulty, owner_id, create_date) VALUES (${sqlString.escape(title)}, ${sqlString.escape(language)}, ${sqlString.escape(description)}, ${sqlString.escape(difficulty)}, ${sqlString.escape(owner_id)}, UNIX_TIMESTAMP());`;
 
-    console.log(query);
     db.getConnection((err, connection) => {
       if (err) {
         reject(err);
