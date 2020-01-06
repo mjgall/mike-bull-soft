@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 
 import * as actions from '../../actions';
 
-import { Grid, Segment } from 'semantic-ui-react';
+import { Grid, Segment, Icon } from 'semantic-ui-react';
 
 import SymbolsTable from '../SymbolsTable';
 import ProfileCard from '../ProfileCard';
@@ -146,7 +146,7 @@ class CreatorCourse extends React.Component {
         </div>
       );
     } else {
-      return <h2 className="warning">You are not the owner of this course.</h2>;
+      return <div className="warning"><h2 >You do not have permission to access this record or this record does not exist.</h2><p>If you believe this is a mistake please contact <a href="mailto:support@gllghr.io" target="_blank" style={{color: '#fff', textDecoration: 'none'}}><Icon name="mail"></Icon>support@{window.location.host}</a>.</p></div>;
     }
   };
 

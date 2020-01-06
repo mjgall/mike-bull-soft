@@ -59,7 +59,12 @@ img.symbol-image {
 }
 
 .warning {
-  color: red;
+  color: white;
+  padding: 2rem;
+  border: 1px solid gray;
+  border-radius: 5px;
+  text-align: center;
+  background-color: #fd3a4a;
 }
 
 .ui.dimmer {
