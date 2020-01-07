@@ -2,12 +2,23 @@
   color: red;
 }
 
+@media only screen and (max-width: 768px) {
+  .ui.container.mobile-base {
+    padding-top: 3rem;
+    padding-bottom: 3rem;
+    /* margin-left: 19%!important; */
+    height: 100vh
+  }
+}
+
+
 .ui.container.base {
   padding-top: 3rem;
   padding-bottom: 3rem;
   margin-left: 19%!important;
   height: 100vh
 }
+
 
 .ui.vertical.menu {
   width: 17rem;

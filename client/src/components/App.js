@@ -7,7 +7,7 @@ import { Router, Route, Switch } from 'react-router-dom';
 import history from '../history';
 import { connect } from 'react-redux';
 import Menu from './Menu';
-import { Grid, Container } from 'semantic-ui-react';
+import { Grid, Container, Responsive } from 'semantic-ui-react';
 import './app.css';
 import Drawing from './Drawing';
 import FullStory, { FullStoryAPI } from 'react-fullstory';
@@ -68,12 +68,23 @@ class App extends React.Component {
     return (
       <Router history={history}>
         <FullStory org="H1N0D"></FullStory>
-        <Menu history={history}/>
-        <Container className="base">
-          <Grid columns={16} stackable>
-            {this.state.authLoaded ? this.routes() : <Loader></Loader>}
-          </Grid>
-        </Container>
+        <Responsive minWidth={768}>
+          <Menu history={history} />
+          <Container className="base">
+            <Grid columns={16} stackable>
+              {this.state.authLoaded ? this.routes() : <Loader></Loader>}
+            </Grid>
+          </Container>
+        </Responsive>
+        <Responsive maxWidth={768}>
+          <Menu history={history} device="mobile" />
+          <Container className="mobile-base">
+            <Grid columns={16} stackable>
+              {this.state.authLoaded ? this.routes() : <Loader></Loader>}
+            </Grid>
+          </Container>
+        </Responsive>
+      
       </Router>
     );
   }
@@ -83,7 +94,4 @@ const mapStateToProps = state => {
   return { auth: state.auth, app: state.app };
 };
 
-export default connect(
-  mapStateToProps,
-  actions
-)(App);
+export default connect(mapStateToProps, actions)(App);

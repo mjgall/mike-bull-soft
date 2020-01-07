@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import * as actions from '../actions';
+import * as utils from '../utils';
 
 import { Button } from 'semantic-ui-react';
 
@@ -11,7 +12,8 @@ class Profile extends React.Component {
   }
 
   deleteAccount = () => {
-    console.log('delete account')
+    utils.deleteUserAccount(this.props.auth.id)
+    this.props.history.push('/api/logout')
   }
 
   render() {

@@ -48,7 +48,6 @@ class LoginScreen extends React.Component {
   render() {
     return (
       <React.Fragment>
-        <Menu />
         <Grid.Column width={5}></Grid.Column>
         <Grid.Column style={{ maxWidth: 450 }} width={6}>
           <Header as="h2" textAlign="center">

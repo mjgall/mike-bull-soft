@@ -15,6 +15,65 @@ class Menu extends React.Component {
     }
   };
 
+  renderMobileMenu = () => {
+    if (this.props.auth) {
+      switch (this.props.app.creatorMode) {
+        case true:
+          return (
+            <React.Fragment>
+              <SemanticMenu.Item header>
+                <Link to="/home">LLT</Link>
+              </SemanticMenu.Item>
+              <SemanticMenu.Menu position="right">
+                <SemanticMenu.Item
+                  onClick={this.switchMode}
+                  style={{ cursor: 'pointer' }}>
+                  <div>Go to Student Mode</div>
+                </SemanticMenu.Item>
+                <SemanticMenu.Item>
+                  <a href="/api/logout">Log Out</a>
+                </SemanticMenu.Item>
+              </SemanticMenu.Menu>
+            </React.Fragment>
+          );
+
+        default:
+          return (
+            <React.Fragment>
+              <SemanticMenu.Item header>
+                <Link to="/home">LLT</Link>
+              </SemanticMenu.Item>
+            
+              <SemanticMenu.Menu position="right">
+                <SemanticMenu.Item
+                  onClick={this.switchMode}
+                  style={{ cursor: 'pointer' }}>
+                  <div>Go to Creator Mode</div>
+                </SemanticMenu.Item>
+
+                <SemanticMenu.Item>
+                  <a href="/api/logout">Log Out</a>
+                </SemanticMenu.Item>
+              </SemanticMenu.Menu>
+            </React.Fragment>
+          );
+      }
+    } else {
+      return (
+        <React.Fragment>
+          <SemanticMenu.Item header>
+            <Link to="/home">LLT</Link>
+          </SemanticMenu.Item>
+          <SemanticMenu.Menu position="right">
+            <SemanticMenu.Item>
+              <Link to="/login">Log In</Link>
+            </SemanticMenu.Item>
+          </SemanticMenu.Menu>
+        </React.Fragment>
+      );
+    }
+  };
+
   renderMenu = () => {
     if (this.props.auth) {
       switch (this.props.app.creatorMode) {
@@ -33,7 +92,6 @@ class Menu extends React.Component {
                   style={{ cursor: 'pointer' }}>
                   <div>Go to Student Mode</div>
                 </SemanticMenu.Item>
-
                 <SemanticMenu.Item>
                   <a href="/api/logout">Log Out</a>
                 </SemanticMenu.Item>
@@ -81,17 +139,29 @@ class Menu extends React.Component {
   };
 
   render() {
-    return (
-      <SemanticMenu
-        // inverted
-        vertical
-        fixed={'left'}
+    if (this.props.device === 'mobile') {
+      return (
+        <SemanticMenu
+        fixed="top"
         style={{ boxShadow: '0 6px 6px 2px #ccc' }}>
-        {/* <Container> */}
-        {this.renderMenu()}
-        {/* </Container> */}
+        {this.renderMobileMenu()}
+
       </SemanticMenu>
-    );
+      )
+    } else {
+      return (
+        <SemanticMenu
+          // inverted
+          vertical
+          fixed={'left'}
+          style={{ boxShadow: '0 6px 6px 2px #ccc' }}>
+  
+          {this.renderMenu()}
+  
+        </SemanticMenu>
+      );
+    }
+    
   }
 }
 

@@ -64,5 +64,14 @@ export const createChallenge = async (lessonId, symbolId) => {
   } catch (error) {
     console.log(error)
   }
+}
 
+export const deleteUserAccount = async (userId) => {
+  try {
+    const response = await axios.delete(`/api/users/${userId}`)
+    console.log(response.data)
+    return response.data;
+  } catch (error) {
+    console.log(error)
+  }
 }
