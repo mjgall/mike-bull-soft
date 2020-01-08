@@ -1,5 +1,5 @@
-import { pool as db } from '../config/db/mysql';
-import { escape } from 'sqlstring';
+const db = require('../config/db/mysql').pool;
+const sqlString = require('sqlstring');
 
 //SHOULD USE PROMISES AND NOT A CALLBACK
 
