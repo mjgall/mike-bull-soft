@@ -36,6 +36,7 @@ const Routes = props => {
         <Route history={history} component={LoginScreen} path="/" exact>
           <LoginScreen history={history} mobile={props.mobile}></LoginScreen>
         </Route>
+        <Route path="/roadmap" exact component = {Roadmap}></Route>
       </Switch>
     );
   }
