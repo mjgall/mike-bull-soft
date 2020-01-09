@@ -11,41 +11,9 @@ import { Grid, Container, Responsive } from 'semantic-ui-react';
 import './app.css';
 import Drawing from './Drawing';
 import FullStory, { FullStoryAPI } from 'react-fullstory';
-import Student from './Student/Student';
-import Creator from './Creator/Creator';
-import Dnd from './LessonsTableDnd';
-import LoginScreen from './LoginScreen';
-import RegisterScreen from './RegisterScreen';
-import Profile from './Profile';
-import Loader from './Loader';
 
-const Routes = props => {
-  if (props.auth) {
-    return (
-      <div className="app-base">
-        <Switch>
-          <Route path="/creator" component={Creator}></Route>
-          <Route path="/student" component={Student}></Route>
-          <Route path="/home" component={Student}></Route>
-          <Route path="/profile" component={Profile}></Route>
-          <Route path="/" exact component={Student}></Route>
-        </Switch>
-      </div>
-    );
-  } else {
-    return (
-      <Switch>
-        <Route component={LoginScreen} path="/login" exact>
-          <LoginScreen history={history} mobile={props.mobile}></LoginScreen>
-        </Route>
-        <Route component={RegisterScreen} path="/register" exact />
-        <Route history={history} component={LoginScreen} path="/" exact>
-          <LoginScreen history={history} mobile={props.mobile}></LoginScreen>
-        </Route>
-      </Switch>
-    );
-  }
-};
+import Loader from './Loader';
+import Routes from './Routes';
 
 class App extends React.Component {
   state = {
