@@ -2,28 +2,33 @@
   color: red;
 }
 
-@media only screen and (max-width: 768px) {
-  .ui.container.mobile-base {
-    padding-top: 3rem;
-    padding-bottom: 3rem;
-    /* margin-left: 19%!important; */
-    height: 100vh
-  }
+.app-base {
+  margin-left: 10%;
+  width: 100%;
+  margin-left: 10%;
 }
 
+@media only screen and (max-width: 768px) {
+  .ui.container.mobile-base {
+    padding-top: 5rem;
+    padding-bottom: 3rem;
+    height: 100vh;
+  }
+
+  .app-base {
+    margin-left: 0;
+  }
+}
 
 .ui.container.base {
   padding-top: 3rem;
   padding-bottom: 3rem;
-  margin-left: 19%!important;
-  height: 100vh
+  height: 100vh;
 }
-
 
 .ui.vertical.menu {
   width: 17rem;
 }
-
 
 *,
 h1,
@@ -45,7 +50,6 @@ textarea,
 .ui.cards > .card > .extra {
   font-family: 'Nunito Sans';
 }
-
 
 .colorpicker {
   margin: 4% 0;

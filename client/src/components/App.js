@@ -19,6 +19,34 @@ import RegisterScreen from './RegisterScreen';
 import Profile from './Profile';
 import Loader from './Loader';
 
+const Routes = props => {
+  if (props.auth) {
+    return (
+      <div className="app-base">
+        <Switch>
+          <Route path="/creator" component={Creator}></Route>
+          <Route path="/student" component={Student}></Route>
+          <Route path="/home" component={Student}></Route>
+          <Route path="/profile" component={Profile}></Route>
+          <Route path="/" exact component={Student}></Route>
+        </Switch>
+      </div>
+    );
+  } else {
+    return (
+      <Switch>
+        <Route component={LoginScreen} path="/login" exact>
+          <LoginScreen history={history} mobile={props.mobile}></LoginScreen>
+        </Route>
+        <Route component={RegisterScreen} path="/register" exact />
+        <Route history={history} component={LoginScreen} path="/" exact>
+          <LoginScreen history={history} mobile={props.mobile}></LoginScreen>
+        </Route>
+      </Switch>
+    );
+  }
+};
+
 class App extends React.Component {
   state = {
     authLoaded: false
@@ -37,42 +65,19 @@ class App extends React.Component {
     }
   };
 
-  routes = () => {
-    if (this.props.auth) {
-      return (
-        <Switch>
-          <Route path="/creator" component={Creator}></Route>
-          <Route path="/student" component={Student}></Route>
-          <Route path="/home" component={Student}></Route>
-          <Route path="/profile" component={Profile}></Route>
-          <Route path="/login" component={LoginScreen} exact />
-          <Route path="/register" component={RegisterScreen} exact />
-          <Route path="/" exact component={Student}></Route>
-        </Switch>
-      );
-    } else {
-      return (
-        <Switch>
-          <Route component={Student} path="/home"></Route>
-          <Route component={Drawing} path="/drawing" exact />
-          <Route component={Dnd} path="/dnd" exact />
-          <Route component={LoginScreen} path="/login" exact />
-          <Route component={RegisterScreen} path="/register" exact />
-          <Route history={history} component={LoginScreen} path="/" exact />
-        </Switch>
-      );
-    }
-  };
-
   render() {
     return (
       <Router history={history}>
         <FullStory org="H1N0D"></FullStory>
         <Responsive minWidth={768}>
-          <Menu history={history} />
+          {this.props.auth ? <Menu history={history} /> : null}
           <Container className="base">
             <Grid columns={16} stackable>
-              {this.state.authLoaded ? this.routes() : <Loader></Loader>}
+              {this.state.authLoaded ? (
+                <Routes {...this.props}></Routes>
+              ) : (
+                <Loader></Loader>
+              )}
             </Grid>
           </Container>
         </Responsive>
@@ -80,11 +85,14 @@ class App extends React.Component {
           <Menu history={history} device="mobile" />
           <Container className="mobile-base">
             <Grid columns={16} stackable>
-              {this.state.authLoaded ? this.routes() : <Loader></Loader>}
+              {this.state.authLoaded ? (
+                <Routes {...this.props} mobile={true}></Routes>
+              ) : (
+                <Loader></Loader>
+              )}
             </Grid>
           </Container>
         </Responsive>
-      
       </Router>
     );
   }
