@@ -9,7 +9,7 @@
     "server": "NODE_ENV=development DB_USER=mike DB_PASS=12345678 nodemon --exec babel-node server.js",
     "aws-deploy": "npm run build && eb deploy",
     "build": "babel server.js --out-file server.compiled.js && npm run build --prefix client",
-    "sloc": "sloc -e node_modules */build ./"
+    "loc": "cloc --exclude-dir node_modules --exclude-lang JSON ./"
   },
   "author": "",
   "license": "ISC",
