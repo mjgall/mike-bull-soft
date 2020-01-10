@@ -4,12 +4,26 @@ const keys = require('../config/keys');
 const db = require('../config/db/mysql').pool;
 const getUserByGoogleId = require('../queries/getUserByGoogleId');
 const getUserByEmailAddress = require('../queries/getUserByEmailAddress');
+const insertNewLogin = require('../queries/insertNewLogin');
 const createUser = require('../queries/insertUser');
 const LocalStrategy = require('passport-local').Strategy;
 const bcrypt = require('bcryptjs');
 
+const trackNewLogin = userId => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const response = await insertNewLogin(userId);
+      resolve(response);
+    } catch (error) {
+      reject(error);
+      throw Error(error);
+    }
+  });
+};
+
 passport.serializeUser((user, done) => {
   console.log(user);
+  trackNewLogin(user.id)
   done(null, user.id);
 });
 
@@ -42,6 +56,7 @@ passport.use(
         console.log({ passportjs41: user });
         if (user) {
           done(null, user);
+
         } else if (!user) {
           try {
             const user = await createUser({
@@ -59,7 +74,7 @@ passport.use(
           }
         }
       } catch (error) {
-        throw error;
+        throw Error(error);
       }
     }
   )
