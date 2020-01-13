@@ -14,25 +14,16 @@ module.exports = app => {
     })
   );
 
-  // app.post(
-  //   '/auth/login',
-  //   passport.authenticate('local', {
-  //     successRedirect: '/home',
-  //     failureRedirect: '/login'
-  //   }),
-  //   function(req, res) {}
-  // );
-
   app.post('/auth/login', (req, res, next) => {
     passport.authenticate('local', (err, user, info) => {
       if (err) {
-        return res.status(400).send({error: 'Something went wrong.'});
+        return res.status(400).send({ error: 'Something went wrong.' });
       }
       if (!user) {
         return res.status(200).send(info);
       }
 
-      req.logIn(user, function(err) {
+      req.logIn(user, function (err) {
         if (err) {
           return next(err);
         }
@@ -51,7 +42,7 @@ module.exports = app => {
       email,
       photo_url: null
     });
-    res.status(200).send({message: 'success'});
+    res.status(200).send({ message: 'success' });
   });
 
   app.get(
@@ -62,7 +53,7 @@ module.exports = app => {
     }
   );
 
-  app.get('/api/current_user', (req, res) => {
+  app.get('/api/current_user', async (req, res) => {
     res.send(req.user);
   });
 };

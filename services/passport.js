@@ -22,7 +22,6 @@ const trackNewLogin = userId => {
 };
 
 passport.serializeUser((user, done) => {
-  console.log(user);
   trackNewLogin(user.id)
   done(null, user.id);
 });
@@ -31,7 +30,8 @@ passport.deserializeUser((id, done) => {
   db.getConnection((err, connection) => {
     if (err) throw err;
     connection.query(
-      `SELECT * FROM users WHERE id = ${id}`,
+      `SELECT users.*, MAX(logins.timestamp) AS last_login FROM users INNER JOIN logins ON users.id = logins.user_id WHERE users.id = ${id}`,
+      // `SELECT * FROM users WHERE id = ${id}`,
       (err, users, fields) => {
         if (err) throw err;
         done(null, users[0]);
@@ -53,7 +53,6 @@ passport.use(
       //check for existing user, if there is one call done with that user as the second argument, if there is not create one then call done with that user
       try {
         const user = await getUserByGoogleId(profile.id);
-        console.log({ passportjs41: user });
         if (user) {
           done(null, user);
 
@@ -87,13 +86,14 @@ passport.use(
       try {
         const user = await getUserByEmailAddress(username).catch(err => {
           console.log(err);
+          throw Error(err)
         });
 
         if (user && user.password) {
-          console.log(password, user.password);
           if (
             await bcrypt.compare(password, user.password).catch(e => {
               console.log(e);
+              throw Error(e)
             })
           ) {
             done(false, user, { message: 'redirect' });
@@ -112,7 +112,7 @@ passport.use(
         }
       } catch (error) {
         console.log(error);
-        throw error;
+        throw Error(error);
       }
       //find if username (email) exists already. If it does, call done(null, user). If it does not, create new user, then call done(null, user).
     }

@@ -24,7 +24,8 @@ class Profile extends React.Component {
             {this.props.auth.first_name} {this.props.auth.last_name}
           </h2>
           <div>
-            <h4>{this.props.auth.email}</h4>
+            <h4>{ this.props.auth.email }</h4>
+            <h5>Last login: {new Date(this.props.auth.last_login * 1000).toLocaleString()}</h5>
           </div>
           {/* <Button>Change password</Button>
           <Button onClick={this.deleteAccount}>Delete account</Button> */}

@@ -6,7 +6,8 @@ module.exports = (email) => {
     db.getConnection((err, connection) => {
       if (err) throw err;
       connection.query(
-        `SELECT * FROM users WHERE email = ${sqlString.escape(email)}`,
+        // `SELECT * FROM users WHERE email = ${sqlString.escape(email)}`,
+        `SELECT users.*, MAX(logins.timestamp) AS last_login FROM users INNER JOIN logins ON users.id = logins.user_id WHERE users.email = ${sqlString.escape(email)}`,
         (err, users, fields) => {
           if (err) {
             reject(err);

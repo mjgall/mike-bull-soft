@@ -1,7 +1,7 @@
 const db = require('../config/db/mysql').pool;
 const sqlString = require('sqlstring');
 
-module.exports = userId => {
+module.exports = userId => { 
   return new Promise((resolve, reject) => {
     const query = `INSERT INTO logins (user_id, timestamp) VALUES (${userId}, UNIX_TIMESTAMP());`;
 
