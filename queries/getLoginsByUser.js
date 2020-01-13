@@ -13,7 +13,7 @@ module.exports = userId => {
           if (err) {
             reject(err);
           }
-          resolve(logins[0]);
+          resolve(logins);
         }
       );
       connection.release();

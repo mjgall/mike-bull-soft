@@ -75,3 +75,13 @@ export const deleteUserAccount = async (userId) => {
     console.log(error)
   }
 }
+
+export const getLogins = async (userId) => {
+  try {
+    const response = await axios.get(`/api/logins/${userId}`)
+    console.log(response.data)
+    return response.data;
+  } catch (error) {
+    console.log(error)
+  }
+}

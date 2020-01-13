@@ -21,6 +21,7 @@ const getUserCoursesByUser = require('../queries/getUserCoursesByUser');
 const getRandomImages = require('../queries/getRandomImages');
 const createChallenge = require('../queries/createChallenge');
 const deleteUser = require('../queries/deleteUser');
+const getAllLogins = require('../queries/getLoginsByUser');
 
 module.exports = app => {
   //AUTHENTICATION PROTECTION
@@ -292,6 +293,15 @@ module.exports = app => {
   app.delete('/api/users/:user_id', async (req, res) => {
     try {
       const response = await deleteUser(req.params.user_id);
+      res.status(200).send({success: true, response})
+    } catch (error) {
+      res.status(500).send(error);
+    }
+  })
+
+  app.get('/api/logins/:user_id', async (req, res) => {
+    try {
+      const response = await getAllLogins(req.params.user_id);
       res.status(200).send({success: true, response})
     } catch (error) {
       res.status(500).send(error);
