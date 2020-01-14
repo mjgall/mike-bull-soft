@@ -30,7 +30,7 @@ passport.deserializeUser((id, done) => {
   db.getConnection((err, connection) => {
     if (err) throw err;
     connection.query(
-      `SELECT users.*, MAX(logins.timestamp) AS last_login FROM users INNER JOIN logins ON users.id = logins.user_id WHERE users.id = ${id}`,
+      `SELECT users.id, users.service_id, users.first_name, users.last_name, users.email, users.photo_url, users.create_date, MAX(logins.timestamp) AS last_login FROM users INNER JOIN logins ON users.id = logins.user_id WHERE users.id = ${id}`,
       // `SELECT * FROM users WHERE id = ${id}`,
       (err, users, fields) => {
         if (err) throw err;

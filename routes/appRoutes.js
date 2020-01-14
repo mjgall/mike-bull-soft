@@ -249,7 +249,7 @@ module.exports = app => {
   });
 
   app.post(`/api/users_courses`, async (req, res) => {
-    console.log(req.body);
+
     try {
       const response = await createUserCourse(
         req.body.userId,
@@ -262,7 +262,7 @@ module.exports = app => {
   });
 
   app.get(`/api/users_courses/:userId`, async (req, res) => {
-    console.log(req.params);
+
     try {
       const response = await getUserCoursesByUser(req.params.userId);
       res.status(200).send({ success: true, response });
