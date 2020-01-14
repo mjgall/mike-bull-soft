@@ -122,13 +122,26 @@ export default class LessonsTableDnD extends React.Component {
                                   ).toLocaleString()}
                                 </Table.Cell>
                                 {this.props.mode === 'creator' ? (
+                                  // <ConfirmDelete
+                                  //   trigger={
+                                  //     <Table.Cell
+                                  //       style={{ width: '10%' }}
+                                  //       onClick={() =>
+                                  //         this.deleteLesson(lesson.id, index)
+                                  //       }>
+                                  //       <Icon
+                                  //         name="delete"
+                                  //         style={{ color: 'red' }}></Icon>
+                                  //     </Table.Cell>
+                                  //   }></ConfirmDelete>
                                   <ConfirmDelete
+                                    deleteFunction={ this.deleteLesson }
+                                    recordId={lesson.id}
+                                    recordType="lesson"
+                                    on="click"
+                                    position="top center"
                                     trigger={
-                                      <Table.Cell
-                                        style={{ width: '10%' }}
-                                        onClick={() =>
-                                          this.deleteLesson(lesson.id, index)
-                                        }>
+                                      <Table.Cell style={{ width: '10%' }}>
                                         <Icon
                                           name="delete"
                                           style={{ color: 'red' }}></Icon>

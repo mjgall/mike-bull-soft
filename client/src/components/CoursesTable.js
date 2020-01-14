@@ -53,6 +53,10 @@ class CoursesTable extends React.Component {
     );
   };
 
+  deleteCourse = async (courseId, index, userId) => {
+    return await this.props.deleteCourse(courseId, index, userId)
+  }
+
   renderCreatorTable = () => {
     return (
       <Table celled singleLine sortable compact basic>
@@ -91,9 +95,10 @@ class CoursesTable extends React.Component {
                       </Table.Cell> }
                     on="click"
                     position="top center"
-                    courseId={course.course_id}
+                    recordId={course.course_id}
                     index={ index }
-                    recordType = 'course'
+                    recordType='course'
+                    // deleteFunction = {this.deleteCourse}
                   />
                 </Table.Row>
               );

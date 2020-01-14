@@ -14,12 +14,15 @@ class ConfirmDelete extends React.Component {
     this.setState({ isOpen: true });
   };
 
-  deleteCourse = (id, index, userId) => {
-    this.props.deleteCourse(id, index, userId);
-  };
+  componentDidMount = () => {
+
+    if (!this.props.recordType || !this.props.deleteFunction || !this.props.recordId || !this.props.index) {
+      throw Error('Missing a required prop provided to ConfirmDelete component')
+    }
+  }
 
   content = () => {
-    const { courseId, index, recordType } = this.props;
+    const { recordId, index, recordType, deleteFunction } = this.props;
     return (
       <div>
         <p>Are you sure you want to permanently delete this {recordType}?</p>
@@ -27,7 +30,9 @@ class ConfirmDelete extends React.Component {
           color="red"
           content="Delete"
           size="tiny"
-          onClick={() => this.deleteCourse(courseId, index, this.props.auth.id)}
+          onClick={() =>
+            this.props.deleteFunction(recordId, index, this.props.auth.id)
+          }
         />
         <Button
           color="grey"

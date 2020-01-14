@@ -1,5 +1,5 @@
-import {Route, Switch } from 'react-router-dom';
-import React from 'react'
+import { Route, Switch } from 'react-router-dom';
+import React from 'react';
 
 import history from '../history';
 
@@ -9,8 +9,7 @@ import Creator from './Creator/Creator';
 import LoginScreen from './LoginScreen';
 import RegisterScreen from './RegisterScreen';
 import Profile from './Profile';
-import Roadmap from './Roadmap'
-
+import Roadmap from './Roadmap';
 
 const Routes = props => {
   if (props.auth) {
@@ -21,8 +20,18 @@ const Routes = props => {
           <Route path="/student" component={Student}></Route>
           <Route path="/home" component={Student}></Route>
           <Route path="/profile" component={Profile}></Route>
-          <Route path="/" exact component={ Student }></Route>
-          <Route path="/roadmap" exact component = {Roadmap}></Route>
+          <Route path="/" exact component={Student}></Route>
+          <Route path="/roadmap" exact component={Roadmap}></Route>
+          <Route path="/test" exact component={() => {
+              return (
+                <div>
+                  <h1>Hello</h1>
+                  <p>This is the beginning of a new blog post.</p>
+                </div>
+              );
+            }}>
+            
+          </Route>
         </Switch>
       </div>
     );
@@ -30,13 +39,19 @@ const Routes = props => {
     return (
       <Switch>
         <Route component={LoginScreen} path="/login" exact>
-          <LoginScreen auth={ props.auth} history={history} mobile={props.mobile}></LoginScreen>
+          <LoginScreen
+            auth={props.auth}
+            history={history}
+            mobile={props.mobile}></LoginScreen>
         </Route>
         <Route component={RegisterScreen} path="/register" exact />
         <Route history={history} component={LoginScreen} path="/" exact>
-          <LoginScreen auth={ props.auth} history={history} mobile={props.mobile}></LoginScreen>
+          <LoginScreen
+            auth={props.auth}
+            history={history}
+            mobile={props.mobile}></LoginScreen>
         </Route>
-        <Route path="/roadmap" exact component = {Roadmap}></Route>
+        <Route path="/roadmap" exact component={Roadmap}></Route>
       </Switch>
     );
   }
