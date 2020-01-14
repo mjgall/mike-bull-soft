@@ -28,13 +28,13 @@ class ErrorBoundary extends React.Component {
 
   componentDidCatch(error, errorInfo) {
     // You can also log the error to an error reporting service
-    console.log(error, errorInfo);
+    console.error(error, errorInfo);
   }
 
   render() {
     if (this.state.hasError) {
       // You can render any custom fallback UI
-      return <div className="warning"><h2>Something has gone wrong.</h2><p>If you continue to see this please contact Support.</p><a href="mailto:support@gllghr.io" target="_blank" style={{color: '#fff', textDecoration: 'none'}}><Icon name="mail"></Icon>support@{window.location.host}</a></div>;;
+      return <div className="warning"><h2>Something has gone wrong.</h2><p>Please refresh the pgae. If you continue to see this please contact Support.</p><a href="mailto:support@gllghr.io" target="_blank" style={{color: '#fff', textDecoration: 'none'}}><Icon name="mail"></Icon>support@{window.location.host}</a></div>;;
     }
 
     return this.props.children; 
