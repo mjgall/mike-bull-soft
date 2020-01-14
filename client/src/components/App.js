@@ -34,7 +34,7 @@ class ErrorBoundary extends React.Component {
   render() {
     if (this.state.hasError) {
       // You can render any custom fallback UI
-      return <div className="warning"><h2>Something has gone wrong.</h2><p>Please refresh the pgae. If you continue to see this please contact Support.</p><a href="mailto:support@gllghr.io" target="_blank" style={{color: '#fff', textDecoration: 'none'}}><Icon name="mail"></Icon>support@{window.location.host}</a></div>;;
+      return <div className="warning"><h2>Something has gone wrong.</h2><p>Please refresh the page. If you continue to see this please contact Support.</p><a href="mailto:support@gllghr.io" target="_blank" style={{color: '#fff', textDecoration: 'none'}}><Icon name="mail"></Icon>support@{window.location.host}</a></div>;;
     }
 
     return this.props.children; 

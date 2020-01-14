@@ -136,7 +136,8 @@ export default class LessonsTableDnD extends React.Component {
                                   //   }></ConfirmDelete>
                                   <ConfirmDelete
                                     deleteFunction={ this.deleteLesson }
-                                    recordId={lesson.id}
+                                    recordId={ lesson.id }
+                                    index={index}
                                     recordType="lesson"
                                     on="click"
                                     position="top center"
