@@ -49,7 +49,8 @@ class App extends React.Component {
             </Grid>
           </div>
         </Responsive>
-        <Responsive maxWidth={768}>
+        <Responsive maxWidth={ 768 }>
+          {this.props.auth ? <Menu history={history} device="mobile" /> : null}
           <Container className={this.props.auth ? "mobile-base" : "mobile-base-login"}>
             <Grid columns={16} stackable>
               {this.state.authLoaded ? (
