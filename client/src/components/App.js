@@ -7,13 +7,39 @@ import { Router, Route, Switch } from 'react-router-dom';
 import history from '../history';
 import { connect } from 'react-redux';
 import Menu from './Menu';
-import { Grid, Container, Responsive } from 'semantic-ui-react';
+import { Grid, Container, Responsive, Icon } from 'semantic-ui-react';
 import './app.css';
 import Drawing from './Drawing';
 import FullStory, { FullStoryAPI } from 'react-fullstory';
 
 import Loader from './Loader';
 import Routes from './Routes';
+
+class ErrorBoundary extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { hasError: false };
+  }
+
+  static getDerivedStateFromError(error) {
+    // Update state so the next render will show the fallback UI.
+    return { hasError: true };
+  }
+
+  componentDidCatch(error, errorInfo) {
+    // You can also log the error to an error reporting service
+    console.log(error, errorInfo);
+  }
+
+  render() {
+    if (this.state.hasError) {
+      // You can render any custom fallback UI
+      return <div className="warning"><h2>Something has gone wrong.</h2><p>If you continue to see this please contact Support.</p><a href="mailto:support@gllghr.io" target="_blank" style={{color: '#fff', textDecoration: 'none'}}><Icon name="mail"></Icon>support@{window.location.host}</a></div>;;
+    }
+
+    return this.props.children; 
+  }
+}
 
 class App extends React.Component {
   state = {
@@ -35,6 +61,7 @@ class App extends React.Component {
 
   render() {
     return (
+      <ErrorBoundary>
       <Router history={history}>
         <FullStory org="H1N0D"></FullStory>
         <Responsive minWidth={768}>
@@ -61,7 +88,8 @@ class App extends React.Component {
             </Grid>
           </Container>
         </Responsive>
-      </Router>
+        </Router>
+        </ErrorBoundary>
     );
   }
 }

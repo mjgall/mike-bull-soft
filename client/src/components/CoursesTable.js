@@ -98,7 +98,7 @@ class CoursesTable extends React.Component {
                     recordId={course.course_id}
                     index={ index }
                     recordType='course'
-                    deleteFunction = {this.deleteCourse}
+                    // deleteFunction = {this.deleteCourse}
                   />
                 </Table.Row>
               );
