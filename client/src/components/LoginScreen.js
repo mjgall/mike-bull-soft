@@ -101,7 +101,7 @@ class LoginScreen extends React.Component {
       return (
         <React.Fragment>
             <Grid.Column width={5}></Grid.Column>
-            <Grid.Column style={{ maxWidth: 450 }} width={6}>
+          <Grid.Column style={ { maxWidth: 450, margin: '0 auto' }} width={6}>
               <Header as="h2" textAlign="center">
                 Log In
               </Header>

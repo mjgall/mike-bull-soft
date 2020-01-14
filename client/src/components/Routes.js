@@ -30,11 +30,11 @@ const Routes = props => {
     return (
       <Switch>
         <Route component={LoginScreen} path="/login" exact>
-          <LoginScreen history={history} mobile={props.mobile}></LoginScreen>
+          <LoginScreen auth={ props.auth} history={history} mobile={props.mobile}></LoginScreen>
         </Route>
         <Route component={RegisterScreen} path="/register" exact />
         <Route history={history} component={LoginScreen} path="/" exact>
-          <LoginScreen history={history} mobile={props.mobile}></LoginScreen>
+          <LoginScreen auth={ props.auth} history={history} mobile={props.mobile}></LoginScreen>
         </Route>
         <Route path="/roadmap" exact component = {Roadmap}></Route>
       </Switch>

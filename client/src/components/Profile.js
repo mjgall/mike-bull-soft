@@ -6,6 +6,8 @@ import * as utils from '../utils';
 import { Button, Modal } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 
+import Roadmap from './Roadmap';
+
 class Profile extends React.Component {
   state = { logins: [] };
 
@@ -27,38 +29,44 @@ class Profile extends React.Component {
   render() {
     return (
       <div>
-        <div style={{}}>
+        <div style={ {} }>
           <h2>
-            {this.props.auth.first_name} {this.props.auth.last_name}
+            { this.props.auth.first_name } { this.props.auth.last_name }
           </h2>
           <div>
-            <h4>{this.props.auth.email}</h4>
-            <h5>
-              Last login:{' '}
-              {new Date(this.props.auth.last_login * 1000).toLocaleString()}
-            </h5>
+            <h4>{ this.props.auth.email }</h4>
           </div>
           {/* <Button>Change password</Button>
           <Button onClick={this.deleteAccount}>Delete account</Button> */}
           <Modal
-            trigger={<Button>All logins</Button>}
+            trigger={ <Button>All logins</Button> }
             header="Logins"
             content={
               <ul>
-                {this.state.logins.map((login, index) => {
+                { this.state.logins.map((login, index) => {
                   return (
-                    <li key={index}>
-                      {new Date(login.timestamp * 1000).toLocaleString()}
+                    <li key={ index }>
+                      { new Date(login.timestamp * 1000).toLocaleString() }
                     </li>
                   );
-                })}
+                }) }
               </ul>
             }
-            actions={[
+            actions={ [
               { key: 'done', content: 'Done', positive: true }
-            ]}
+            ] }
           />
-          <Link to="/roadmap">View roadmap</Link>
+          <Modal
+            trigger={ <Button>Roadmap</Button> }
+            header="To Do"
+            content={
+              <div  style={{padding: '15px'}}><Roadmap></Roadmap></div>
+              
+            }
+            actions={ [
+              { key: 'done', content: 'Done', positive: true }
+            ] }
+          />
         </div>
       </div>
     );

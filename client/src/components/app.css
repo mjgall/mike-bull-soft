@@ -123,6 +123,11 @@ img.symbol-image {
   white-space: nowrap;
 }
 
+.base-login,
+.mobile-base-login {
+ margin: 0 auto;
+}
+
 @media only screen and (max-width: 768px) {
   .ui.container.mobile-base {
     padding-top: 5rem;

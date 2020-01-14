@@ -39,10 +39,10 @@ class App extends React.Component {
         <FullStory org="H1N0D"></FullStory>
         <Responsive minWidth={768}>
           {this.props.auth ? <Menu history={history} /> : null}
-          <div className="base">
+          <div className={this.props.auth ? "base" : "base-login"}>
             <Grid columns={16} stackable>
               {this.state.authLoaded ? (
-                <Routes {...this.props}></Routes>
+                <Routes auth={this.props.auth} {...this.props}></Routes>
               ) : (
                 <Loader></Loader>
               )}
@@ -51,10 +51,10 @@ class App extends React.Component {
         </Responsive>
         <Responsive maxWidth={768}>
           <Menu history={history} device="mobile" />
-          <Container className="mobile-base">
+          <Container className={this.props.auth ? "mobile-base" : "mobile-base-login"}>
             <Grid columns={16} stackable>
               {this.state.authLoaded ? (
-                <Routes {...this.props} mobile={true}></Routes>
+                <Routes auth={this.props.auth} {...this.props} mobile={true}></Routes>
               ) : (
                 <Loader></Loader>
               )}

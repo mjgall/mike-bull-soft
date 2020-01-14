@@ -65,9 +65,8 @@ class RegisterScreen extends React.Component {
   render() {
     return (
       <React.Fragment>
-        <Menu />
-        <Grid.Column width={5}></Grid.Column>
-        <Grid.Column style={{ maxWidth: 450 }} width={6}>
+ 
+        <Grid.Column style={{ maxWidth: 450, margin: '0 auto' }} width={6}>
           <Header as="h2" textAlign="center">
             Register
           </Header>
@@ -133,7 +132,7 @@ class RegisterScreen extends React.Component {
             <a href="/auth/google">Log in with Google</a>
           </Message>
         </Grid.Column>
-        <Grid.Column width={5}></Grid.Column>
+
       </React.Fragment>
     );
   }

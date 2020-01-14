@@ -89,6 +89,8 @@ passport.use(
           throw Error(err)
         });
 
+
+
         if (user && user.password) {
           if (
             await bcrypt.compare(password, user.password).catch(e => {
