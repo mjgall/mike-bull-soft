@@ -86,13 +86,14 @@ module.exports = app => {
   app.post('/api/course', isAuthenticated, async (req, res) => {
     try {
       const course = await getCourse(req.body.id);
-
-      if (course.user_id === req.body.userId) {
+    
+      if (course && course.user_id === req.body.userId) {
         res.status(200).send({ ...course, owner: true });
       } else {
-        res.status(200).send({ ...course, owner: false });
+        res.status(200).send({ exists: false, owner: false });
       }
     } catch (error) {
+      console.log(error)
       res.status(400).send(error);
     }
   });

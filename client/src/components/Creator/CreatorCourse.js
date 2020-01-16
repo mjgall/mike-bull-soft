@@ -25,7 +25,8 @@ class CreatorCourse extends React.Component {
     symbols: [],
     isLoaded: false,
     showModal: false,
-    isFetching: false
+    isFetching: false,
+    hasError: false
   };
 
   sortLessons = (lessons, lessonOrder) => {
@@ -50,23 +51,30 @@ class CreatorCourse extends React.Component {
       this.props.match.params.id,
       this.props.auth.id
     );
-    // const lessons = await utils.fetchLessons(this.props.match.params.id);
-    const symbols = await utils.fetchSymbols(this.props.match.params.id);
-    const lessonOrder = course.lessons_order.split(',').map(id => parseInt(id));
-    const lessons = this.sortLessons(
-      await utils.fetchLessons(this.props.match.params.id),
-      lessonOrder
-    );
-    this.setState({
-      course: {
-        ...course,
-        id: this.props.match.params.id,
-        owner_id: this.props.auth.id
-      }
-    });
-    this.setState({ symbols });
-    this.setState({ lessons });
-    this.setState({ isLoaded: true });
+
+    if (course.exists) {
+      // const lessons = await utils.fetchLessons(this.props.match.params.id);
+      const symbols = await utils.fetchSymbols(this.props.match.params.id);
+      const lessonOrder = course.lessons_order
+        .split(',')
+        .map(id => parseInt(id));
+      const lessons = this.sortLessons(
+        await utils.fetchLessons(this.props.match.params.id),
+        lessonOrder
+      );
+      this.setState({
+        course: {
+          ...course,
+          id: this.props.match.params.id,
+          owner_id: this.props.auth.id
+        }
+      });
+      this.setState({ symbols });
+      this.setState({ lessons });
+      this.setState({ isLoaded: true });
+    } else {
+      this.setState({ isLoaded: true, hasError: true });
+    }
   }
 
   rerenderAfterSubmit = async () => {
@@ -89,7 +97,7 @@ class CreatorCourse extends React.Component {
   };
 
   renderCourse = () => {
-    if (this.state.course.owner) {
+    if (this.state.course && this.state.course.owner && !this.state.hasError) {
       return (
         <div>
           <h4>
@@ -146,7 +154,6 @@ class CreatorCourse extends React.Component {
         </div>
       );
     } else {
-      console.log(window.location)
       return (
         <div className="warning">
           <h2>
