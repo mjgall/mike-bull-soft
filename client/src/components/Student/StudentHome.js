@@ -1,6 +1,5 @@
 import React from 'react';
 
-import ProfileCard from '../ProfileCard';
 import CoursesTable from '../CoursesTable';
 
 import { Grid } from 'semantic-ui-react';

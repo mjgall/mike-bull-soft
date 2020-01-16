@@ -1,10 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import * as actions from '../actions';
-import * as utils from '../utils';
 import axios from 'axios';
 
-import { Button, List } from 'semantic-ui-react';
+import { List } from 'semantic-ui-react';
 import Loader from './Loader';
 
 class Roadmap extends React.Component {

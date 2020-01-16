@@ -1,6 +1,6 @@
 import React from 'react';
 // import { Heading, Card, Icon } from 'evergreen-ui';
-import { Tab, Icon } from 'semantic-ui-react';
+import { Icon } from 'semantic-ui-react';
 import Loader from '../Loader';
 import * as utils from '../../utils';
 
@@ -63,7 +63,7 @@ export default class StudentLesson extends React.Component {
         { images.map(image => {
           return (
             <div style={ { height: "250px", width: "250px" } }>
-              <img style={ { height: "100%", width: "100%" } } src={ image.url }></img>
+              <img alt='a possibl answer' style={ { height: "100%", width: "100%" } } src={ image.url }></img>
             </div>
           )
         }) }

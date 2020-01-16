@@ -1,23 +1,19 @@
-import {
-  Control,
-  Form,
-  Errors,
-  modelReducer,
-  actions as rrfActions
-} from 'react-redux-form';
+import { Control, Form, Errors } from 'react-redux-form';
 import { Dropdown } from 'semantic-ui-react';
 import React from 'react';
 import { connect } from 'react-redux';
 import * as actions from '../actions';
 
 class LessonForm extends React.Component {
-
   state = {
     selectedSymbols: []
   };
 
   handleSelect = (event, data) => {
-    this.props.resetForm('forms.lesson', { symbols: data.value, title: this.props.forms.lesson.title });
+    this.props.resetForm('forms.lesson', {
+      symbols: data.value,
+      title: this.props.forms.lesson.title
+    });
     this.setState({ selectedSymbols: data.value });
   };
 
@@ -53,7 +49,7 @@ class LessonForm extends React.Component {
               multiple
               selection
               onChange={this.handleSelect}
-              options={ this.props.symbols.map(symbol => {
+              options={this.props.symbols.map(symbol => {
                 return {
                   key: symbol.text,
                   text: symbol.text,
@@ -136,7 +132,4 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(
-  mapStateToProps,
-  actions
-)(LessonForm);
+export default connect(mapStateToProps, actions)(LessonForm);

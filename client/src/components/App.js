@@ -1,15 +1,12 @@
 import React from 'react';
-import Home from './Home';
-import Course from './NotNeeded/Course';
-import Symbol from './Student/StudentSymbol';
+
 import * as actions from '../actions';
-import { Router, Route, Switch } from 'react-router-dom';
+import { Router } from 'react-router-dom';
 import history from '../history';
 import { connect } from 'react-redux';
 import Menu from './Menu';
 import { Grid, Container, Responsive, Icon } from 'semantic-ui-react';
 import './app.css';
-import Drawing from './Drawing';
 import FullStory, { FullStoryAPI } from 'react-fullstory';
 
 import Loader from './Loader';
@@ -56,6 +53,7 @@ class ErrorBoundary extends React.Component {
           <a
             href="mailto:support@gllghr.io"
             target="_blank"
+            rel="noopener noreferrer"
             style={{ color: '#fff', textDecoration: 'none' }}>
             <Icon name="mail"></Icon>support@{window.location.host}
           </a>

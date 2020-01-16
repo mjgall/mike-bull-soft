@@ -1,34 +1,32 @@
-import React from 'react'
+import React from 'react';
 import ReactDropzone from 'react-dropzone';
 
 export default class Dropzone extends React.Component {
-
   state = {
     files: []
-  }
+  };
 
-  onDrop = (files) => {
-    console.log(files)
-    this.setState({files: [...this.state.files],  files})
-  }
+  onDrop = files => {
+    console.log(files);
+    this.setState({ files: [...this.state.files, files] });
+  };
 
   render() {
-    const files = this.state.files.map(file => (
-      <li key={file.name}>
-        {file.name} - {((file.size)/1000).toFixed()} kb
+    const files = this.state.files.map((file, index) => (
+      <li key={index}>
+        {file.name} - {(file.size / 1000).toFixed()} kb
       </li>
     ));
 
     return (
       <ReactDropzone onDrop={this.onDrop}>
-        {({getRootProps, getInputProps}) => (
+        {({ getRootProps, getInputProps }) => (
           <section className="container">
-            <div {...getRootProps({className: 'dropzone'})}>
+            <div {...getRootProps({ className: 'dropzone' })}>
               <input {...getInputProps()} />
               {this.props.children}
             </div>
             <aside>
-            
               <ul>{files}</ul>
             </aside>
           </section>

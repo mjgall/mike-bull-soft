@@ -74,7 +74,6 @@ import * as actions from '../../actions';
 
 import { Grid, Button, Icon } from 'semantic-ui-react';
 
-import ProfileCard from '../ProfileCard';
 import ImagesTable from '../ImagesTable';
 import Loader from '../Loader';
 

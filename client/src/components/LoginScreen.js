@@ -4,12 +4,11 @@ import {
   Header,
   Form,
   Segment,
-  Image,
   Button,
   Message,
   Icon
 } from 'semantic-ui-react';
-import Menu from './Menu';
+
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import * as actions from '../actions';

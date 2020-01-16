@@ -1,5 +1,5 @@
 import React from 'react';
-import { Menu as SemanticMenu, Container } from 'semantic-ui-react';
+import { Menu as SemanticMenu} from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import * as actions from '../actions';
 import { Link } from 'react-router-dom';

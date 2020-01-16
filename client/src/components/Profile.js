@@ -4,7 +4,6 @@ import * as actions from '../actions';
 import * as utils from '../utils';
 
 import { Button, Modal } from 'semantic-ui-react';
-import { Link } from 'react-router-dom';
 
 import Roadmap from './Roadmap';
 

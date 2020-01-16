@@ -3,8 +3,8 @@ import { connect } from 'react-redux';
 import * as actions from '../../actions';
 import * as utils from '../../utils';
 import Loader from '../Loader';
-import { Grid, Segment, Header, Icon, Button } from 'semantic-ui-react';
-import ProfileCard from '../ProfileCard';
+import { Grid, Segment, Icon, Button } from 'semantic-ui-react';
+
 import { Link } from 'react-router-dom';
 
 import LessonsTable from '../LessonsTable';

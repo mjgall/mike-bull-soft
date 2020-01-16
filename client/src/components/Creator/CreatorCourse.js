@@ -9,7 +9,7 @@ import * as actions from '../../actions';
 import { Grid, Segment, Icon } from 'semantic-ui-react';
 
 import SymbolsTable from '../SymbolsTable';
-import ProfileCard from '../ProfileCard';
+
 import AddSymbolModal from '../AddSymbolModal';
 import LessonsTable from '../LessonsTable';
 import Loader from '../Loader';
@@ -126,7 +126,7 @@ class CreatorCourse extends React.Component {
             toggleShowModalCallback={this.rerenderAfterSubmit}
             course={this.state.course}></AddLessonModal>
           <LessonsTable
-            mode='creator'
+            mode="creator"
             location={this.props.match.url}
             lessons={this.state.lessons}
             course={this.state.course}></LessonsTable>
@@ -146,7 +146,23 @@ class CreatorCourse extends React.Component {
         </div>
       );
     } else {
-      return <div className="warning"><h2>You do not have permission to access this record or this record does not exist.</h2><p>If you believe this is a mistake please contact Support.</p><a href="mailto:support@gllghr.io" target="_blank" style={{color: '#fff', textDecoration: 'none'}}><Icon name="mail"></Icon>support@{window.location.host}</a></div>;
+      console.log(window.location)
+      return (
+        <div className="warning">
+          <h2>
+            You do not have permission to access this record or this record does
+            not exist.
+          </h2>
+          <p>If you believe this is a mistake please contact Support.</p>
+          <a
+            href={`mailto:support@${window.location.host}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{ color: '#fff', textDecoration: 'none' }}>
+            <Icon name="mail"></Icon>support@{window.location.host}
+          </a>
+        </div>
+      );
     }
   };
 
@@ -169,7 +185,4 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(
-  mapStateToProps,
-  actions
-)(CreatorCourse);
+export default connect(mapStateToProps, actions)(CreatorCourse);

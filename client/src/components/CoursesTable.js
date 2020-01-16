@@ -1,5 +1,5 @@
 import React from 'react';
-import { Table, Loader, Icon, Confirm, Button, Popup } from 'semantic-ui-react';
+import { Table, Loader, Icon  } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import * as actions from '../actions';
 import history from '../history';
