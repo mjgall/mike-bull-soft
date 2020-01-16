@@ -88,9 +88,9 @@ module.exports = app => {
       const course = await getCourse(req.body.id);
 
       if (course && course.user_id === req.body.userId) {
-        res.status(200).send({ ...course, owner: true });
+        res.status(200).send({ ...course, exists: true, owner: true });
       } else if (course && course.user_id !== req.body.userId) {
-        res.status(200).send({ ...course, owner: false });
+        res.status(200).send({ ...course, exists: true, owner: false });
       } else {
         res.status(200).send({ exists: false, owner: false });
       }
