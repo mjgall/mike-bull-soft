@@ -39,6 +39,7 @@ class StudentCourse extends React.Component {
     //symbols
     const symbols = await utils.fetchSymbols(this.props.match.params.id);
     //order of the lessons
+    console.log(course)
     const lessonOrder = course.lessons_order.split(',').map(id => parseInt(id));
     //lessons
     const lessons = this.sortLessons(

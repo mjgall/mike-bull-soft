@@ -86,14 +86,16 @@ module.exports = app => {
   app.post('/api/course', isAuthenticated, async (req, res) => {
     try {
       const course = await getCourse(req.body.id);
-    
+
       if (course && course.user_id === req.body.userId) {
         res.status(200).send({ ...course, owner: true });
+      } else if (course && course.user_id !== req.body.userId) {
+        res.status(200).send({ ...course, owner: false });
       } else {
         res.status(200).send({ exists: false, owner: false });
       }
     } catch (error) {
-      console.log(error)
+      console.log(error);
       res.status(400).send(error);
     }
   });
@@ -142,7 +144,6 @@ module.exports = app => {
             symbol_id: symbol.id
           };
           const response = await insertImage(imageObject);
-   
         } catch (error) {
           res.status(error);
           console.log(error);
@@ -250,7 +251,6 @@ module.exports = app => {
   });
 
   app.post(`/api/users_courses`, async (req, res) => {
-
     try {
       const response = await createUserCourse(
         req.body.userId,
@@ -263,7 +263,6 @@ module.exports = app => {
   });
 
   app.get(`/api/users_courses/:userId`, async (req, res) => {
-
     try {
       const response = await getUserCoursesByUser(req.params.userId);
       res.status(200).send({ success: true, response });
@@ -284,7 +283,11 @@ module.exports = app => {
 
   app.post('/api/challenges/', async (req, res) => {
     try {
-      const response = await createChallenge(req.body.lessonId, req.body.symbolId, req.user.id);
+      const response = await createChallenge(
+        req.body.lessonId,
+        req.body.symbolId,
+        req.user.id
+      );
       res.status(200).send({ success: true, response });
     } catch (error) {
       res.status(500).send(error);
@@ -294,18 +297,18 @@ module.exports = app => {
   app.delete('/api/users/:user_id', async (req, res) => {
     try {
       const response = await deleteUser(req.params.user_id);
-      res.status(200).send({success: true, response})
+      res.status(200).send({ success: true, response });
     } catch (error) {
       res.status(500).send(error);
     }
-  })
+  });
 
   app.get('/api/logins/:user_id', async (req, res) => {
     try {
       const response = await getAllLogins(req.params.user_id);
-      res.status(200).send({success: true, response})
+      res.status(200).send({ success: true, response });
     } catch (error) {
       res.status(500).send(error);
     }
-  })
+  });
 };
