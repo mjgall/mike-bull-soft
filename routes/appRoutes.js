@@ -23,6 +23,8 @@ const createChallenge = require('../queries/createChallenge');
 const deleteUser = require('../queries/deleteUser');
 const getAllLogins = require('../queries/getLoginsByUser');
 
+const sendEmail = require('../services/aws-ses');
+
 module.exports = app => {
   //AUTHENTICATION PROTECTION
   const isAuthenticated = (req, res, next) => {
@@ -143,7 +145,7 @@ module.exports = app => {
             user_id: symbol.owner_id,
             symbol_id: symbol.id
           };
-          const response = await insertImage(imageObject);
+          await insertImage(imageObject);
         } catch (error) {
           res.status(error);
           console.log(error);
@@ -309,6 +311,24 @@ module.exports = app => {
       res.status(200).send({ success: true, response });
     } catch (error) {
       res.status(500).send(error);
+    }
+  });
+
+  app.post('/api/email/send', async (req, res) => {
+    console.log(req.body)
+    const { recipientAddress, body, subject } = req.body;
+    try {
+      const promiseResponse = await sendEmail(
+        recipientAddress,
+        subject,
+        body
+      );
+
+      res.send(promiseResponse)
+
+    } catch (error) {
+      console.log(error);
+      throw new Error(error);
     }
   });
 };
