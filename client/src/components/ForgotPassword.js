@@ -8,37 +8,24 @@ import {
   Message
 } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
-import * as utils from '../utils';
+import * as utils from '../utils'
 
-export default class ResetPassword extends React.Component {
+export default class ForgotPassword extends React.Component {
+
   state = {
-    password: '',
-    info: false,
+    email: '',
     error: false,
-    token: '',
-    message: ''
+    message: '',
+    info: false
   };
 
-  handlePasswordChange = event => {
-    this.setState({ password: event.target.value });
+  handleEmailChange = event => {
+    this.setState({ email: event.target.value });
   };
 
   submit = async () => {
-    console.log(this.state.password);
-    const response = await utils.submitNewPassword(
-      this.state.token,
-      this.state.password
-    );
-    if (response.error) {
-      this.setState({ info: true, error: true, message: response.message });
-    } else {
-      this.setState({info: true, error: false, message: response.message})
-    }
-  };
-
-  componentDidMount = () => {
-    const { token } = this.props.match.params;
-    this.setState({ token });
+    const response = await utils.resetPassword(this.state.email, window.location.origin);
+    this.setState({info: true, error: response.error, message: response.message})
   };
 
   render = () => {
@@ -51,26 +38,29 @@ export default class ResetPassword extends React.Component {
           </Header>
           <h4 className="error">
             {this.state.info ? (
-              <Message negative={this.state.error ? true : false}>{this.state.message}</Message>
+              <Message positive={this.state.error ? false : true} negative={this.state.error ? true : false}>{this.state.message}</Message>
             ) : null}
           </h4>
           <Form size="large">
             <Segment>
               <Form.Input
-                name="password"
+                name="email"
                 fluid
-                icon="lock"
+                icon="user"
                 iconPosition="left"
-                type="password"
-                placeholder="New password"
-                onChange={this.handlePasswordChange}
-                value={this.state.password}
+                placeholder="E-mail address"
+                onChange={this.handleEmailChange}
+                value={this.state.email}
               />
+
               <Button fluid size="large" onClick={this.submit}>
                 Submit
               </Button>
             </Segment>
           </Form>
+          <Message>
+            New? <Link to="/register">Sign Up</Link>
+          </Message>
           <Message>
             <Link to="/login">Log in</Link>
           </Message>

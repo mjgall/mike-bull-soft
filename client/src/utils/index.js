@@ -29,59 +29,78 @@ export const fetchSymbolsByLessons = async lessonId => {
 };
 
 export const editCourse = async course => {
-
   const response = await axios.put('/api/course', course);
   return response.data;
 };
 
 export const addLesson = async lesson => {
-
   const response = await axios.post('/api/lessons', { lesson });
   return response.data;
 };
 
 export const deleteLesson = async lessonId => {
-
   const response = await axios.delete(`/api/lessons/${lessonId}`);
   return response.data;
 };
 
 export const startCourse = async (userId, courseId) => {
+  const response = await axios.post(`/api/users_courses`, { userId, courseId });
+  return response.data;
+};
 
-  const response = await axios.post(`/api/users_courses`, { userId, courseId })
-  return response.data
-}
-
-export const fetchRandomImages = async (count) => {
-  const response = await axios.get(`/api/randomImages/${count}`)
-  return response.data
-}
+export const fetchRandomImages = async count => {
+  const response = await axios.get(`/api/randomImages/${count}`);
+  return response.data;
+};
 
 export const createChallenge = async (lessonId, symbolId) => {
   try {
-    const response = await axios.post(`/api/challenges`, {lessonId, symbolId})
-    return response.data
-  } catch (error) {
-    console.log(error)
-  }
-}
-
-export const deleteUserAccount = async (userId) => {
-  try {
-    const response = await axios.delete(`/api/users/${userId}`)
-    console.log(response.data)
+    const response = await axios.post(`/api/challenges`, {
+      lessonId,
+      symbolId
+    });
     return response.data;
   } catch (error) {
-    console.log(error)
+    console.log(error);
   }
-}
+};
 
-export const getLogins = async (userId) => {
+export const deleteUserAccount = async userId => {
   try {
-    const response = await axios.get(`/api/logins/${userId}`)
-    console.log(response.data)
+    const response = await axios.delete(`/api/users/${userId}`);
+    console.log(response.data);
     return response.data;
   } catch (error) {
-    console.log(error)
+    console.log(error);
+  }
+};
+
+export const getLogins = async userId => {
+  try {
+    const response = await axios.get(`/api/logins/${userId}`);
+    console.log(response.data);
+    return response.data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const resetPassword = async (email, domain) => {
+  try {
+    const response = await axios.post('/auth/reset', { email, domain });
+    return response.data;
+  } catch (error) {
+    console.log(error);
+    throw new Error(error);
+  }
+};
+
+export const submitNewPassword = async (token, password) => {
+  try {
+    const response = await axios.post('/auth/resetpassword', { token });
+    return response.data;
+  } catch (error) {
+    console.log(error);
+    throw new Error(error);
   }
 }

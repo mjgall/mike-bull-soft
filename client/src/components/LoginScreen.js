@@ -87,7 +87,7 @@ class LoginScreen extends React.Component {
               New? <Link to="/register">Sign Up</Link>
             </Message>
             <Message>
-              <Link to="/reset">Forgot your password?</Link>
+              <Link to="/forgot">Forgot your password?</Link>
             </Message>
             <Message>
               <Icon name="google"></Icon>
@@ -140,7 +140,7 @@ class LoginScreen extends React.Component {
               New? <Link to="/register">Sign Up</Link>
             </Message>
             <Message>
-              <Link to="/reset">Forgot your password?</Link>
+              <Link to="/forgot">Forgot your password?</Link>
             </Message>
             <Message>
               <Icon name="google"></Icon>

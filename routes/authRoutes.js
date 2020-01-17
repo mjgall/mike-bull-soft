@@ -1,5 +1,11 @@
 const passport = require('passport');
 const insertUser = require('../queries/insertUser');
+const crypto = require('crypto');
+const { promisify } = require('util');
+const getUserByEmail = require('../queries/getUserByEmailAddress');
+const insertNewReset = require('../queries/insertNewReset');
+const sendEmail = require('../services/aws-ses');
+const getUserByResetToken = require('../queries/getUserByResetToken');
 
 module.exports = app => {
   app.get('/api/logout', (req, res) => {
@@ -23,7 +29,7 @@ module.exports = app => {
         return res.status(200).send(info);
       }
 
-      req.logIn(user, function (err) {
+      req.logIn(user, function(err) {
         if (err) {
           return next(err);
         }
@@ -55,5 +61,55 @@ module.exports = app => {
 
   app.get('/api/current_user', async (req, res) => {
     res.send(req.user);
+  });
+
+  app.post('/auth/resetpassword', async (req, res) => {
+    const token = req.body.token;
+
+    const user = await getUserByResetToken(token);
+
+    if (!user) {
+      res.send({ error: true, message: 'No reset token found' });
+    } else if (parseInt(user.expiry) < Date.now()) {
+      res.send({ error: true, message: 'Token expired' });
+    } else {
+      res.send({ error: false, message: 'Success', user });
+    }
+  });
+
+  app.post('/auth/reset', async (req, res) => {
+    const { email, domain } = req.body;
+
+    const user = await getUserByEmail(email);
+    if (!user) {
+      res.send({
+        error: true,
+        message: 'No user exists.'
+      });
+    } else if (user.service_id) {
+      res.send({
+        error: true,
+        message: "Can't reset password for an oauth user."
+      });
+    } else {
+      const token = (await promisify(crypto.randomBytes)(20)).toString('hex');
+      const expiry = Date.now() + 3600000;
+      await insertNewReset(user.id, token, expiry);
+      const subject = 'Reset your password';
+      const body = `<p>We’ve received a request to reset the password for your account at llt.gllghr.io. To reset it, simply click here or on the button below.</p><p>The link expires in 60 minutes. If you did not make this request, you may safely ignore this message. Your account remains safe and your current password will not be changed.</p><p>
+      </br>
+      <p>${domain}/reset/${token}</p>`;
+
+      try {
+        const response = await sendEmail(email, subject, body);
+        res.send({ error: false, message: 'Password reset email sent.' });
+      } catch (error) {
+        res.send({ error: true, message: error });
+        console.log(error);
+        throw new Error(error);
+      }
+
+      res.send({ error: false });
+    }
   });
 };

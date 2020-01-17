@@ -58,6 +58,7 @@ module.exports = (recipientAddress, subject, body) => {
         }
       });
     } catch (error) {
+      reject()
       console.log(error);
       throw new Error(error);
     }

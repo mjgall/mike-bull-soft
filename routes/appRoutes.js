@@ -323,7 +323,6 @@ module.exports = app => {
         subject,
         body
       );
-
       res.send(promiseResponse)
 
     } catch (error) {
