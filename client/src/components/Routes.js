@@ -10,6 +10,7 @@ import LoginScreen from './LoginScreen';
 import RegisterScreen from './RegisterScreen';
 import Profile from './Profile';
 import Roadmap from './Roadmap';
+import ResetPassword from './ResetPassword'
 
 const Routes = props => {
   if (props.auth) {
@@ -22,21 +23,23 @@ const Routes = props => {
           <Route path="/profile" component={Profile}></Route>
           <Route path="/" exact component={Student}></Route>
           <Route path="/roadmap" exact component={Roadmap}></Route>
-          <Route path="/test" exact component={() => {
+          <Route
+            path="/test"
+            exact
+            component={() => {
               return (
                 <div>
                   <h1>Hello</h1>
                   <p>This is the beginning of a new blog post.</p>
                 </div>
               );
-            }}>
-            
-          </Route>
+            }}></Route>
         </Switch>
       </div>
     );
   } else {
     return (
+      //NOT LOGGED IN ROUTES
       <Switch>
         <Route component={LoginScreen} path="/login" exact>
           <LoginScreen
@@ -52,6 +55,7 @@ const Routes = props => {
             mobile={props.mobile}></LoginScreen>
         </Route>
         <Route path="/roadmap" exact component={Roadmap}></Route>
+        <Route path="/reset" exact component={ResetPassword}></Route>
       </Switch>
     );
   }

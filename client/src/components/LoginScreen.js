@@ -44,111 +44,113 @@ class LoginScreen extends React.Component {
   };
 
   render() {
-
     if (this.props.mobile) {
       return (
         <React.Fragment>
-       
-            <Grid.Column width={16}>
-              <Header as="h2" textAlign="center">
-                Log In
-              </Header>
-              <h4 className="error">
-                {this.state.error ? (
-                  <Message negative>{this.state.error}</Message>
-                ) : null}
-              </h4>
-              <Form size="large">
-                <Segment>
-                  <Form.Input
-                    name="email"
-                    fluid
-                    icon="user"
-                    iconPosition="left"
-                    placeholder="E-mail address"
-                    onChange={this.handleEmailChange}
-                    value={this.state.email}
-                  />
-                  <Form.Input
-                    name="password"
-                    fluid
-                    icon="lock"
-                    iconPosition="left"
-                    placeholder="Password"
-                    type="password"
-                    onChange={this.handlePasswordChange}
-                    value={this.state.password}
-                  />
-  
-                  <Button fluid size="large" onClick={this.submit}>
-                    Login
-                  </Button>
-                </Segment>
-              </Form>
-              <Message>
-                New? <Link to="/register">Sign Up</Link>
-              </Message>
-              <Message>
-                <Icon name="google"></Icon>
-                <a href="/auth/google">Log in with Google</a>
-              </Message>
-            </Grid.Column>
-          
+          <Grid.Column width={16}>
+            <Header as="h2" textAlign="center">
+              Log In
+            </Header>
+            <h4 className="error">
+              {this.state.error ? (
+                <Message negative>{this.state.error}</Message>
+              ) : null}
+            </h4>
+            <Form size="large">
+              <Segment>
+                <Form.Input
+                  name="email"
+                  fluid
+                  icon="user"
+                  iconPosition="left"
+                  placeholder="E-mail address"
+                  onChange={this.handleEmailChange}
+                  value={this.state.email}
+                />
+                <Form.Input
+                  name="password"
+                  fluid
+                  icon="lock"
+                  iconPosition="left"
+                  placeholder="Password"
+                  type="password"
+                  onChange={this.handlePasswordChange}
+                  value={this.state.password}
+                />
+
+                <Button fluid size="large" onClick={this.submit}>
+                  Login
+                </Button>
+              </Segment>
+            </Form>
+            <Message>
+              New? <Link to="/register">Sign Up</Link>
+            </Message>
+            <Message>
+              <Link to="/reset">Forgot your password?</Link>
+            </Message>
+            <Message>
+              <Icon name="google"></Icon>
+              <a href="/auth/google">Log in with Google</a>
+            </Message>
+          </Grid.Column>
         </React.Fragment>
       );
     } else {
       return (
         <React.Fragment>
-            <Grid.Column width={5}></Grid.Column>
-          <Grid.Column style={ { maxWidth: 450, margin: '0 auto' }} width={6}>
-              <Header as="h2" textAlign="center">
-                Log In
-              </Header>
-              <h4 className="error">
-                {this.state.error ? (
-                  <Message negative>{this.state.error}</Message>
-                ) : null}
-              </h4>
-              <Form size="large">
-                <Segment>
-                  <Form.Input
-                    name="email"
-                    fluid
-                    icon="user"
-                    iconPosition="left"
-                    placeholder="E-mail address"
-                    onChange={this.handleEmailChange}
-                    value={this.state.email}
-                  />
-                  <Form.Input
-                    name="password"
-                    fluid
-                    icon="lock"
-                    iconPosition="left"
-                    placeholder="Password"
-                    type="password"
-                    onChange={this.handlePasswordChange}
-                    value={this.state.password}
-                  />
-  
-                  <Button fluid size="large" onClick={this.submit}>
-                    Login
-                  </Button>
-                </Segment>
-              </Form>
-              <Message>
-                New? <Link to="/register">Sign Up</Link>
-              </Message>
-              <Message>
-                <Icon name="google"></Icon>
-                <a href="/auth/google">Log in with Google</a>
-              </Message>
-            </Grid.Column>
-            <Grid.Column width={5}></Grid.Column>
+          <Grid.Column width={5}></Grid.Column>
+          <Grid.Column style={{ maxWidth: 450, margin: '0 auto' }} width={6}>
+            <Header as="h2" textAlign="center">
+              Log In
+            </Header>
+            <h4 className="error">
+              {this.state.error ? (
+                <Message negative>{this.state.error}</Message>
+              ) : null}
+            </h4>
+            <Form size="large">
+              <Segment>
+                <Form.Input
+                  name="email"
+                  fluid
+                  icon="user"
+                  iconPosition="left"
+                  placeholder="E-mail address"
+                  onChange={this.handleEmailChange}
+                  value={this.state.email}
+                />
+                <Form.Input
+                  name="password"
+                  fluid
+                  icon="lock"
+                  iconPosition="left"
+                  placeholder="Password"
+                  type="password"
+                  onChange={this.handlePasswordChange}
+                  value={this.state.password}
+                />
+
+                <Button fluid size="large" onClick={this.submit}>
+                  Login
+                </Button>
+              </Segment>
+            </Form>
+            <Message>
+              New? <Link to="/register">Sign Up</Link>
+            </Message>
+            <Message>
+              <Link to="/reset">Forgot your password?</Link>
+            </Message>
+            <Message>
+              <Icon name="google"></Icon>
+              <a href="/auth/google">Log in with Google</a>
+            </Message>
+          </Grid.Column>
+          <Grid.Column width={5}></Grid.Column>
         </React.Fragment>
       );
     }
-    
   }
 }
 
