@@ -89,7 +89,7 @@ class LoginScreen extends React.Component {
             <Message>
               <Link to="/forgot">Forgot your password?</Link>
             </Message>
-            <Message>
+            <Message className="google">
               <Icon name="google"></Icon>
               <a href="/auth/google">Log in with Google</a>
             </Message>
@@ -142,7 +142,7 @@ class LoginScreen extends React.Component {
             <Message>
               <Link to="/forgot">Forgot your password?</Link>
             </Message>
-            <Message>
+            <Message className="google">
               <Icon name="google"></Icon>
               <a href="/auth/google">Log in with Google</a>
             </Message>

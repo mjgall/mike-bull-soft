@@ -127,7 +127,7 @@ class RegisterScreen extends React.Component {
           <Message>
             Have an existing account? <Link to="/login">Log In</Link>
           </Message>
-          <Message>
+          <Message className="google">
             <Icon name="google"></Icon>
             <a href="/auth/google">Log in with Google</a>
           </Message>

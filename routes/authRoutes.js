@@ -6,6 +6,7 @@ const getUserByEmail = require('../queries/getUserByEmailAddress');
 const insertNewReset = require('../queries/insertNewReset');
 const sendEmail = require('../services/aws-ses');
 const getUserByResetToken = require('../queries/getUserByResetToken');
+const updatePassword = require('../queries/updatePassword');
 
 module.exports = app => {
   app.get('/api/logout', (req, res) => {
@@ -64,16 +65,39 @@ module.exports = app => {
   });
 
   app.post('/auth/resetpassword', async (req, res) => {
+    const {token, userId, password} = req.body;
+
+    const user = await getUserByResetToken(token);
+
+    if (!user) {
+      res.send({
+        error: true,
+        success: false,
+        message: 'No valid token found.'
+      });
+    } else if (parseInt(user.expiry) < Date.now()) {
+      res.send({ error: true, success: false, message: 'Token expired' });
+    } else {
+      const newUser = await updatePassword(userId, password)
+      res.send({ error: false, success: true, message: 'Password updated', newUser });
+    }
+  });
+
+  app.post('/auth/checktoken', async (req, res) => {
     const token = req.body.token;
 
     const user = await getUserByResetToken(token);
 
     if (!user) {
-      res.send({ error: true, message: 'No reset token found' });
+      res.send({
+        error: true,
+        success: false,
+        message: 'No valid token found.'
+      });
     } else if (parseInt(user.expiry) < Date.now()) {
-      res.send({ error: true, message: 'Token expired' });
+      res.send({ error: true, success: false, message: 'Token expired' });
     } else {
-      res.send({ error: false, message: 'Success', user });
+      res.send({ error: false, success: true, message: 'Success', user });
     }
   });
 

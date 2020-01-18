@@ -16,7 +16,8 @@ export default class ResetPassword extends React.Component {
     info: false,
     error: false,
     token: '',
-    message: ''
+    message: '',
+    userId: null
   };
 
   handlePasswordChange = event => {
@@ -27,18 +28,30 @@ export default class ResetPassword extends React.Component {
     console.log(this.state.password);
     const response = await utils.submitNewPassword(
       this.state.token,
-      this.state.password
+      this.state.password,
+      this.state.userId
     );
     if (response.error) {
       this.setState({ info: true, error: true, message: response.message });
     } else {
-      this.setState({info: true, error: false, message: response.message})
+      this.setState({ info: true, error: false, message: response.message });
     }
   };
 
-  componentDidMount = () => {
+  componentDidMount = async () => {
     const { token } = this.props.match.params;
     this.setState({ token });
+    const response = await utils.checkToken(token);
+    console.log(response);
+    if (response.success) {
+      this.setState({ valid: true, userId: response.user.id });
+    } else
+      this.setState({
+        valid: false,
+        info: true,
+        error: true,
+        message: response.message
+      });
   };
 
   render = () => {
@@ -51,26 +64,31 @@ export default class ResetPassword extends React.Component {
           </Header>
           <h4 className="error">
             {this.state.info ? (
-              <Message negative={this.state.error ? true : false}>{this.state.message}</Message>
+              <Message negative={this.state.error ? true : false}>
+                {this.state.message}
+              </Message>
             ) : null}
           </h4>
-          <Form size="large">
-            <Segment>
-              <Form.Input
-                name="password"
-                fluid
-                icon="lock"
-                iconPosition="left"
-                type="password"
-                placeholder="New password"
-                onChange={this.handlePasswordChange}
-                value={this.state.password}
-              />
-              <Button fluid size="large" onClick={this.submit}>
-                Submit
-              </Button>
-            </Segment>
-          </Form>
+          {this.state.valid ? (
+            <Form size="large">
+              <Segment>
+                <Form.Input
+                  name="password"
+                  fluid
+                  icon="lock"
+                  iconPosition="left"
+                  type="password"
+                  placeholder="New password"
+                  onChange={this.handlePasswordChange}
+                  value={this.state.password}
+                />
+                <Button fluid size="large" onClick={this.submit}>
+                  Submit
+                </Button>
+              </Segment>
+            </Form>
+          ) : null}
+
           <Message>
             <Link to="/login">Log in</Link>
           </Message>

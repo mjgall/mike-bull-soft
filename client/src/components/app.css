@@ -125,7 +125,16 @@ img.symbol-image {
 
 .base-login,
 .mobile-base-login {
- margin: 0 auto;
+  margin: 0 auto;
+}
+
+.google.ui.message {
+  background-color: #4285f4;
+  color: white;
+}
+
+.google a {
+  color: white;
 }
 
 @media only screen and (max-width: 768px) {

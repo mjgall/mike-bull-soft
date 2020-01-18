@@ -95,12 +95,22 @@ export const resetPassword = async (email, domain) => {
   }
 };
 
-export const submitNewPassword = async (token, password) => {
+export const submitNewPassword = async (token, password, userId) => {
   try {
-    const response = await axios.post('/auth/resetpassword', { token });
+    const response = await axios.post('/auth/resetpassword', { token, password, userId });
     return response.data;
   } catch (error) {
     console.log(error);
     throw new Error(error);
   }
-}
+};
+
+export const checkToken = async token => {
+  try {
+    const response = await axios.post('/auth/checktoken', { token });
+    return response.data;
+  } catch (error) {
+    console.log(error);
+    throw new Error(error);
+  }
+};
