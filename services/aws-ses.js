@@ -1,8 +1,9 @@
 const AWS = require('aws-sdk');
 const path = require('path');
+const util = require('util');
 
 module.exports = (recipientAddress, subject, body) => {
-  return new Promise((resolve, reject) => {
+  return new Promise(async (resolve, reject) => {
     try {
       const jsonPath = path.join(__dirname, '..', 'config', 'aws_key.json');
 
@@ -20,9 +21,9 @@ module.exports = (recipientAddress, subject, body) => {
 
       const charset = 'UTF-8';
 
-      var ses = new AWS.SES();
+      const ses = new AWS.SES();
 
-      var params = {
+      const params = {
         Source: sender,
         Destination: {
           ToAddresses: [recipient]
@@ -46,7 +47,7 @@ module.exports = (recipientAddress, subject, body) => {
         // ConfigurationSetName: configuration_set
       };
 
-      //Try to send the email.
+      // Try to send the email.
       ses.sendEmail(params, function(err, data) {
         // If something goes wrong, print an error message.
         if (err) {
@@ -58,7 +59,7 @@ module.exports = (recipientAddress, subject, body) => {
         }
       });
     } catch (error) {
-      reject()
+      reject();
       console.log(error);
       throw new Error(error);
     }
