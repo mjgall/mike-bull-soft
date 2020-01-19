@@ -13,6 +13,7 @@ import * as utils from '../utils';
 export default class ResetPassword extends React.Component {
   state = {
     password: '',
+    confirmPassword: '',
     info: false,
     error: false,
     token: '',
@@ -24,17 +25,28 @@ export default class ResetPassword extends React.Component {
     this.setState({ password: event.target.value });
   };
 
+  handleConfirmPasswordChange = event => {
+    this.setState({ confirmPassword: event.target.value });
+  };
+
   submit = async () => {
-    console.log(this.state.password);
-    const response = await utils.submitNewPassword(
-      this.state.token,
-      this.state.password,
-      this.state.userId
-    );
-    if (response.error) {
-      this.setState({ info: true, error: true, message: response.message });
+    if (this.state.password === this.state.confirmPassword) {
+      const response = await utils.submitNewPassword(
+        this.state.token,
+        this.state.password,
+        this.state.userId
+      );
+      if (response.error) {
+        this.setState({ info: true, error: true, message: response.message });
+      } else {
+        this.setState({ info: true, error: false, message: response.message });
+      }
     } else {
-      this.setState({ info: true, error: false, message: response.message });
+      this.setState({
+        message: 'Passwords do not match',
+        info: true,
+        error: true
+      });
     }
   };
 
@@ -81,6 +93,16 @@ export default class ResetPassword extends React.Component {
                   placeholder="New password"
                   onChange={this.handlePasswordChange}
                   value={this.state.password}
+                />
+                <Form.Input
+                  name="password"
+                  fluid
+                  icon="lock"
+                  iconPosition="left"
+                  type="password"
+                  placeholder="Confirm new password"
+                  onChange={this.handleConfirmPasswordChange}
+                  value={this.state.confirmPassword}
                 />
                 <Button fluid size="large" onClick={this.submit}>
                   Submit
