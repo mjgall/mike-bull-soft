@@ -40,6 +40,7 @@ export default class ResetPassword extends React.Component {
         this.setState({ info: true, error: true, message: response.message });
       } else {
         this.setState({ info: true, error: false, message: response.message });
+        setTimeout(() => this.props.history.push('/login'), 1500);
       }
     } else {
       this.setState({
