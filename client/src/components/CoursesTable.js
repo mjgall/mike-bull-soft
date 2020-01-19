@@ -1,5 +1,5 @@
 import React from 'react';
-import { Table, Loader, Icon  } from 'semantic-ui-react';
+import { Table, Loader, Icon } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import * as actions from '../actions';
 import history from '../history';
@@ -18,7 +18,6 @@ class CoursesTable extends React.Component {
     history.push(`/creator/course/${id}`);
   };
 
-
   renderStudentTable = () => {
     return (
       <Table celled singleLine sortable compact>
@@ -26,6 +25,7 @@ class CoursesTable extends React.Component {
           <Table.Row>
             <Table.HeaderCell>Course</Table.HeaderCell>
             <Table.HeaderCell>Owner</Table.HeaderCell>
+            <Table.HeaderCell>Language</Table.HeaderCell>
             <Table.HeaderCell>Create Date</Table.HeaderCell>
           </Table.Row>
         </Table.Header>
@@ -42,6 +42,10 @@ class CoursesTable extends React.Component {
                       {course.first_name} {course.last_name}
                     </Table.Cell>
                     <Table.Cell>
+                      {course.language.charAt(0).toUpperCase() +
+                        course.language.substr(1).toLowerCase()}
+                    </Table.Cell>
+                    <Table.Cell>
                       {new Date(course.create_date * 1000).toLocaleString()}
                     </Table.Cell>
                   </Table.Row>
@@ -54,8 +58,8 @@ class CoursesTable extends React.Component {
   };
 
   deleteCourse = async (courseId, index, userId) => {
-    return await this.props.deleteCourse(courseId, index, userId)
-  }
+    return await this.props.deleteCourse(courseId, index, userId);
+  };
 
   renderCreatorTable = () => {
     return (
@@ -72,7 +76,6 @@ class CoursesTable extends React.Component {
         <Table.Body>
           {this.props.app && this.props.app.coursesTable ? (
             this.props.app.coursesTable.map((course, index) => {
-
               return (
                 <Table.Row key={index}>
                   <Table.Cell
@@ -91,14 +94,15 @@ class CoursesTable extends React.Component {
                   <ConfirmDelete
                     trigger={
                       <Table.Cell>
-                        <Icon name="delete" style={ { color: 'red' } }></Icon>
-                      </Table.Cell> }
+                        <Icon name="delete" style={{ color: 'red' }}></Icon>
+                      </Table.Cell>
+                    }
                     on="click"
                     position="top center"
                     recordId={course.course_id}
-                    index={ index }
-                    recordType='course'
-                    deleteFunction = {this.deleteCourse}
+                    index={index}
+                    recordType="course"
+                    deleteFunction={this.deleteCourse}
                   />
                 </Table.Row>
               );
