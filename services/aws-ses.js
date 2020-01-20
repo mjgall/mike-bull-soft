@@ -9,13 +9,13 @@ module.exports = (recipientAddress, subject, body) => {
 
       AWS.config.loadFromPath(jsonPath);
 
-      const sender = 'mike@michaeljamesgallagher.com';
+      const sender = 'Mike from LLT <mike@michaeljamesgallagher.com>';
 
       const recipient = recipientAddress;
 
       // const configuration_set = "ConfigSet";
 
-      const body_text = body;
+      const body_text = body; 
 
       const body_html = body;
 

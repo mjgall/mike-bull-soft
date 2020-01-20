@@ -183,7 +183,7 @@ module.exports = app => {
         throw new Error(error);
       }
 
-      res.send({ error: false });
+      
     }
   });
 };
