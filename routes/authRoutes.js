@@ -8,7 +8,7 @@ const sendEmail = require('../services/aws-ses');
 const getUserByResetToken = require('../queries/getUserByResetToken');
 const updatePassword = require('../queries/updatePassword');
 const getUserById = require('../queries/getUserById');
-const bcrypt = require('bcryptjs')
+const bcrypt = require('bcryptjs');
 
 module.exports = app => {
   app.get('/api/logout', (req, res) => {
@@ -68,6 +68,7 @@ module.exports = app => {
 
   app.post('/auth/resetpassword', async (req, res) => {
     const { token, userId, password, currentPassword } = req.body;
+    const body = `<p>Hi ${user.first_name},</p><p>You have successfully updated your password on your account. You may verify the specific changes by accessing your account online via Hilton Honors.Your privacy is important to us. If you did not make this change, please contact Support at <a href="support@llt.gllghr.io">support@llt.gllghr.io</a>.</p>`;
     if (token) {
       const user = await getUserByResetToken(token);
 
@@ -81,6 +82,11 @@ module.exports = app => {
         res.send({ error: true, success: false, message: 'Token expired' });
       } else {
         const newUser = await updatePassword(userId, password);
+        await sendEmail(
+          user.email,
+          'Your password has been updated at llt.gllghr.io',
+          body
+        );
         res.send({
           error: false,
           success: true,
@@ -89,15 +95,20 @@ module.exports = app => {
         });
       }
     } else if (currentPassword) {
-      const user = await getUserById(userId)
+      const user = await getUserById(userId);
       if (!user.service_id) {
         if (
           await bcrypt.compare(currentPassword, user.password).catch(e => {
             console.log(e);
-            throw Error(e)
+            throw Error(e);
           })
         ) {
-          const newUser = await updatePassword(userId, password)
+          const newUser = await updatePassword(userId, password);
+          await sendEmail(
+            user.email,
+            'Your password has been updated at llt.gllghr.io',
+            body
+          );
           res.send({
             error: false,
             success: true,
@@ -105,12 +116,19 @@ module.exports = app => {
             newUser
           });
         } else {
-          res.send({error: false, success: false, message: 'Incorrect current password.'})
+          res.send({
+            error: false,
+            success: false,
+            message: 'Incorrect current password.'
+          });
         }
       } else {
-        res.send({error: false, success: false, messgae: "Can't reset an OAuth user's password."})
+        res.send({
+          error: false,
+          success: false,
+          messgae: "Can't reset an OAuth user's password."
+        });
       }
-
     }
   });
 

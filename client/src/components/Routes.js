@@ -24,7 +24,14 @@ const Routes = props => {
           <Route path="/profile" component={Profile}></Route>
           <Route path="/" exact component={Student}></Route>
           <Route path="/roadmap" exact component={Roadmap}></Route>
-          <Route path="/reset/:token" exact component={ResetPassword}></Route>
+          <Route
+          path="/reset/:token"
+          children={({ match }) => (
+            <ResetPassword
+              history={history}
+              mobile={props.mobile}
+              match={match}></ResetPassword>
+          )}></Route>
           <Route
             path="/test"
             exact
@@ -43,16 +50,18 @@ const Routes = props => {
     return (
       //NOT LOGGED IN ROUTES
       <Switch>
-        <Route component={LoginScreen} path="/login" exact>
+        <Route path="/login" exact>
           <LoginScreen
             auth={props.auth}
             history={history}
             mobile={props.mobile}></LoginScreen>
         </Route>
         <Route path="/register" exact>
-          <RegisterScreen mobile={props.mobile}></RegisterScreen>
+          <RegisterScreen
+            history={history}
+            mobile={props.mobile}></RegisterScreen>
         </Route>
-        <Route history={history} component={LoginScreen} path="/" exact>
+        <Route path="/" exact>
           <LoginScreen
             auth={props.auth}
             history={history}
@@ -60,11 +69,18 @@ const Routes = props => {
         </Route>
         <Route path="/roadmap" exact component={Roadmap}></Route>
         <Route path="/forgot" exact>
-          <ForgotPassword mobile={props.mobile}></ForgotPassword>
+          <ForgotPassword
+            history={history}
+            mobile={props.mobile}></ForgotPassword>
         </Route>
-        <Route path="/reset/:token" exact mobile={props.mobile}>
-          <ResetPassword></ResetPassword>
-        </Route>
+        <Route
+          path="/reset/:token"
+          children={({ match }) => (
+            <ResetPassword
+              history={history}
+              mobile={props.mobile}
+              match={match}></ResetPassword>
+          )}></Route>
       </Switch>
     );
   }

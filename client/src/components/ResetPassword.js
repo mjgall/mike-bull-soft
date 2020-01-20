@@ -52,7 +52,9 @@ export default class ResetPassword extends React.Component {
   };
 
   componentDidMount = async () => {
+    console.log(this.props)
     const { token } = this.props.match.params;
+  
     this.setState({ token });
     const response = await utils.checkToken(token);
 
