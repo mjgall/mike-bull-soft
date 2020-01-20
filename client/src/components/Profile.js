@@ -6,8 +6,6 @@ import * as utils from '../utils';
 import {
   Button,
   Modal,
-  Icon,
-  Input,
   Message,
   Form,
   Segment
