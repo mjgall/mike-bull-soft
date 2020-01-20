@@ -68,56 +68,111 @@ export default class ResetPassword extends React.Component {
   };
 
   render = () => {
-    return (
-      <React.Fragment>
-        <Grid.Column width={5}></Grid.Column>
-        <Grid.Column style={{ maxWidth: 450, margin: '0 auto' }} width={6}>
-          <Header as="h2" textAlign="center">
-            Reset Password
-          </Header>
-          <h4 className="error">
-            {this.state.info ? (
-              <Message negative={this.state.error ? true : false}>
-                {this.state.message}
-              </Message>
-            ) : null}
-          </h4>
-          {this.state.valid ? (
-            <Form size="large">
-              <Segment>
-                <Form.Input
-                  name="password"
-                  fluid
-                  icon="lock"
-                  iconPosition="left"
-                  type="password"
-                  placeholder="New password"
-                  onChange={this.handlePasswordChange}
-                  value={this.state.password}
-                />
-                <Form.Input
-                  name="password"
-                  fluid
-                  icon="lock"
-                  iconPosition="left"
-                  type="password"
-                  placeholder="Confirm new password"
-                  onChange={this.handleConfirmPasswordChange}
-                  value={this.state.confirmPassword}
-                />
-                <Button fluid size="large" onClick={this.submit}>
-                  Submit
-                </Button>
-              </Segment>
-            </Form>
-          ) : null}
+    if (this.props.mobile) {
+      return (
+        <React.Fragment>
 
-          <Message>
-            <Link to="/login">Log in</Link>
-          </Message>
-        </Grid.Column>
+          <Grid.Column width={16}>
+            <Header as="h2" textAlign="center">
+              Reset Password
+            </Header>
+            <h4 className="error">
+              {this.state.info ? (
+                <Message negative={this.state.error ? true : false}>
+                  {this.state.message}
+                </Message>
+              ) : null}
+            </h4>
+            {this.state.valid ? (
+              <Form size="large">
+                <Segment>
+                  <Form.Input
+                    name="password"
+                    fluid
+                    icon="lock"
+                    iconPosition="left"
+                    type="password"
+                    placeholder="New password"
+                    onChange={this.handlePasswordChange}
+                    value={this.state.password}
+                  />
+                  <Form.Input
+                    name="password"
+                    fluid
+                    icon="lock"
+                    iconPosition="left"
+                    type="password"
+                    placeholder="Confirm new password"
+                    onChange={this.handleConfirmPasswordChange}
+                    value={this.state.confirmPassword}
+                  />
+                  <Button fluid size="large" onClick={this.submit}>
+                    Submit
+                  </Button>
+                </Segment>
+              </Form>
+            ) : null}
+  
+            <Message>
+              <Link to="/login">Log in</Link>
+            </Message>
+          </Grid.Column>
+
+        </React.Fragment>
+      );
+    } else {
+      return (
+        <React.Fragment>
         <Grid.Column width={5}></Grid.Column>
-      </React.Fragment>
-    );
+          <Grid.Column style={{ maxWidth: 450, margin: '0 auto' }} width={6}>
+            <Header as="h2" textAlign="center">
+              Reset Password
+            </Header>
+            <h4 className="error">
+              {this.state.info ? (
+                <Message negative={this.state.error ? true : false}>
+                  {this.state.message}
+                </Message>
+              ) : null}
+            </h4>
+            {this.state.valid ? (
+              <Form size="large">
+                <Segment>
+                  <Form.Input
+                    name="password"
+                    fluid
+                    icon="lock"
+                    iconPosition="left"
+                    type="password"
+                    placeholder="New password"
+                    onChange={this.handlePasswordChange}
+                    value={this.state.password}
+                  />
+                  <Form.Input
+                    name="password"
+                    fluid
+                    icon="lock"
+                    iconPosition="left"
+                    type="password"
+                    placeholder="Confirm new password"
+                    onChange={this.handleConfirmPasswordChange}
+                    value={this.state.confirmPassword}
+                  />
+                  <Button fluid size="large" onClick={this.submit}>
+                    Submit
+                  </Button>
+                </Segment>
+              </Form>
+            ) : null}
+  
+            <Message>
+              <Link to="/login">Log in</Link>
+            </Message>
+          </Grid.Column>
+          <Grid.Column width={5}></Grid.Column>
+        </React.Fragment>
+      );
+    }
+    
   };
 }

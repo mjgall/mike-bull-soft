@@ -79,7 +79,7 @@ class LoginScreen extends React.Component {
                 />
 
                 <Button fluid size="large" onClick={this.submit}>
-                  Login <Icon name="chevron"></Icon>
+                  Login <Icon name="chevron right"></Icon>
                 </Button>
               </Segment>
             </Form>
@@ -132,7 +132,7 @@ class LoginScreen extends React.Component {
                 />
 
                 <Button fluid size="large" onClick={this.submit}>
-                  Login <Icon name="chevron"></Icon>
+                  Login <Icon name="chevron right"></Icon>
                 </Button>
               </Segment>
             </Form>

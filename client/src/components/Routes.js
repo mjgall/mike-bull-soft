@@ -10,8 +10,8 @@ import LoginScreen from './LoginScreen';
 import RegisterScreen from './RegisterScreen';
 import Profile from './Profile';
 import Roadmap from './Roadmap';
-import ForgotPassword from './ForgotPassword'
-import ResetPassword from './ResetPassword'
+import ForgotPassword from './ForgotPassword';
+import ResetPassword from './ResetPassword';
 
 const Routes = props => {
   if (props.auth) {
@@ -23,7 +23,7 @@ const Routes = props => {
           <Route path="/home" component={Student}></Route>
           <Route path="/profile" component={Profile}></Route>
           <Route path="/" exact component={Student}></Route>
-          <Route path="/roadmap" exact component={ Roadmap }></Route>
+          <Route path="/roadmap" exact component={Roadmap}></Route>
           <Route path="/reset/:token" exact component={ResetPassword}></Route>
           <Route
             path="/test"
@@ -49,7 +49,9 @@ const Routes = props => {
             history={history}
             mobile={props.mobile}></LoginScreen>
         </Route>
-        <Route component={RegisterScreen} path="/register" exact />
+        <Route path="/register" exact>
+          <RegisterScreen mobile={props.mobile}></RegisterScreen>
+        </Route>
         <Route history={history} component={LoginScreen} path="/" exact>
           <LoginScreen
             auth={props.auth}
@@ -57,8 +59,12 @@ const Routes = props => {
             mobile={props.mobile}></LoginScreen>
         </Route>
         <Route path="/roadmap" exact component={Roadmap}></Route>
-        <Route path="/forgot" exact component={ ForgotPassword }></Route>
-        <Route path="/reset/:token" exact component={ResetPassword}></Route>
+        <Route path="/forgot" exact>
+          <ForgotPassword mobile={props.mobile}></ForgotPassword>
+        </Route>
+        <Route path="/reset/:token" exact mobile={props.mobile}>
+          <ResetPassword></ResetPassword>
+        </Route>
       </Switch>
     );
   }
