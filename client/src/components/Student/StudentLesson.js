@@ -27,8 +27,7 @@ export default class StudentLesson extends React.Component {
     
     this.setState({ lesson: lesson.response, symbols });
     this.setState({ images: randomImages.response });
-    // const challenege = await utils.createChallenge(this.state.lessonId, this.state.symbols[0].id); 
-    // console.log(challenege)
+
     this.setState({ loaded: true });
   };
 

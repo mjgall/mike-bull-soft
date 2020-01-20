@@ -55,7 +55,7 @@ export default class ResetPassword extends React.Component {
     const { token } = this.props.match.params;
     this.setState({ token });
     const response = await utils.checkToken(token);
-    console.log(response);
+
     if (response.success) {
       this.setState({ valid: true, userId: response.user.id });
     } else

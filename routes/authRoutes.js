@@ -7,6 +7,8 @@ const insertNewReset = require('../queries/insertNewReset');
 const sendEmail = require('../services/aws-ses');
 const getUserByResetToken = require('../queries/getUserByResetToken');
 const updatePassword = require('../queries/updatePassword');
+const getUserById = require('../queries/getUserById');
+const bcrypt = require('bcryptjs')
 
 module.exports = app => {
   app.get('/api/logout', (req, res) => {
@@ -65,21 +67,50 @@ module.exports = app => {
   });
 
   app.post('/auth/resetpassword', async (req, res) => {
-    const {token, userId, password} = req.body;
+    const { token, userId, password, currentPassword } = req.body;
+    if (token) {
+      const user = await getUserByResetToken(token);
 
-    const user = await getUserByResetToken(token);
+      if (!user) {
+        res.send({
+          error: true,
+          success: false,
+          message: 'No valid token found.'
+        });
+      } else if (parseInt(user.expiry) < Date.now()) {
+        res.send({ error: true, success: false, message: 'Token expired' });
+      } else {
+        const newUser = await updatePassword(userId, password);
+        res.send({
+          error: false,
+          success: true,
+          message: 'Password updated',
+          newUser
+        });
+      }
+    } else if (currentPassword) {
+      const user = await getUserById(userId)
+      if (!user.service_id) {
+        if (
+          await bcrypt.compare(currentPassword, user.password).catch(e => {
+            console.log(e);
+            throw Error(e)
+          })
+        ) {
+          const newUser = await updatePassword(userId, password)
+          res.send({
+            error: false,
+            success: true,
+            message: 'Password updated.',
+            newUser
+          });
+        } else {
+          res.send({error: false, success: false, message: 'Incorrect current password.'})
+        }
+      } else {
+        res.send({error: false, success: false, messgae: "Can't reset an OAuth user's password."})
+      }
 
-    if (!user) {
-      res.send({
-        error: true,
-        success: false,
-        message: 'No valid token found.'
-      });
-    } else if (parseInt(user.expiry) < Date.now()) {
-      res.send({ error: true, success: false, message: 'Token expired' });
-    } else {
-      const newUser = await updatePassword(userId, password)
-      res.send({ error: false, success: true, message: 'Password updated', newUser });
     }
   });
 

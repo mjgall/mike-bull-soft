@@ -36,12 +36,12 @@ class StudentCourse extends React.Component {
       this.props.match.params.id,
       this.props.auth.id
     );
-    console.log(course)
+
     if (course.exists) {
       //symbols
     const symbols = await utils.fetchSymbols(this.props.match.params.id);
     //order of the lessons
-    console.log(course)
+
     const lessonOrder = course.lessons_order.split(',').map(id => parseInt(id));
     //lessons
     const lessons = this.sortLessons(
@@ -75,7 +75,7 @@ class StudentCourse extends React.Component {
   };
 
   continueCourse = () => {
-    console.log('continuing course')
+
   };
 
   renderCourse = () => {
