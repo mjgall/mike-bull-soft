@@ -68,10 +68,10 @@ module.exports = app => {
 
   app.post('/auth/resetpassword', async (req, res) => {
     const { token, userId, password, currentPassword } = req.body;
-    const body = `<p>Hi ${user.first_name},</p><p>You have successfully updated your password on your account. You may verify the specific changes by accessing your account online via Hilton Honors.Your privacy is important to us. If you did not make this change, please contact Support at <a href="support@llt.gllghr.io">support@llt.gllghr.io</a>.</p>`;
+   
     if (token) {
       const user = await getUserByResetToken(token);
-
+      const body = `<p>Hi ${user.first_name},</p><p>You have successfully updated your password on your account. You may verify the specific changes by accessing your account online via Hilton Honors.Your privacy is important to us. If you did not make this change, please contact Support at <a href="support@llt.gllghr.io">support@llt.gllghr.io</a>.</p>`;
       if (!user) {
         res.send({
           error: true,
@@ -96,6 +96,7 @@ module.exports = app => {
       }
     } else if (currentPassword) {
       const user = await getUserById(userId);
+      const body = `<p>Hi ${user.first_name},</p><p>You have successfully updated your password on your account. You may verify the specific changes by accessing your account online via Hilton Honors.Your privacy is important to us. If you did not make this change, please contact Support at <a href="support@llt.gllghr.io">support@llt.gllghr.io</a>.</p>`;
       if (!user.service_id) {
         if (
           await bcrypt.compare(currentPassword, user.password).catch(e => {
