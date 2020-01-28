@@ -53,6 +53,11 @@ export const fetchRandomImages = async count => {
   return response.data;
 };
 
+// export const fetchImages = async count => {
+//   const response = await axios.get(`/api/phase/images`);
+//   return response.data;
+// };
+
 export const createChallenge = async (lessonId, symbolId) => {
   try {
     const response = await axios.post(`/api/challenges`, {
@@ -126,6 +131,33 @@ export const submitNewPassword = async (
 export const checkToken = async token => {
   try {
     const response = await axios.post('/auth/checktoken', { token });
+    return response.data;
+  } catch (error) {
+    console.log(error);
+    throw new Error(error);
+  }
+};
+
+export const fetchChallengesByLesson = async (lessonId, userId) => {
+  try {
+    const response = await axios.get(
+      `/api/users/${userId}/lessons/${lessonId}/challenges`
+    );
+
+    return response.data;
+    
+  } catch (error) {
+    console.log(error);
+    throw new Error(error);
+  }
+};
+
+export const createChallengesByLesson = async (lessonId, userId) => {
+  try {
+    const response = await axios.post(`/api/lessons/challenges`, {
+      lessonId,
+      userId
+    });
     return response.data;
   } catch (error) {
     console.log(error);

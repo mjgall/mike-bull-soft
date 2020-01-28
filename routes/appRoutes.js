@@ -22,8 +22,43 @@ const getRandomImages = require('../queries/getRandomImages');
 const createChallenge = require('../queries/createChallenge');
 const deleteUser = require('../queries/deleteUser');
 const getAllLogins = require('../queries/getLoginsByUser');
-
 const sendEmail = require('../services/aws-ses');
+const createCorrectSymbol = require('../queries/createCorrectSymbol');
+const getChallengesByLessonAndUser = require('../queries/getChallengesByLessonAndUser');
+
+const createChallenges = async (lessonId, userId) => {
+  const symbols = await getSymbolsByLesson(lessonId);
+
+  const challenges = await Promise.all(
+    symbols.map(async (symbol, index) => {
+      //first create a challenge row for each symbol, returns that row in the db
+      const challengeRow = await createChallenge(userId);
+
+      //then create 1 correct symbol object, these are made up of an id and an image url
+      const correctSymbol = await createCorrectSymbol(
+        challengeRow.id,
+        symbol.id,
+        lessonId
+      );
+
+      //then create 3 incorrect symbol objects, these are made up of an id and an image url. NOTE: these can come from any other symbol in the lesson, BUT NOT the correct symbol
+      // const incorrectSymbols = await createIncorrectSymbols(
+      //   challengeRow.id,
+      //   lesson.id,
+      // );
+
+      const incorrectSymbols = await getRandomImages(3, symbol.id);
+
+      //return a completed challenge object which is made up of an challengeId, audioUrl, images: [{imageUrl, id}]
+      return {
+        id: challengeRow.id,
+        audioUrl: symbol.audio_url,
+        images: [...incorrectSymbols, correctSymbol]
+      };
+    })
+  );
+  return challenges;
+};
 
 module.exports = app => {
   //AUTHENTICATION PROTECTION
@@ -283,6 +318,11 @@ module.exports = app => {
     }
   });
 
+  app.get('/api/lessons/:lessonId/phases/images', async (req, res) => {
+    //fetch a random symbol from lesson
+    const symbol = await getRandomSymbolFromLesson(req.params.lessonId);
+  });
+
   app.post('/api/challenges/', async (req, res) => {
     try {
       const response = await createChallenge(
@@ -315,19 +355,59 @@ module.exports = app => {
   });
 
   app.post('/api/email/send', async (req, res) => {
-    console.log(req.body)
+    console.log(req.body);
     const { recipientAddress, body, subject } = req.body;
     try {
-      const promiseResponse = await sendEmail(
-        recipientAddress,
-        subject,
-        body
-      );
-      res.send(promiseResponse)
-
+      const promiseResponse = await sendEmail(recipientAddress, subject, body);
+      res.send(promiseResponse);
     } catch (error) {
       console.log(error);
       throw new Error(error);
     }
   });
+
+  // app.post('/api/lessons/challenges', async (req, res) => {
+  //   try {
+  //     //should create a challenge for each symbol in the lesson
+  //     const { lessonId, userId } = req.body;
+  //     const symbols = await getSymbolsByLesson(lessonId);
+
+  //     res.send({ success: true, error: false, challenges });
+  //   } catch (error) {
+  //     console.log(error);
+  //     res.send({ success: false, error });
+  //   }
+  // });
+
+  app.get(
+    '/api/users/:userId/lessons/:lessonId/challenges',
+    async (req, res) => {
+      try {
+        const { userId, lessonId } = req.params;
+        const correctImages = await getChallengesByLessonAndUser(lessonId, userId);
+
+        if (correctImages.length === 0) {
+          const challenges = await createChallenges(lessonId, userId);
+          
+          res.send({ success: true, error: false, challenges });
+        } else {
+          const challenges = await Promise.all(
+            correctImages.map(async image => {
+              const incorrectImages = await getRandomImages(3, image.symbol_id);
+
+              return {
+                id: image.challenge_id,
+                audio_url: image.audio_url,
+                images: [...incorrectImages, image]
+              };
+            })
+          );
+          res.send({ success: true, error: false, challenges });
+        }
+      } catch (error) {
+        console.log(error);
+        res.send({ success: false, error });
+      }
+    }
+  );
 };

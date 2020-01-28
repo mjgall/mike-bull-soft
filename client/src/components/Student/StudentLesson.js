@@ -3,8 +3,10 @@ import React from 'react';
 import { Icon } from 'semantic-ui-react';
 import Loader from '../Loader';
 import * as utils from '../../utils';
+import { connect } from 'react-redux';
+import * as actions from '../../actions';
 
-export default class StudentLesson extends React.Component {
+class StudentLesson extends React.Component {
   constructor(props) {
     super(props);
     this.audioPlayer = React.createRef();
@@ -13,37 +15,52 @@ export default class StudentLesson extends React.Component {
   state = {
     loaded: false,
     courseId: this.props.match.params.courseid,
-    lessonId: parseInt(this.props.match.params.lessonid),
+    lessonId: this.props.match.params.lessonid,
     symbols: [],
-    lesson: {}
+    lesson: {},
+    message: '',
+    error: ''
   };
 
   componentDidMount = async () => {
-  
-    const lesson = await utils.fetchLesson(this.state.lessonId);
-    const symbols = await utils.fetchSymbols(this.state.courseId);
-    const randomImages = await utils.fetchRandomImages(4);
-    
-    
-    this.setState({ lesson: lesson.response, symbols });
-    this.setState({ images: randomImages.response });
+    //challenges is an array of the challenge objects created on the server side. A challenge object contains a challenge id, an images array (imageUrl, imageId), and an audioUrl. It needs two arguments: userId and lessonId which are checked to find the
 
-    this.setState({ loaded: true });
+    const response = await utils.fetchChallengesByLesson(
+      this.state.lessonId,
+      this.props.auth.id
+    );
+
+    // console.log(challenges.length === 0);
+
+    // if (challenges.length === 0) {
+    //   const challenges = await utils.createChallengesByLesson(
+    //     this.state.lessonId,
+    //     this.props.auth.id
+    //   );
+    //   console.log(challenges);
+    //   this.setState({ challenges, loaded: true });
+    // }
+
+    if (response.success) {
+      this.setState({ challenges: response.challenges, loaded: true });
+    } else if (!response.success && !response.error) {
+      this.setState({ message: response.message });
+    }
   };
 
   SymbolProgress = () => {
-    const symbols = this.state.symbols;
+    const challenges = this.state.challenges;
     return (
       <div
-        style={ {
+        style={{
           margin: '3% 0',
           display: 'flex',
           justifyContent: 'space-between',
           flexWrap: 'wrap'
-        } }>
-        { symbols.map(symbol => {
-          return <Icon style={ { fontSize: '40px' } } name="circle thin"></Icon>;
-        }) }
+        }}>
+        {challenges.map(challenge => {
+          return <Icon style={{ fontSize: '40px' }} name="circle thin"></Icon>;
+        })}
       </div>
     );
   };
@@ -52,20 +69,23 @@ export default class StudentLesson extends React.Component {
     const { images } = props;
     return (
       <div
-        style={ {
+        style={{
           width: '500px',
           height: '500px',
           border: '1px solid black',
           display: 'grid',
           gridTemplateColumns: '1fr 1fr'
-        } }>
-        { images.map(image => {
+        }}>
+        {images.map(image => {
           return (
-            <div style={ { height: "250px", width: "250px" } }>
-              <img alt='a possibl answer' style={ { height: "100%", width: "100%" } } src={ image.url }></img>
+            <div style={{ height: '250px', width: '250px' }}>
+              <img
+                alt="a possibl answer"
+                style={{ height: '100%', width: '100%' }}
+                src={image.url}></img>
             </div>
-          )
-        }) }
+          );
+        })}
       </div>
     );
   };
@@ -75,34 +95,51 @@ export default class StudentLesson extends React.Component {
   };
 
   LessonControls = () => {
+    console.log(this.state.challenges[0].audioUrl);
     return (
-      <div style={ { display: 'grid', gridRowGap: '50px', justifyItems: 'left', alignItems: 'center' } }>
-        <div className="lesson-control-button" style={ { fontSize: '48px' } } onClick={ this.playAudio }>
+      <div
+        style={{
+          display: 'grid',
+          gridRowGap: '50px',
+          justifyItems: 'left',
+          alignItems: 'center'
+        }}>
+        <div
+          className="lesson-control-button"
+          style={{ fontSize: '48px' }}
+          onClick={this.playAudio}>
           <Icon name="play"></Icon> Play
-          <audio ref={ this.audioPlayer } id="audio-player">
-            <source src={ this.state.symbols[0].audio_url }></source>
+          <audio ref={this.audioPlayer} id="audio-player">
+            <source src={this.state.challenges[0].audio_url}></source>
           </audio>
         </div>
 
-        <div className="lesson-control-button" style={ { fontSize: '48px' } }>
+        <div className="lesson-control-button" style={{ fontSize: '48px' }}>
           <Icon name="cancel"></Icon> Cancel Lesson
         </div>
       </div>
-    )
-  }
+    );
+  };
 
   render() {
     return this.state.loaded ? (
-      <div style={ { width: '100%', height: '100%' } }>
-        <h1>{ this.state.lesson.title }</h1>
+      <div style={{ width: '100%', height: '100%' }}>
+        <h1>{this.state.lesson.title}</h1>
         <this.SymbolProgress></this.SymbolProgress>
-        <div style={ { display: 'grid', gridTemplateColumns: '1fr 1fr' } }>
-          <this.ImageContainer images={ this.state.images }></this.ImageContainer>
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr' }}>
+          <this.ImageContainer
+            images={this.state.challenges[0].images}></this.ImageContainer>
           <this.LessonControls></this.LessonControls>
         </div>
       </div>
     ) : (
-        <Loader></Loader>
-      );
+      <Loader></Loader>
+    );
   }
 }
+
+const mapStateToProps = state => {
+  return { auth: state.auth };
+};
+
+export default connect(mapStateToProps, actions)(StudentLesson);
