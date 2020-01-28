@@ -8,20 +8,17 @@ module.exports = (challenge_id, symbol_id, lesson_id) => {
         reject(err);
       } else {
         const query = `SELECT * FROM images WHERE symbol_id = ${symbol_id} GROUP BY RAND() LIMIT 1;`;
-        console.log(query)
         connection.query(query, (err, results, fields) => {
           if (err) {
             reject(err);
-          } else if (!results) {
+          } else if (results.length === 0) {
             reject('No images found for that lesson')
           } else {
             db.getConnection((err, connection) => {
               if (err) {
                 reject(err);
               } else {
-                console.log(results)
                 const query2 = `INSERT INTO challenges_symbols_correct (challenge_id, image_id, lesson_id, symbol_id) VALUES (${challenge_id}, ${results[0].id}, ${lesson_id}, ${symbol_id});`;
-                console.log(query2)
                 connection.query(query2, (err, results, fields) => {
                   if (err) {
                     reject(err);

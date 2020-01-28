@@ -19,7 +19,7 @@ class StudentLesson extends React.Component {
     symbols: [],
     lesson: {},
     message: '',
-    error: ''
+    error: false
   };
 
   componentDidMount = async () => {
@@ -43,8 +43,9 @@ class StudentLesson extends React.Component {
 
     if (response.success) {
       this.setState({ challenges: response.challenges, loaded: true });
-    } else if (!response.success && !response.error) {
-      this.setState({ message: response.message });
+    } else if (!response.success) {
+      this.setState({ message: response.message, error: true });
+      throw new Error(response.error)
     }
   };
 
@@ -122,19 +123,24 @@ class StudentLesson extends React.Component {
   };
 
   render() {
-    return this.state.loaded ? (
-      <div style={{ width: '100%', height: '100%' }}>
-        <h1>{this.state.lesson.title}</h1>
-        <this.SymbolProgress></this.SymbolProgress>
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr' }}>
-          <this.ImageContainer
-            images={this.state.challenges[0].images}></this.ImageContainer>
-          <this.LessonControls></this.LessonControls>
+    if (!this.state.error) {
+      return this.state.loaded ? (
+        <div style={{ width: '100%', height: '100%' }}>
+          <h1>{this.state.lesson.title}</h1>
+          <this.SymbolProgress></this.SymbolProgress>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr' }}>
+            <this.ImageContainer
+              images={this.state.challenges[0].images}></this.ImageContainer>
+            <this.LessonControls></this.LessonControls>
+          </div>
         </div>
-      </div>
-    ) : (
-      <Loader></Loader>
-    );
+      ) : (
+        <Loader></Loader>
+      );
+    } else {
+      throw new Error('Something went wrong')
+    }
+   
   }
 }
 
