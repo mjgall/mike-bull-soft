@@ -48,10 +48,12 @@ export const startCourse = async (userId, courseId) => {
   return response.data;
 };
 
-export const fetchRandomImages = async count => {
-  const response = await axios.get(`/api/randomImages/${count}`);
-  return response.data;
-};
+//this shouldn't be called anywhere
+
+// export const fetchRandomImages = async count => {
+//   const response = await axios.get(`/api/randomImages/${count}`);
+//   return response.data;
+// };
 
 // export const fetchImages = async count => {
 //   const response = await axios.get(`/api/phase/images`);
@@ -145,7 +147,7 @@ export const fetchChallengesByLesson = async (lessonId, userId) => {
     );
 
     return response.data;
-    
+
   } catch (error) {
     console.log(error);
     throw new Error(error);
