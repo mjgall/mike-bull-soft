@@ -23,8 +23,10 @@ const createChallenge = require('../queries/createChallenge');
 const deleteUser = require('../queries/deleteUser');
 const getAllLogins = require('../queries/getLoginsByUser');
 const sendEmail = require('../services/aws-ses');
-const createCorrectSymbol = require('../queries/createCorrectSymbol');
 const getChallengesByLessonAndUser = require('../queries/getChallengesByLessonAndUser');
+const getCorrectImageByChallenge = require('../queries/createCorrectSymbol/getCorrectImageByChallenge');
+const getRandomImageInSymbol = require('../queries/createCorrectSymbol/getRandomImageInSymbol');
+const insertCorrectImageByChallenge = require('../queries/createCorrectSymbol/insertCorrectImageByChallenge');
 
 const createChallenges = async (lessonId, userId) => {
   const symbols = await getSymbolsByLesson(lessonId);
@@ -35,24 +37,28 @@ const createChallenges = async (lessonId, userId) => {
       const challengeRow = await createChallenge(userId);
 
       //then create 1 correct symbol object, these are made up of an id and an image url
-      const correctSymbol = await createCorrectSymbol(
-        challengeRow.id,
-        symbol.id,
-        lessonId
-      );
-
-      //then create 3 incorrect symbol objects, these are made up of an id and an image url. NOTE: these can come from any other symbol in the lesson, BUT NOT the correct symbol
-      // const incorrectSymbols = await createIncorrectSymbols(
+      // const correctSymbol = await createCorrectSymbol(
       //   challengeRow.id,
-      //   lesson.id,
+      //   symbol.id,
+      //   lessonId
       // );
+
+      const randomImageInSymbol = await getRandomImageInSymbol(symbol.id);
+      const correctImage = await insertCorrectImageByChallenge(
+        challengeRow.id,
+        randomImageInSymbol.id,
+        lessonId,
+        symbol.id
+      );
+      const correctSymbol = await getCorrectImageByChallenge(correctImage);
+
 
       const incorrectSymbols = await getRandomImages(3, symbol.id);
 
       //return a completed challenge object which is made up of an challengeId, audioUrl, images: [{imageUrl, id}]
       return {
         id: challengeRow.id,
-        audioUrl: symbol.audio_url,
+        audio_url: symbol.audio_url,
         images: [...incorrectSymbols, correctSymbol]
       };
     })
@@ -384,11 +390,14 @@ module.exports = app => {
     async (req, res) => {
       try {
         const { userId, lessonId } = req.params;
-        const correctImages = await getChallengesByLessonAndUser(lessonId, userId);
+        const correctImages = await getChallengesByLessonAndUser(
+          lessonId,
+          userId
+        );
 
         if (correctImages.length === 0) {
           const challenges = await createChallenges(lessonId, userId);
-          
+
           res.send({ success: true, error: false, challenges });
         } else {
           const challenges = await Promise.all(
