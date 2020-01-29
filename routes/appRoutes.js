@@ -44,14 +44,15 @@ const createChallenges = async (lessonId, userId) => {
       // );
 
       const randomImageInSymbol = await getRandomImageInSymbol(symbol.id);
+ 
       const correctImage = await insertCorrectImageByChallenge(
         challengeRow.id,
         randomImageInSymbol.id,
         lessonId,
         symbol.id
       );
-      const correctSymbol = await getCorrectImageByChallenge(correctImage);
 
+      const correctSymbol = await getCorrectImageByChallenge(correctImage);
 
       const incorrectSymbols = await getRandomImages(3, symbol.id);
 

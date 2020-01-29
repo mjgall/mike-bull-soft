@@ -2,6 +2,7 @@ const db = require('../../config/db/mysql').pool;
 
 module.exports = symbol_id => {
   return new Promise((resolve, reject) => {
+    console.log('In getRandomImage')
     db.getConnection((err, connection) => {
       if (err) {
         reject(err);
