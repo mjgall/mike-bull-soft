@@ -166,3 +166,13 @@ export const createChallengesByLesson = async (lessonId, userId) => {
     throw new Error(error);
   }
 };
+
+export const getLastCompletedChallenge = async (userId, lessonId) => {
+  try {
+    const response = await axios.post(`/api/lessons/lastchallenge`, { userId, lessonId })
+    return response.data
+  } catch (error) {
+    console.log(error);
+    throw new Error(error);
+  }
+}

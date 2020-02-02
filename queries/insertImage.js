@@ -1,10 +1,6 @@
 const db = require('../config/db/mysql').pool;
 const sqlString = require('sqlstring');
 
-//CREATES A USER WITH A CALLBACK WITH TWO ARGS, ERROR THEN THE JUST CREATED USER -- TWO CONNECTIONS HAPPEN, SEEMS WEIRD BUT WORKS
-
-//SHOULD USE PROMISES AND NOT A CALLBACK
-
 module.exports = image => {
   return new Promise((resolve, reject) => {
     const { user_id, symbol_id, url } = image;

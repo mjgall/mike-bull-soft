@@ -5,7 +5,7 @@ describe('Able to log in', function() {
     cy.get('input[type=password]').type('test');
     cy.get('button.ui.large.fluid.button').click();
     cy.get(
-      '#root > div.ui.container > div > div.four.wide.column > div > div:nth-child(1) > div'
+      '#root > div > div.ui.vertical.left.fixed.menu > div:nth-child(2) > div > div:nth-child(1) > div'
     ).should('contain', 'Cypress Tester');
   });
 });

@@ -6,6 +6,15 @@ import * as utils from '../../utils';
 import { connect } from 'react-redux';
 import * as actions from '../../actions';
 
+function indexByProperty(array, attr, value) {
+  for (var i = 0; i < array.length; i += 1) {
+    if (array[i][attr] === value) {
+      return i;
+    }
+  }
+  return -1;
+}
+
 class StudentLesson extends React.Component {
   constructor(props) {
     super(props);
@@ -19,7 +28,9 @@ class StudentLesson extends React.Component {
     symbols: [],
     lesson: {},
     message: '',
-    error: false
+    error: false,
+    currentChallenge: null,
+    indexOfCurrentChallenge: null
   };
 
   componentDidMount = async () => {
@@ -42,11 +53,28 @@ class StudentLesson extends React.Component {
     // }
 
     if (response.success) {
-      this.setState({ challenges: response.challenges, loaded: true });
+      this.setState({ challenges: response.challenges });
     } else if (!response.success) {
       this.setState({ message: response.message, error: true });
-      throw new Error(response.error)
+      throw new Error(response.error);
     }
+
+    const lastChallenge = (
+      await utils.getLastCompletedChallenge(
+        this.props.auth.id,
+        this.state.lessonId
+      )
+    ).lastCompletedChallenge;
+
+    //we now need to get the index of challenge by this id from this.state.challenges
+
+    const indexOfCurrentChallenge = indexByProperty(
+      this.state.challenges,
+      'id',
+      lastChallenge
+    );
+
+    this.setState({ currentChallenge: lastChallenge, indexOfCurrentChallenge, loaded: true });
   };
 
   SymbolProgress = () => {
@@ -96,7 +124,7 @@ class StudentLesson extends React.Component {
   };
 
   LessonControls = () => {
-    console.log(this.state.challenges[0].audioUrl);
+    console.log(this.state.challenges[this.state.indexOfCurrentChallenge].audioUrl);
     return (
       <div
         style={{
@@ -111,7 +139,7 @@ class StudentLesson extends React.Component {
           onClick={this.playAudio}>
           <Icon name="play"></Icon> Play
           <audio ref={this.audioPlayer} id="audio-player">
-            <source src={this.state.challenges[0].audio_url}></source>
+            <source src={this.state.challenges[this.state.indexOfCurrentChallenge].audio_url}></source>
           </audio>
         </div>
 
@@ -130,7 +158,7 @@ class StudentLesson extends React.Component {
           <this.SymbolProgress></this.SymbolProgress>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr' }}>
             <this.ImageContainer
-              images={this.state.challenges[0].images}></this.ImageContainer>
+              images={this.state.challenges[this.state.indexOfCurrentChallenge].images}></this.ImageContainer>
             <this.LessonControls></this.LessonControls>
           </div>
         </div>
@@ -138,9 +166,8 @@ class StudentLesson extends React.Component {
         <Loader></Loader>
       );
     } else {
-      throw new Error('Something went wrong')
+      throw new Error('Something went wrong');
     }
-   
   }
 }
 

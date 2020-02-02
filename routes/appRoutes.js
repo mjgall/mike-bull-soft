@@ -27,14 +27,37 @@ const getChallengesByLessonAndUser = require('../queries/getChallengesByLessonAn
 const getCorrectImageByChallenge = require('../queries/createCorrectSymbol/getCorrectImageByChallenge');
 const getRandomImageInSymbol = require('../queries/createCorrectSymbol/getRandomImageInSymbol');
 const insertCorrectImageByChallenge = require('../queries/createCorrectSymbol/insertCorrectImageByChallenge');
+const insertIncorrectImagesByChallenge = require('../queries/insertIncorrectImagesByChallenge');
+const getIncorrectImagesByChallenge = require('../queries/getIncorrectImagesByChallenge');
+const getLastCompletedChallenge = require('../queries/getLastCompletedChallenge')
+
+const shuffle = function(array) {
+  let currentIndex = array.length;
+  let temporaryValue;
+  let randomIndex;
+
+  // While there remain elements to shuffle...
+  while (0 !== currentIndex) {
+    // Pick a remaining element...
+    randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex -= 1;
+
+    // And swap it with the current element.
+    temporaryValue = array[currentIndex];
+    array[currentIndex] = array[randomIndex];
+    array[randomIndex] = temporaryValue;
+  }
+
+  return array;
+};
 
 const createChallenges = async (lessonId, userId) => {
   const symbols = await getSymbolsByLesson(lessonId);
-
+ 
   const challenges = await Promise.all(
     symbols.map(async (symbol, index) => {
       //first create a challenge row for each symbol, returns that row in the db
-      const challengeRow = await createChallenge(userId);
+      const challengeRow = await createChallenge(userId, lessonId);
 
       //then create 1 correct symbol object, these are made up of an id and an image url
       // const correctSymbol = await createCorrectSymbol(
@@ -44,26 +67,36 @@ const createChallenges = async (lessonId, userId) => {
       // );
 
       const randomImageInSymbol = await getRandomImageInSymbol(symbol.id);
- 
-      const correctImage = await insertCorrectImageByChallenge(
+
+      const createdImage = await insertCorrectImageByChallenge(
         challengeRow.id,
         randomImageInSymbol.id,
         lessonId,
         symbol.id
       );
 
-      const correctSymbol = await getCorrectImageByChallenge(correctImage);
+      const correctImage = await getCorrectImageByChallenge(createdImage);
 
+      //only get random images right now, once we have them they should be saved to the incorrect images table to be queried later when the student revisits/reloads a lesson
       const incorrectSymbols = await getRandomImages(3, symbol.id);
+
+      const result = await insertIncorrectImagesByChallenge(
+        incorrectSymbols.map(symbol => symbol.id),
+        challengeRow.id
+      );
+
+      const incorrectImages = await getIncorrectImagesByChallenge(challengeRow.id)
 
       //return a completed challenge object which is made up of an challengeId, audioUrl, images: [{imageUrl, id}]
       return {
         id: challengeRow.id,
         audio_url: symbol.audio_url,
-        images: [...incorrectSymbols, correctSymbol]
+        // images: correctSymbol
+        images: shuffle([...incorrectImages, correctImage].slice())
       };
     })
   );
+
   return challenges;
 };
 
@@ -403,12 +436,15 @@ module.exports = app => {
         } else {
           const challenges = await Promise.all(
             correctImages.map(async image => {
-              const incorrectImages = await getRandomImages(3, image.symbol_id);
-
+              //we shouldn't get random images if the challenges already exist for a lesson/user. We should instead grab the three incorrect images created originally when the lesson/user was created.
+              // const incorrectImages = await getRandomImages(3, image.symbol_id);
+              const incorrectImages = await getIncorrectImagesByChallenge(
+                image.challenge_id
+              );
               return {
                 id: image.challenge_id,
                 audio_url: image.audio_url,
-                images: [...incorrectImages, image]
+                images: shuffle([...incorrectImages, image].slice())
               };
             })
           );
@@ -420,4 +456,15 @@ module.exports = app => {
       }
     }
   );
+
+  app.post('/api/lessons/lastchallenge', async (req, res) => {
+    const { userId, lessonId } = req.body
+    try {
+      const lastCompletedChallenge = await getLastCompletedChallenge(userId, lessonId)
+      res.send({success: true, error: false, lastCompletedChallenge})
+    } catch (error) {
+      console.log(error);
+      res.send({ success: false, error });
+    }
+  })
 };

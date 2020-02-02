@@ -3,13 +3,7 @@ import { connect } from 'react-redux';
 import * as actions from '../actions';
 import * as utils from '../utils';
 
-import {
-  Button,
-  Modal,
-  Message,
-  Form,
-  Segment
-} from 'semantic-ui-react';
+import { Button, Modal, Message, Form, Segment } from 'semantic-ui-react';
 
 import Roadmap from './Roadmap';
 
@@ -25,7 +19,6 @@ class Profile extends React.Component {
   componentDidMount = async () => {
     const logins = await utils.getLogins(this.props.auth.id);
     this.setState({ logins: logins.response });
-
   };
 
   changePassword = () => {
@@ -105,6 +98,7 @@ class Profile extends React.Component {
               </div>
             </Modal.Content>
           </Modal>
+
           {this.props.auth.service_id ? null : (
             <Button onClick={this.changePassword}>Change Password</Button>
           )}
@@ -113,7 +107,11 @@ class Profile extends React.Component {
           <Segment style={{ maxWidth: '382px' }}>
             <Form>
               {this.state.message ? (
-                <Message negative={this.state.success ? false : true} positive={this.state.success ? true : false}>{this.state.message}</Message>
+                <Message
+                  negative={this.state.success ? false : true}
+                  positive={this.state.success ? true : false}>
+                  {this.state.message}
+                </Message>
               ) : null}
               <Form.Input
                 type="password"
