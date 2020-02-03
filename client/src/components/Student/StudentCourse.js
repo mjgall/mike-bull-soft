@@ -39,49 +39,48 @@ class StudentCourse extends React.Component {
 
     if (course.exists) {
       //symbols
-    const symbols = await utils.fetchSymbols(this.props.match.params.id);
-    //order of the lessons
+      const symbols = await utils.fetchSymbols(this.props.match.params.id);
+      //order of the lessons
 
-    const lessonOrder = course.lessons_order.split(',').map(id => parseInt(id));
-    //lessons
-    const lessons = this.sortLessons(
-      await utils.fetchLessons(this.props.match.params.id),
-      lessonOrder
-    );
+      const lessonOrder = course.lessons_order
+        .split(',')
+        .map(id => parseInt(id));
+      //lessons
+      const lessons = this.sortLessons(
+        await utils.fetchLessons(this.props.match.params.id),
+        lessonOrder
+      );
 
-    if (
-      this.props.app.startedCourses
-        .map(course => {
-          return course.course_id;
-        })
-        .indexOf(parseInt(this.props.match.params.id)) >= 0
-    ) {
-      this.setState({ courseStarted: true });
-    }
+      if (
+        this.props.app.startedCourses
+          .map(course => {
+            return course.course_id;
+          })
+          .indexOf(parseInt(this.props.match.params.id)) >= 0
+      ) {
+        this.setState({ courseStarted: true });
+      }
 
-    this.setState({ course });
-    this.setState({ symbols });
-    this.setState({ lessons });
-    this.setState({ isLoaded: true, hasError: false });
+      this.setState({ course });
+      this.setState({ symbols });
+      this.setState({ lessons });
+      this.setState({ isLoaded: true, hasError: false });
     } else {
       this.setState({ isLoaded: true, hasError: true });
     }
-    
   }
 
   startCourse = () => {
     utils.startCourse(this.props.auth.id, parseInt(this.props.match.params.id));
-    this.setState({courseStarted: true})
+    this.setState({ courseStarted: true });
   };
 
-  continueCourse = () => {
-
-  };
+  continueCourse = () => {};
 
   renderCourse = () => {
     if (this.state.course && this.state.isLoaded && !this.state.hasError) {
       return (
-        <div>
+        <React.Fragment>
           <div>
             <h4>
               <Link to="/student">Back to courses</Link>
@@ -128,17 +127,16 @@ class StudentCourse extends React.Component {
               </Grid.Row>
             </Grid>
           </Segment>
-          <h2>Lessons</h2>
-          <LessonsTable
-            location={this.props.match.url}
-            lessons={this.state.lessons}
-            course={this.state.course}></LessonsTable>
-          <h2>Symbols</h2>
-          <SymbolsTable
-            symbols={this.state.symbols}
-            renderLocation={this.props.match.url}
-          />
-        </div>
+          {this.state.courseStarted ? (
+            <div>
+              <h2>Lessons</h2>
+              <LessonsTable
+                location={this.props.match.url}
+                lessons={this.state.lessons}
+                course={this.state.course}></LessonsTable>
+            </div>
+          ) : null}
+        </React.Fragment>
       );
     } else {
       return (
@@ -156,9 +154,8 @@ class StudentCourse extends React.Component {
             <Icon name="mail"></Icon>support@{window.location.host}
           </a>
         </div>
-      )
+      );
     }
-    
   };
 
   render() {
