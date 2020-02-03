@@ -9,7 +9,7 @@ module.exports = (lessonId, userId) => {
       }
 
       connection.query(
-        `SELECT challenges.id AS challenge_id, images.id AS id, images.url as url, images.symbol_id, symbols.audio_url
+        `SELECT challenges.id AS challenge_id, challenges.status, images.id AS id, images.url as url, images.symbol_id, symbols.audio_url
         FROM challenges 
         INNER JOIN challenges_symbols_correct 
         ON challenges.id = challenges_symbols_correct.challenge_id

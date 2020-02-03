@@ -74,10 +74,26 @@ class StudentLesson extends React.Component {
       lastChallenge
     );
 
-    this.setState({ currentChallenge: lastChallenge, indexOfCurrentChallenge, loaded: true });
+    this.setState({
+      currentChallenge: lastChallenge,
+      indexOfCurrentChallenge,
+      loaded: true
+    });
   };
 
-  SymbolProgress = () => {
+  prevChallenge = () => {
+    this.setState({
+      indexOfCurrentChallenge: this.state.indexOfCurrentChallenge - 1
+    });
+  };
+
+  nextChallenge = () => {
+    this.setState({
+      indexOfCurrentChallenge: this.state.indexOfCurrentChallenge + 1
+    });
+  };
+
+  SymbolProgress = (props) => {
     const challenges = this.state.challenges;
     return (
       <div
@@ -87,8 +103,18 @@ class StudentLesson extends React.Component {
           justifyContent: 'space-between',
           flexWrap: 'wrap'
         }}>
-        {challenges.map(challenge => {
-          return <Icon style={{ fontSize: '40px' }} name="circle thin"></Icon>;
+        {challenges.map((challenge, index) => {
+          return (
+            <Icon
+              style={{
+                fontSize: '40px',
+                color:
+                  index === props.currentChallengeIndex
+                    ? 'yellow'
+                    : 'black'
+              }}
+              name="circle thin"></Icon>
+          );
         })}
       </div>
     );
@@ -120,11 +146,12 @@ class StudentLesson extends React.Component {
   };
 
   playAudio = () => {
+    this.audioPlayer.current.load();
     this.audioPlayer.current.play();
   };
 
-  LessonControls = () => {
-    console.log(this.state.challenges[this.state.indexOfCurrentChallenge].audioUrl);
+  LessonControls = props => {
+    console.log(props.source);
     return (
       <div
         style={{
@@ -139,7 +166,7 @@ class StudentLesson extends React.Component {
           onClick={this.playAudio}>
           <Icon name="play"></Icon> Play
           <audio ref={this.audioPlayer} id="audio-player">
-            <source src={this.state.challenges[this.state.indexOfCurrentChallenge].audio_url}></source>
+            <source src={props.source}></source>
           </audio>
         </div>
 
@@ -155,12 +182,20 @@ class StudentLesson extends React.Component {
       return this.state.loaded ? (
         <div style={{ width: '100%', height: '100%' }}>
           <h1>{this.state.lesson.title}</h1>
-          <this.SymbolProgress></this.SymbolProgress>
+          <this.SymbolProgress currentChallengeIndex={this.state.indexOfCurrentChallenge}></this.SymbolProgress>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr' }}>
             <this.ImageContainer
-              images={this.state.challenges[this.state.indexOfCurrentChallenge].images}></this.ImageContainer>
-            <this.LessonControls></this.LessonControls>
+              images={
+                this.state.challenges[this.state.indexOfCurrentChallenge].images
+              }></this.ImageContainer>
+            <this.LessonControls
+              source={
+                this.state.challenges[this.state.indexOfCurrentChallenge]
+                  .audio_url
+              }></this.LessonControls>
           </div>
+          <button onClick={this.prevChallenge}>Previous challenge</button>
+          <button onClick={this.nextChallenge}>Next challenge</button>
         </div>
       ) : (
         <Loader></Loader>

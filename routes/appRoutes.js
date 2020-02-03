@@ -91,6 +91,7 @@ const createChallenges = async (lessonId, userId) => {
       return {
         id: challengeRow.id,
         audio_url: symbol.audio_url,
+        status: challengeRow.status,
         // images: correctSymbol
         images: shuffle([...incorrectImages, correctImage].slice())
       };
@@ -444,6 +445,7 @@ module.exports = app => {
               return {
                 id: image.challenge_id,
                 audio_url: image.audio_url,
+                status: image.status,
                 images: shuffle([...incorrectImages, image].slice())
               };
             })
