@@ -67,11 +67,15 @@ class Profile extends React.Component {
           <h2>
             {this.props.auth.first_name} {this.props.auth.last_name}
           </h2>
+
           <div>
-            <h4>{this.props.auth.email}</h4>
+            <p>
+              { this.props.auth.email }
+              <br></br>
+              <em>User since { (new Date(this.props.auth.create_date)).toLocaleDateString() }</em>
+            </p>
           </div>
-          {/* <Button>Change password</Button>
-          <Button onClick={this.deleteAccount}>Delete account</Button> */}
+
           <Modal
             trigger={<Button>All logins</Button>}
             header="Logins"

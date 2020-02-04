@@ -8,9 +8,9 @@ module.exports = user => {
   let query
 
   if (password) {
-    query = `INSERT INTO users (service_id, password, first_name, last_name, email, photo_url, create_date) VALUES (${sqlString.escape(service_id)}, ${sqlString.escape(bcrypt.hashSync(password, 10))}, ${sqlString.escape(first_name)}, ${sqlString.escape(last_name)}, ${sqlString.escape(email)}, ${sqlString.escape(photo_url)}, UNIX_TIMESTAMP());`;
+    query = `INSERT INTO users (service_id, password, first_name, last_name, email, photo_url, create_date) VALUES (${sqlString.escape(service_id)}, ${sqlString.escape(bcrypt.hashSync(password, 10))}, ${sqlString.escape(first_name)}, ${sqlString.escape(last_name)}, ${sqlString.escape(email)}, ${sqlString.escape(photo_url)}, CURDATE());`;
   } else {
-    query = `INSERT INTO users (service_id, password, first_name, last_name, email, photo_url, create_date) VALUES (${sqlString.escape(service_id)}, ${sqlString.escape(password)}, ${sqlString.escape(first_name)}, ${sqlString.escape(last_name)}, ${sqlString.escape(email)}, ${sqlString.escape(photo_url)}, UNIX_TIMESTAMP());`;
+    query = `INSERT INTO users (service_id, password, first_name, last_name, email, photo_url, create_date) VALUES (${sqlString.escape(service_id)}, ${sqlString.escape(password)}, ${sqlString.escape(first_name)}, ${sqlString.escape(last_name)}, ${sqlString.escape(email)}, ${sqlString.escape(photo_url)}, CURDATE());`;
   }
 
   
