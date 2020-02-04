@@ -137,6 +137,30 @@ img.symbol-image {
   color: white;
 }
 
+.answer.incorrect {
+  position: absolute;
+  z-index: 1000;
+  border: 4px solid red;
+  width: 79vw;
+  border-radius: 5px;
+  text-align: center;
+  background: red;
+  color: white;
+  top: 10px;
+}
+
+.answer.correct {
+  position: absolute;
+  z-index: 1000;
+  border: 4px solid green;
+  width: 79vw;
+  border-radius: 5px;
+  text-align: center;
+  background: green;
+  color: white;
+  top: 10px;
+}
+
 @media only screen and (max-width: 768px) {
   .ui.container.mobile-base {
     padding-top: 5rem;

@@ -147,7 +147,6 @@ export const fetchChallengesByLesson = async (lessonId, userId) => {
     );
 
     return response.data;
-
   } catch (error) {
     console.log(error);
     throw new Error(error);
@@ -169,10 +168,25 @@ export const createChallengesByLesson = async (lessonId, userId) => {
 
 export const getLastCompletedChallenge = async (userId, lessonId) => {
   try {
-    const response = await axios.post(`/api/lessons/lastchallenge`, { userId, lessonId })
-    return response.data
+    const response = await axios.post(`/api/lessons/lastchallenge`, {
+      userId,
+      lessonId
+    });
+    return response.data;
   } catch (error) {
     console.log(error);
     throw new Error(error);
   }
-}
+};
+
+export const submitAnswer = async (challengeId, imageId) => {
+  try {
+    const response = await axios.get(
+      `/api/challenges/${challengeId}/checkanswer/${imageId}`
+    );
+    return response.data;
+  } catch (error) {
+    console.log(error);
+    throw new Error(error);
+  }
+};

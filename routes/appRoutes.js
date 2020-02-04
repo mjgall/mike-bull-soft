@@ -29,7 +29,8 @@ const getRandomImageInSymbol = require('../queries/createCorrectSymbol/getRandom
 const insertCorrectImageByChallenge = require('../queries/createCorrectSymbol/insertCorrectImageByChallenge');
 const insertIncorrectImagesByChallenge = require('../queries/insertIncorrectImagesByChallenge');
 const getIncorrectImagesByChallenge = require('../queries/getIncorrectImagesByChallenge');
-const getLastCompletedChallenge = require('../queries/getLastCompletedChallenge')
+const getLastCompletedChallenge = require('../queries/getLastCompletedChallenge');
+const getCorrectImageByChallengeSimple = require ('../queries/getCorrectImageByChallengeSimple')
 
 const shuffle = function(array) {
   let currentIndex = array.length;
@@ -53,7 +54,7 @@ const shuffle = function(array) {
 
 const createChallenges = async (lessonId, userId) => {
   const symbols = await getSymbolsByLesson(lessonId);
- 
+
   const challenges = await Promise.all(
     symbols.map(async (symbol, index) => {
       //first create a challenge row for each symbol, returns that row in the db
@@ -85,7 +86,9 @@ const createChallenges = async (lessonId, userId) => {
         challengeRow.id
       );
 
-      const incorrectImages = await getIncorrectImagesByChallenge(challengeRow.id)
+      const incorrectImages = await getIncorrectImagesByChallenge(
+        challengeRow.id
+      );
 
       //return a completed challenge object which is made up of an challengeId, audioUrl, images: [{imageUrl, id}]
       return {
@@ -460,13 +463,46 @@ module.exports = app => {
   );
 
   app.post('/api/lessons/lastchallenge', async (req, res) => {
-    const { userId, lessonId } = req.body
+    const { userId, lessonId } = req.body;
     try {
-      const lastCompletedChallenge = await getLastCompletedChallenge(userId, lessonId)
-      res.send({success: true, error: false, lastCompletedChallenge})
+      const lastCompletedChallenge = await getLastCompletedChallenge(
+        userId,
+        lessonId
+      );
+      res.send({ success: true, error: false, lastCompletedChallenge });
     } catch (error) {
       console.log(error);
       res.send({ success: false, error });
     }
-  })
+  });
+
+  app.get(
+    '/api/challenges/:challengeId/checkanswer/:imageId',
+    async (req, res) => {
+      const { challengeId, imageId } = req.params;
+      try {
+        const correctImage = await getCorrectImageByChallengeSimple(challengeId);
+        console.log({correctImage})
+        console.log( {imageId})
+        if (correctImage == imageId) {
+          res.send({
+            success: true,
+            error: false,
+            message: 'Correct!',
+            correct: true
+          });
+        } else {
+          res.send({
+            success: true,
+            error: false,
+            message: 'Incorrect 🤷‍♂️',
+            correct: false
+          });
+        }
+      } catch (error) {
+        console.log(error);
+        res.send({ success: false, error });
+      }
+    }
+  );
 };
