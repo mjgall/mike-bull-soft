@@ -7,7 +7,7 @@ import * as actions from '../actions';
 import SymbolForm from './SymbolForm';
 
 class AddSymbolModal extends React.Component {
-  state = { modalOpen: this.props.modalOpen, isSubmitting: false };
+  state = { modalOpen: this.props.modalOpen, isSubmitting: false, alertMessage: '', alert: false };
 
   componentWillMount() {
     document.addEventListener('click', e => {
@@ -47,20 +47,32 @@ class AddSymbolModal extends React.Component {
 
   submit = async () => {
     const formValue = this.props.form.text;
-    this.setState({ isSubmitting: true });
-    await this.props.addSymbol({
-      owner_id: this.props.auth.id,
-      course_id: this.props.courseId,
-      text: formValue,
-      language: this.props.courseLanguage,
-      images: this.props.app.symbolImages
-    });
-    this.setState({ isSubmitting: false });
-    this.close();
-    this.updateParent();
+    if (this.props.app.symbolImages.length === 0 || !formValue) {
+      this.setState({
+        alert: true,
+        alertMessage: 'Please submit at least one drawing and text.'
+      });
+      setTimeout(() => {
+        this.setState({
+          alert: false,
+          alertMessage: ''
+        })
+      }, 1500)
+      
+    } else {
+      this.setState({ isSubmitting: true });
+      await this.props.addSymbol({
+        owner_id: this.props.auth.id,
+        course_id: this.props.courseId,
+        text: formValue,
+        language: this.props.courseLanguage,
+        images: this.props.app.symbolImages
+      });
+      this.setState({ isSubmitting: false });
+      this.close();
+      this.updateParent();
+    }
   };
-
-
 
   render() {
     return (
@@ -74,6 +86,10 @@ class AddSymbolModal extends React.Component {
         open={this.state.modalOpen}>
         <Modal.Header>Add a Symbol</Modal.Header>
         <Modal.Content>
+          {this.state.alert ? (
+            <div className="alert">{this.state.alertMessage}</div>
+          ) : null}
+
           <Modal.Description>
             <SymbolForm />
           </Modal.Description>
@@ -109,7 +125,4 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(
-  mapStateToProps,
-  actions
-)(AddSymbolModal);
+export default connect(mapStateToProps, actions)(AddSymbolModal);
