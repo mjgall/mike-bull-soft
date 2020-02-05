@@ -161,6 +161,18 @@ img.symbol-image {
   top: 10px;
 }
 
+.image-choice {
+  transition: transform 0.2s; /* Animation */
+  background: white;
+}
+
+.image-choice:hover {
+  transform: scale(
+    1.03
+  ); /* (150% zoom - Note: if the zoom is too large, it will go outside of the viewport) */
+  box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+}
+
 @media only screen and (max-width: 768px) {
   .ui.container.mobile-base {
     padding-top: 5rem;

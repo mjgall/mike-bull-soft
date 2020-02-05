@@ -30,7 +30,8 @@ const insertCorrectImageByChallenge = require('../queries/createCorrectSymbol/in
 const insertIncorrectImagesByChallenge = require('../queries/insertIncorrectImagesByChallenge');
 const getIncorrectImagesByChallenge = require('../queries/getIncorrectImagesByChallenge');
 const getLastCompletedChallenge = require('../queries/getLastCompletedChallenge');
-const getCorrectImageByChallengeSimple = require ('../queries/getCorrectImageByChallengeSimple')
+const getCorrectImageByChallengeSimple = require('../queries/getCorrectImageByChallengeSimple');
+const updateChallengeStatus = require('../queries/updateChallengeStatus');
 
 const shuffle = function(array) {
   let currentIndex = array.length;
@@ -481,9 +482,11 @@ module.exports = app => {
     async (req, res) => {
       const { challengeId, imageId } = req.params;
       try {
-        const correctImage = await getCorrectImageByChallengeSimple(challengeId);
-        console.log({correctImage})
-        console.log( {imageId})
+        const correctImage = await getCorrectImageByChallengeSimple(
+          challengeId
+        );
+        console.log({ correctImage });
+        console.log({ imageId });
         if (correctImage == imageId) {
           res.send({
             success: true,
@@ -505,4 +508,18 @@ module.exports = app => {
       }
     }
   );
+
+  app.put('/api/challenges', async (req, res) => {
+    const { challengeId, newStatus } = req.body;
+    try {
+      const updatedChallenge = await updateChallengeStatus(
+        challengeId,
+        newStatus
+      );
+      res.send({ success: true, error: false, updatedChallenge });
+    } catch (error) {
+      console.log(error);
+      res.send({ success: false, error });
+    }
+  });
 };

@@ -190,3 +190,15 @@ export const submitAnswer = async (challengeId, imageId) => {
     throw new Error(error);
   }
 };
+
+export const changeChallengeStatus = async (challengeId, newStatus) => {
+  try {
+    const response = await axios.put(
+      `/api/challenges`, {challengeId, newStatus}
+    );
+    return response.data;
+  } catch (error) {
+    console.log(error);
+    throw new Error(error);
+  }
+}

@@ -58,6 +58,8 @@ class StudentLesson extends React.Component {
     // }
 
     if (response.success) {
+      //sort challenges by their id in ascending order, we could substitute this for an order index key set by the lesson creator if we wanted to later
+      response.challenges.sort((a, b) => (a.id > b.id ? 1 : -1));
       this.setState({ challenges: response.challenges });
     } else if (!response.success) {
       this.setState({ message: response.message, error: true });
@@ -70,6 +72,8 @@ class StudentLesson extends React.Component {
         this.state.lessonId
       )
     ).lastCompletedChallenge;
+
+    console.log(lastChallenge);
 
     //we now need to get the index of challenge by this id from this.state.challenges
 
@@ -135,7 +139,13 @@ class StudentLesson extends React.Component {
               style={{
                 fontSize: '40px',
                 color:
-                  index === props.currentChallengeIndex ? 'yellow' : 'black'
+                  index === props.currentChallengeIndex
+                    ? 'blue'
+                    : challenge.status === 2
+                    ? 'green'
+                    : challenge.status === 3
+                    ? 'red'
+                    : 'gray'
               }}
               name="circle thin"></Icon>
           );
@@ -151,10 +161,31 @@ class StudentLesson extends React.Component {
     );
 
     if (answerStatus.correct) {
-      this.setState({ answerChecked: true, correct: true });
-      setTimeout(() => this.nextChallenge(), 1000)
+      this.setState({
+        answerChecked: true,
+        correct: true,
+        challenges: this.state.challenges.map((challenge, index) => {
+          return index === this.state.indexOfCurrentChallenge
+            ? { ...challenge, status: 2 }
+            : challenge;
+        })
+      });
+      //CHANGE STATUS OF CHALLENGE TO CORRECT HERE, SOMETHING LIKE utils.changeChallengeStatus(challengeId, newStatus)
+      utils.changeChallengeStatus(this.state.currentChallenge, 2);
+      setTimeout(() => this.nextChallenge(), 1000);
     } else {
-      this.setState({ answerChecked: true, correct: false });
+      this.setState({
+        answerChecked: true,
+        correct: false,
+        challenges: this.state.challenges.map((challenge, index) => {
+          return index === this.state.indexOfCurrentChallenge
+            ? { ...challenge, status: 3 }
+            : challenge;
+        })
+      });
+      //CHANGE STATUS OF CHALLENGE TO INCORRECT HERE, SOMETHING LIKE utils.changeChallengeStatus(challengeId, newStatus)
+      utils.changeChallengeStatus(this.state.currentChallenge, 3);
+      setTimeout(() => this.nextChallenge(), 1000);
     }
     console.log(answerStatus.message);
   };
@@ -166,14 +197,15 @@ class StudentLesson extends React.Component {
         style={{
           width: '500px',
           height: '500px',
-          border: '1px solid black',
+          // border: '1px solid black',
           display: 'grid',
           gridTemplateColumns: '1fr 1fr'
         }}>
         {images.map(image => {
           return (
             <div
-              style={{ height: '250px', width: '250px' }}
+              className="image-choice"
+              style={{ height: '250px', width: '250px', border: '1px solid gray', borderRadius: '5px', margin: '5px', cursor: 'pointer' }}
               onClick={() => this.submitAnswer(image.id)}>
               <img
                 alt="a possible answer"
@@ -211,7 +243,12 @@ class StudentLesson extends React.Component {
           </audio>
         </div>
 
-        <div className="lesson-control-button" style={{ fontSize: '48px' }} onClick={() => this.props.history.push(`/student/course/${this.state.courseId}`)}>
+        <div
+          className="lesson-control-button"
+          style={{ fontSize: '48px' }}
+          onClick={() =>
+            this.props.history.push(`/student/course/${this.state.courseId}`)
+          }>
           <Icon name="cancel"></Icon> Cancel Lesson
         </div>
       </div>
@@ -234,9 +271,13 @@ class StudentLesson extends React.Component {
               }></this.ImageContainer>
             {this.state.answerChecked ? (
               this.state.correct ? (
-                <div className="answer correct"><h1>Correct!</h1></div>
+                <div className="answer correct">
+                  <h1>Correct!</h1>
+                </div>
               ) : (
-                <div className="answer incorrect"><h1>Wrong!</h1></div>
+                <div className="answer incorrect">
+                  <h1>Wrong!</h1>
+                </div>
               )
             ) : null}
             <this.LessonControls
