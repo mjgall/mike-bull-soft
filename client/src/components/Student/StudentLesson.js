@@ -264,7 +264,7 @@ class StudentLesson extends React.Component {
             currentChallengeIndex={
               this.state.indexOfCurrentChallenge
             }></this.SymbolProgress>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr' }}>
+          <div className="challenge-controls-choices">
             <this.ImageContainer
               images={
                 this.state.challenges[this.state.indexOfCurrentChallenge].images
