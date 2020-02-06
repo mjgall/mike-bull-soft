@@ -185,11 +185,6 @@ img.symbol-image {
   color: white;
 }
 
-.challenge-controls-choices {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-}
-
 @media only screen and (max-width: 768px) {
   .ui.container.mobile-base {
     padding-top: 5rem;
@@ -200,10 +195,5 @@ img.symbol-image {
   .app-base {
     margin-left: 0;
     padding-top: 0;
-  }
-
-  .challenge-controls-choices {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
   }
 }
