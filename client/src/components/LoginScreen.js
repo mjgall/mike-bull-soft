@@ -31,7 +31,7 @@ class LoginScreen extends React.Component {
 
   submit = async () => {
     const response = await axios.post('/auth/login', {
-      email: this.state.email,
+      email: this.state.email.split(' ').join(''),
       password: this.state.password
     });
 

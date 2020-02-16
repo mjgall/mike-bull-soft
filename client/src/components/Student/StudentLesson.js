@@ -5,6 +5,7 @@ import Loader from '../Loader';
 import * as utils from '../../utils';
 import { connect } from 'react-redux';
 import * as actions from '../../actions';
+import CompletedLesson from './CompletedLesson';
 
 function indexByProperty(array, attr, value) {
   for (var i = 0; i < array.length; i += 1) {
@@ -32,62 +33,81 @@ class StudentLesson extends React.Component {
     currentChallenge: null,
     indexOfCurrentChallenge: null,
     answerChecked: null,
-    correct: null
-  };
-  componentDidUpdate = () => {
-    console.log(this.state.currentChallenge);
+    correct: null,
+    lessonComplete: false,
+    correctChallenges: [],
+    incorrectChallenges: []
   };
 
   componentDidMount = async () => {
-    //challenges is an array of the challenge objects created on the server side. A challenge object contains a challenge id, an images array (imageUrl, imageId), and an audioUrl. It needs two arguments: userId and lessonId which are checked to find the
-
-    const response = await utils.fetchChallengesByLesson(
+    const student_lesson = await utils.getStudentLesson(
       this.state.lessonId,
       this.props.auth.id
     );
 
-    // console.log(challenges.length === 0);
+    if (student_lesson.success) {
+      const response = await utils.fetchChallengesByLesson(
+        this.state.lessonId,
+        this.props.auth.id
+      );
 
-    // if (challenges.length === 0) {
-    //   const challenges = await utils.createChallengesByLesson(
-    //     this.state.lessonId,
-    //     this.props.auth.id
-    //   );
-    //   console.log(challenges);
-    //   this.setState({ challenges, loaded: true });
-    // }
+      if (response.success) {
+        //sort challenges by their id in ascending order, we could substitute this for an order index key set by the lesson creator if we wanted to later
+        response.challenges.sort((a, b) => (a.id > b.id ? 1 : -1));
 
-    if (response.success) {
-      //sort challenges by their id in ascending order, we could substitute this for an order index key set by the lesson creator if we wanted to later
-      response.challenges.sort((a, b) => (a.id > b.id ? 1 : -1));
-      this.setState({ challenges: response.challenges });
-    } else if (!response.success) {
-      this.setState({ message: response.message, error: true });
-      throw new Error(response.error);
+        const correctChallenges = response.challenges.filter(challenge => {
+          if (challenge.status === 2) {
+            return true;
+          } else {
+            return false;
+          }
+        });
+
+        const incorrectChallenges = response.challenges.filter(challenge => {
+          if (challenge.status === 3) {
+            return true;
+          } else {
+            return false;
+          }
+        });
+
+        this.setState({
+          challenges: response.challenges,
+          correctChallenges,
+          incorrectChallenges
+        });
+      } else if (!response.success) {
+        this.setState({ message: response.message, error: true });
+        throw new Error(response.error);
+      }
+
+      const lastChallenge = (
+        await utils.getLastCompletedChallenge(
+          this.props.auth.id,
+          this.state.lessonId
+        )
+      ).lastCompletedChallenge;
+
+      //we now need to get the index of challenge by this id from this.state.challenges
+
+      const indexOfCurrentChallenge = indexByProperty(
+        this.state.challenges,
+        'id',
+        lastChallenge
+      );
+
+      if (indexOfCurrentChallenge === -1) {
+        this.setState({ lessonComplete: true, loaded: true });
+      } else {
+        this.setState({
+          currentChallenge: lastChallenge,
+          indexOfCurrentChallenge,
+          loaded: true
+        });
+      }
+    } else if (student_lesson.completed == 1) {
+      this.setState({ lessonComplete: true, loaded: true });
     }
-
-    const lastChallenge = (
-      await utils.getLastCompletedChallenge(
-        this.props.auth.id,
-        this.state.lessonId
-      )
-    ).lastCompletedChallenge;
-
-    console.log(lastChallenge);
-
-    //we now need to get the index of challenge by this id from this.state.challenges
-
-    const indexOfCurrentChallenge = indexByProperty(
-      this.state.challenges,
-      'id',
-      lastChallenge
-    );
-
-    this.setState({
-      currentChallenge: lastChallenge,
-      indexOfCurrentChallenge,
-      loaded: true
-    });
   };
 
   prevChallenge = () => {
@@ -110,7 +130,7 @@ class StudentLesson extends React.Component {
       this.state.indexOfCurrentChallenge + 1 ===
       this.state.challenges.length
     ) {
-      console.log("That's all of them");
+      this.setState({ lessonComplete: true });
     } else {
       this.setState({
         indexOfCurrentChallenge: this.state.indexOfCurrentChallenge + 1,
@@ -160,8 +180,20 @@ class StudentLesson extends React.Component {
       id
     );
 
+    // console.log([...this.state.correct, this.state.challenges[indexByProperty(this.state.challenges, 'id', this.state.currentChallenge)]])
+
     if (answerStatus.correct) {
       this.setState({
+        correctChallenges: [
+          ...this.state.correctChallenges,
+          this.state.challenges[
+            indexByProperty(
+              this.state.challenges,
+              'id',
+              this.state.currentChallenge
+            )
+          ]
+        ],
         answerChecked: true,
         correct: true,
         challenges: this.state.challenges.map((challenge, index) => {
@@ -175,6 +207,16 @@ class StudentLesson extends React.Component {
       setTimeout(() => this.nextChallenge(), 1000);
     } else {
       this.setState({
+        incorrectChallenges: [
+          ...this.state.incorrectChallenges,
+          this.state.challenges[
+            indexByProperty(
+              this.state.challenges,
+              'id',
+              this.state.currentChallenge
+            )
+          ]
+        ],
         answerChecked: true,
         correct: false,
         challenges: this.state.challenges.map((challenge, index) => {
@@ -187,7 +229,6 @@ class StudentLesson extends React.Component {
       utils.changeChallengeStatus(this.state.currentChallenge, 3);
       setTimeout(() => this.nextChallenge(), 1000);
     }
-    console.log(answerStatus.message);
   };
 
   ImageContainer = props => {
@@ -205,7 +246,14 @@ class StudentLesson extends React.Component {
           return (
             <div
               className="image-choice"
-              style={{ height: '250px', width: '250px', border: '1px solid gray', borderRadius: '5px', margin: '5px', cursor: 'pointer' }}
+              style={{
+                height: '250px',
+                width: '250px',
+                border: '1px solid gray',
+                borderRadius: '5px',
+                margin: '5px',
+                cursor: 'pointer'
+              }}
               onClick={() => this.submitAnswer(image.id)}>
               <img
                 alt="a possible answer"
@@ -256,43 +304,54 @@ class StudentLesson extends React.Component {
   };
 
   render() {
-    if (!this.state.error) {
-      return this.state.loaded ? (
-        <div style={{ width: '100%', height: '100%' }}>
-          <h1>{this.state.lesson.title}</h1>
-          <this.SymbolProgress
-            currentChallengeIndex={
-              this.state.indexOfCurrentChallenge
-            }></this.SymbolProgress>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr' }}>
-            <this.ImageContainer
-              images={
-                this.state.challenges[this.state.indexOfCurrentChallenge].images
-              }></this.ImageContainer>
-            {this.state.answerChecked ? (
-              this.state.correct ? (
-                <div className="answer correct">
-                  <h1>Correct!</h1>
-                </div>
-              ) : (
-                <div className="answer incorrect">
-                  <h1>Wrong!</h1>
-                </div>
-              )
-            ) : null}
-            <this.LessonControls
-              source={
-                this.state.challenges[this.state.indexOfCurrentChallenge]
-                  .audio_url
-              }></this.LessonControls>
-          </div>
-          {/* <button onClick={this.prevChallenge}>Previous challenge</button>
-          <button onClick={this.nextChallenge}>Next challenge</button> */}
-        </div>
-      ) : (
-        <Loader></Loader>
-      );
-    } else {
+    try {
+      if (!this.state.error) {
+        return this.state.loaded ? (
+          this.state.lessonComplete ? (
+            <CompletedLesson
+              correct={this.state.correctChallenges}
+              incorrect={this.state.incorrectChallenges}></CompletedLesson>
+          ) : (
+            <div style={{ width: '100%', height: '100%' }}>
+              <h1>{this.state.lesson.title}</h1>
+              <this.SymbolProgress
+                currentChallengeIndex={
+                  this.state.indexOfCurrentChallenge
+                }></this.SymbolProgress>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr' }}>
+                <this.ImageContainer
+                  images={
+                    this.state.challenges[this.state.indexOfCurrentChallenge]
+                      .images
+                  }></this.ImageContainer>
+                {this.state.answerChecked ? (
+                  this.state.correct ? (
+                    <div className="answer correct">
+                      <h1>Correct!</h1>
+                    </div>
+                  ) : (
+                    <div className="answer incorrect">
+                      <h1>Wrong!</h1>
+                    </div>
+                  )
+                ) : null}
+                <this.LessonControls
+                  source={
+                    this.state.challenges[this.state.indexOfCurrentChallenge]
+                      .audio_url
+                  }></this.LessonControls>
+              </div>
+            </div>
+          )
+        ) : (
+          <Loader></Loader>
+        );
+      } else {
+        console.log(this.state.error);
+        throw new Error('Something went wrong');
+      }
+    } catch (error) {
+      console.log(this.state.error);
       throw new Error('Something went wrong');
     }
   }

@@ -48,6 +48,12 @@ export const startCourse = async (userId, courseId) => {
   return response.data;
 };
 
+export const getStudentLesson = async (lessonId, userId) => {
+  const response = await axios.get(`/api/lessons/${lessonId}/users/${userId}`);
+  console.log(response)
+  return response.data;
+};
+
 //this shouldn't be called anywhere
 
 // export const fetchRandomImages = async count => {
@@ -193,12 +199,13 @@ export const submitAnswer = async (challengeId, imageId) => {
 
 export const changeChallengeStatus = async (challengeId, newStatus) => {
   try {
-    const response = await axios.put(
-      `/api/challenges`, {challengeId, newStatus}
-    );
+    const response = await axios.put(`/api/challenges`, {
+      challengeId,
+      newStatus
+    });
     return response.data;
   } catch (error) {
     console.log(error);
     throw new Error(error);
   }
-}
+};

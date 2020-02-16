@@ -22,23 +22,18 @@ const trackNewLogin = userId => {
 };
 
 passport.serializeUser((user, done) => {
-  trackNewLogin(user.id)
+  trackNewLogin(user.id);
   done(null, user.id);
 });
 
 passport.deserializeUser((id, done) => {
-  db.getConnection((err, connection) => {
-    if (err) throw err;
-    connection.query(
-      `SELECT users.id, users.service_id, users.first_name, users.last_name, users.email, users.photo_url, users.create_date, MAX(logins.timestamp) AS last_login FROM users INNER JOIN logins ON users.id = logins.user_id WHERE users.id = ${id}`,
-      // `SELECT * FROM users WHERE id = ${id}`,
-      (err, users, fields) => {
-        if (err) throw err;
-        done(null, users[0]);
-      }
-    );
-    connection.release();
-  });
+  db.query(
+    `SELECT users.id, users.service_id, users.first_name, users.last_name, users.email, users.photo_url, users.create_date, MAX(logins.timestamp) AS last_login FROM users INNER JOIN logins ON users.id = logins.user_id WHERE users.id = ${id}`,
+    (err, users, fields) => {
+      if (err) throw err;
+      done(null, users[0]);
+    }
+  );
 });
 
 passport.use(
@@ -55,7 +50,6 @@ passport.use(
         const user = await getUserByGoogleId(profile.id);
         if (user) {
           done(null, user);
-
         } else if (!user) {
           try {
             const user = await createUser({
@@ -86,16 +80,14 @@ passport.use(
       try {
         const user = await getUserByEmailAddress(username).catch(err => {
           console.log(err);
-          throw Error(err)
+          throw Error(err);
         });
-
-
 
         if (user && user.password) {
           if (
             await bcrypt.compare(password, user.password).catch(e => {
               console.log(e);
-              throw Error(e)
+              throw Error(e);
             })
           ) {
             done(false, user, { message: 'redirect' });

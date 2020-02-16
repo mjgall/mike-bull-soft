@@ -8,34 +8,26 @@ const sqlString = require('sqlstring');
 module.exports = symbol => {
   return new Promise((resolve, reject) => {
     const { owner_id, course_id, text, audio_url } = symbol;
-    const query = `INSERT INTO symbols ( owner_id, course_id, create_date, text, audio_url ) VALUES (${sqlString.escape(owner_id)}, ${sqlString.escape(course_id)}, UNIX_TIMESTAMP(), ${sqlString.escape(text)}, ${sqlString.escape(audio_url)});`;
+    const query = `INSERT INTO symbols ( owner_id, course_id, create_date, text, audio_url ) VALUES (${sqlString.escape(
+      owner_id
+    )}, ${sqlString.escape(course_id)}, UNIX_TIMESTAMP(), ${sqlString.escape(
+      text
+    )}, ${sqlString.escape(audio_url)});`;
 
-    db.getConnection((err, connection) => {
+    db.query(query, (err, results, fields) => {
       if (err) {
         reject(err);
-      }
-      connection.query(query, (err, results, fields) => {
-        if (err) {
-          reject(err);
-        } else {
-          db.getConnection((err, connection) => {
+      } else {
+        db.query(
+          `SELECT * FROM symbols WHERE id=${results.insertId};`,
+          (err, symbols, fields) => {
             if (err) {
               reject(err);
             }
-            connection.query(
-              `SELECT * FROM symbols WHERE id=${results.insertId};`,
-              (err, symbols, fields) => {
-                if (err) {
-                  reject(err);
-                }
-                resolve(symbols[0]);
-              }
-            );
-          });
-          // connection.release();
-        }
-      });
-      connection.release();
+            resolve(symbols[0]);
+          }
+        );
+      }
     });
   });
 };

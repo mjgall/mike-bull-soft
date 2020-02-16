@@ -3,13 +3,8 @@ const sqlString = require('sqlstring');
 
 module.exports = (lessonId, userId) => {
   return new Promise((resolve, reject) => {
-    db.getConnection((err, connection) => {
-      if (err) {
-        reject(err);
-      }
-
-      connection.query(
-        `SELECT challenges.id AS challenge_id, challenges.status, images.id AS id, images.url as url, images.symbol_id, symbols.audio_url
+    db.query(
+      `SELECT challenges.id AS challenge_id, challenges.status, images.id AS id, images.url as url, images.symbol_id, symbols.audio_url
         FROM challenges 
         INNER JOIN challenges_symbols_correct 
         ON challenges.id = challenges_symbols_correct.challenge_id
@@ -19,14 +14,15 @@ module.exports = (lessonId, userId) => {
         ON symbols.id = challenges_symbols_correct.symbol_id WHERE challenges_symbols_correct.lesson_id = ${sqlString.escape(
           lessonId
         )} AND challenges.user_id = ${userId};`,
-        (err, images, fields) => {
-          if (err) {
-            reject(err);
-          }
-          resolve(images);
+      (err, challenges, fields) => {
+        if (err) {
+          reject(err);
+        } else if (challenges.length == 0) {
+          resolve({ exist: false });
+        } else {
+          resolve({ exist: true, challenges });
         }
-      );
-      connection.release();
-    });
+      }
+    );
   });
 };

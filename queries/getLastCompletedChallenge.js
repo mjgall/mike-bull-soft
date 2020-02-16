@@ -1,6 +1,5 @@
 const db = require('../config/db/mysql').pool;
 
-
 //returns the id of the challenge that should be completed
 module.exports = (userId, lessonId) => {
   return new Promise((resolve, reject) => {
@@ -8,6 +7,8 @@ module.exports = (userId, lessonId) => {
     db.query(query, (err, results, fields) => {
       if (err) {
         reject(err);
+      } else if (!results[0]) {
+        resolve({ lessonCompleted: true });
       } else {
         resolve(results[0].id);
       }

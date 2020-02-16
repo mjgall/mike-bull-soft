@@ -7,39 +7,27 @@ const sqlString = require('sqlstring');
 
 module.exports = (userId, courseId) => {
   return new Promise((resolve, reject) => {
+    const query = `INSERT INTO users_courses (user_id, course_id) VALUES (${sqlString.escape(
+      userId
+    )}, ${sqlString.escape(courseId)});`;
 
-    const query = `INSERT INTO users_courses (user_id, course_id) VALUES (${sqlString.escape(userId)}, ${sqlString.escape(courseId)});`;
-
-  
-    db.getConnection((err, connection) => {
+    db.query(query, (err, results, fields) => {
       if (err) {
         reject(err);
-      }
-      connection.query(query, (err, results, fields) => {
+      } else {
         if (err) {
           reject(err);
-        } else {
-          db.getConnection((err, connection) => {
+        }
+        db.query(
+          `SELECT * FROM users_courses WHERE id='${results.insertId}';`,
+          (err, courses, fields) => {
             if (err) {
               reject(err);
             }
-            connection.query(
-              `SELECT * FROM users_courses WHERE id='${
-                results.insertId
-              }';`,
-              (err, courses, fields) => {
-          
-                if (err) {
-                  reject(err);
-                }
-                resolve(courses[0]);
-              }
-            );
-          });
-          // connection.release();
-        }
-      });
-      connection.release();
+            resolve(courses[0]);
+          }
+        );
+      }
     });
   });
 };

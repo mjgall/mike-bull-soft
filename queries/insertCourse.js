@@ -8,36 +8,28 @@ const sqlString = require('sqlstring');
 module.exports = course => {
   return new Promise((resolve, reject) => {
     const { title, language, description, difficulty, owner_id } = course;
-    const query = `INSERT INTO courses (title, language, description, difficulty, owner_id, create_date) VALUES (${sqlString.escape(title)}, ${sqlString.escape(language)}, ${sqlString.escape(description)}, ${sqlString.escape(difficulty)}, ${sqlString.escape(owner_id)}, UNIX_TIMESTAMP());`;
+    const query = `INSERT INTO courses (title, language, description, difficulty, owner_id, create_date) VALUES (${sqlString.escape(
+      title
+    )}, ${sqlString.escape(language)}, ${sqlString.escape(
+      description
+    )}, ${sqlString.escape(difficulty)}, ${sqlString.escape(
+      owner_id
+    )}, UNIX_TIMESTAMP());`;
 
-    db.getConnection((err, connection) => {
+    db.query(query, (err, results, fields) => {
       if (err) {
         reject(err);
-      }
-      connection.query(query, (err, results, fields) => {
-        if (err) {
-          reject(err);
-        } else {
-          db.getConnection((err, connection) => {
+      } else {
+        db.query(
+          `SELECT courses.id AS course_id, users.id AS user_id, users.id, courses.title, users.first_name, users.last_name, courses.create_date FROM courses INNER JOIN users ON courses.owner_id=users.id WHERE courses.id='${results.insertId}';`,
+          (err, courses, fields) => {
             if (err) {
               reject(err);
             }
-            connection.query(
-              `SELECT courses.id AS course_id, users.id AS user_id, users.id, courses.title, users.first_name, users.last_name, courses.create_date FROM courses INNER JOIN users ON courses.owner_id=users.id WHERE courses.id='${
-                results.insertId
-              }';`,
-              (err, courses, fields) => {
-                if (err) {
-                  reject(err);
-                }
-                resolve(courses[0]);
-              }
-            );
-          });
-          // connection.release();
-        }
-      });
-      connection.release();
+            resolve(courses[0]);
+          }
+        );
+      }
     });
   });
 };

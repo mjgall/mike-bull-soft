@@ -7,48 +7,35 @@ const sqlString = require('sqlstring');
 
 module.exports = lesson => {
   return new Promise((resolve, reject) => {
-
     const { title, courseId } = lesson;
     const query = `INSERT INTO lessons (course_id, title, create_date) VALUES (${sqlString.escape(
       courseId
     )}, ${sqlString.escape(title)}, UNIX_TIMESTAMP());`;
 
-    db.getConnection((err, connection) => {
+    db.query(query, (err, lessonResults, fields) => {
       if (err) {
         reject(err);
-      }
-      connection.query(query, (err, lessonResults, fields) => {
-        if (err) {
-          reject(err);
-        } else {
-          db.getConnection((err, connection) => {
-            if (err) {
-              reject(err);
-            }
-            const secondQuery = `INSERT INTO lessons_symbols (symbol_id, lesson_id) VALUES ?;`;
-            const params = lesson.symbols.map(symbol => {
-              return [symbol, lessonResults.insertId];
-            });
-            connection.query(secondQuery, [params], (err, results, fields) => {
-              if (err) {
-                reject(err);
-              } else {
-                connection.query(
-                  `SELECT * FROM lessons WHERE lessons.id='${lessonResults.insertId}';`,
-                  (err, lessons, fields) => {
-                    if (err) {
-                      reject(err);
-                    }
-                    resolve(lessons[0]);
-                  }
-                );
+      } else {
+        const secondQuery = `INSERT INTO lessons_symbols (symbol_id, lesson_id) VALUES ?;`;
+        const params = lesson.symbols.map(symbol => {
+          return [symbol, lessonResults.insertId];
+        });
+        db.query(secondQuery, [params], (err, results, fields) => {
+          if (err) {
+            reject(err);
+          } else {
+            db.query(
+              `SELECT * FROM lessons WHERE lessons.id='${lessonResults.insertId}';`,
+              (err, lessons, fields) => {
+                if (err) {
+                  reject(err);
+                }
+                resolve(lessons[0]);
               }
-            });
-          });
-          // connection.release();
-        }
-      });
-      connection.release();
+            );
+          }
+        });
+      }
     });
   });
 };

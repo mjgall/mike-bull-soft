@@ -4,7 +4,6 @@ import {
   Header,
   Form,
   Segment,
-
   Button,
   Message,
   Icon
@@ -30,11 +29,19 @@ class RegisterScreen extends React.Component {
   };
 
   handleFirstNameChange = event => {
-    this.setState({ firstName: event.target.value });
+    this.setState({
+      firstName:
+        event.target.value.slice(0, 1).toUpperCase() +
+        event.target.value.slice(1)
+    });
   };
 
   handleLastNameChange = event => {
-    this.setState({ lastName: event.target.value });
+    this.setState({
+      lastName:
+        event.target.value.slice(0, 1).toUpperCase() +
+        event.target.value.slice(1)
+    });
   };
 
   handleEmailChange = event => {
@@ -43,7 +50,10 @@ class RegisterScreen extends React.Component {
 
   submit = async () => {
     const { email, firstName, lastName, password } = this.state;
-    if (email && firstName && lastName && password) {
+
+    if (email.indexOf(' ') > 0 || email.indexOf('@') < 0) {
+      this.setState({ error: 'Please enter a valid email address.' });
+    } else if (email && firstName && lastName && password) {
       const response = await axios.post('/auth/register', {
         email: email,
         first_name: firstName,
@@ -66,7 +76,6 @@ class RegisterScreen extends React.Component {
     if (this.props.mobile) {
       return (
         <React.Fragment>
-   
           <Grid.Column width={16}>
             <Header as="h2" textAlign="center">
               Register
@@ -80,37 +89,37 @@ class RegisterScreen extends React.Component {
             <Form size="large">
               <Segment>
                 <Form.Input
-                  ref={this.emailField}
+                  // ref={this.emailField}
                   onChange={this.handleEmailChange}
                   name="email"
                   fluid
                   icon="envelope"
                   iconPosition="left"
                   placeholder="E-mail address"
-            
+                  value={this.state.email}
                 />
                 <Form.Input
-                  ref={this.firstNameField}
+                  // ref={this.firstNameField}
                   onChange={this.handleFirstNameChange}
                   name="first_name"
                   fluid
                   icon="user"
                   iconPosition="left"
                   placeholder="First Name"
-              
+                  value={this.state.firstName}
                 />
                 <Form.Input
-                  ref={this.lastNameField}
+                  // ref={this.lastNameField}
                   onChange={this.handleLastNameChange}
                   name="last_name"
                   fluid
                   icon="user"
                   iconPosition="left"
                   placeholder="Last Name"
-             
+                  value={this.state.lastName}
                 />
                 <Form.Input
-                  ref={this.passwordField}
+                  // ref={this.passwordField}
                   onChange={this.handlePasswordChange}
                   name="password"
                   fluid
@@ -118,7 +127,7 @@ class RegisterScreen extends React.Component {
                   iconPosition="left"
                   placeholder="Password"
                   type="password"
-                  
+                  value={this.state.password}
                 />
                 <Button fluid size="large" onClick={this.submit}>
                   Register
@@ -133,13 +142,11 @@ class RegisterScreen extends React.Component {
               <a href="/auth/google">Log in with Google</a>
             </Message>
           </Grid.Column>
-  
         </React.Fragment>
       );
     } else {
       return (
         <React.Fragment>
-   
           <Grid.Column style={{ maxWidth: 450, margin: '0 auto' }} width={6}>
             <Header as="h2" textAlign="center">
               Register
@@ -153,37 +160,37 @@ class RegisterScreen extends React.Component {
             <Form size="large">
               <Segment>
                 <Form.Input
-                  ref={this.emailField}
+                  // ref={this.emailField}
                   onChange={this.handleEmailChange}
                   name="email"
                   fluid
                   icon="envelope"
                   iconPosition="left"
                   placeholder="E-mail address"
-            
+                  value={this.state.email}
                 />
                 <Form.Input
-                  ref={this.firstNameField}
+                  // ref={this.firstNameField}
                   onChange={this.handleFirstNameChange}
                   name="first_name"
                   fluid
                   icon="user"
                   iconPosition="left"
                   placeholder="First Name"
-              
+                  value={this.state.firstName}
                 />
                 <Form.Input
-                  ref={this.lastNameField}
+                  // ref={this.lastNameField}
                   onChange={this.handleLastNameChange}
                   name="last_name"
                   fluid
                   icon="user"
                   iconPosition="left"
                   placeholder="Last Name"
-             
+                  value={this.state.lastName}
                 />
                 <Form.Input
-                  ref={this.passwordField}
+                  // ref={this.passwordField}
                   onChange={this.handlePasswordChange}
                   name="password"
                   fluid
@@ -191,7 +198,7 @@ class RegisterScreen extends React.Component {
                   iconPosition="left"
                   placeholder="Password"
                   type="password"
-                  
+                  value={this.state.password}
                 />
                 <Button fluid size="large" onClick={this.submit}>
                   Register
@@ -206,11 +213,9 @@ class RegisterScreen extends React.Component {
               <a href="/auth/google">Log in with Google</a>
             </Message>
           </Grid.Column>
-  
         </React.Fragment>
       );
     }
-    
   }
 }
 
@@ -218,7 +223,4 @@ const mapStateToProps = state => {
   return { auth: state.auth, app: state.app };
 };
 
-export default connect(
-  mapStateToProps,
-  actions
-)(RegisterScreen);
+export default connect(mapStateToProps, actions)(RegisterScreen);

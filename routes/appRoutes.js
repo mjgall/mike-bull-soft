@@ -19,7 +19,7 @@ const getLesson = require('../queries/getLesson');
 const createUserCourse = require('../queries/createUserCourse');
 const getUserCoursesByUser = require('../queries/getUserCoursesByUser');
 const getRandomImages = require('../queries/getRandomImages');
-const createChallenge = require('../queries/createChallenge');
+const createChallenges = require('../queries/createChallenges');
 const deleteUser = require('../queries/deleteUser');
 const getAllLogins = require('../queries/getLoginsByUser');
 const sendEmail = require('../services/aws-ses');
@@ -32,6 +32,8 @@ const getIncorrectImagesByChallenge = require('../queries/getIncorrectImagesByCh
 const getLastCompletedChallenge = require('../queries/getLastCompletedChallenge');
 const getCorrectImageByChallengeSimple = require('../queries/getCorrectImageByChallengeSimple');
 const updateChallengeStatus = require('../queries/updateChallengeStatus');
+const getStudentLesson = require('../queries/getStudentLesson');
+const insertStudentLesson = require('../queries/insertStudentLesson');
 
 const shuffle = function(array) {
   let currentIndex = array.length;
@@ -53,7 +55,7 @@ const shuffle = function(array) {
   return array;
 };
 
-const createChallenges = async (lessonId, userId) => {
+const createChallengesOld = async (lessonId, userId) => {
   const symbols = await getSymbolsByLesson(lessonId);
 
   const challenges = await Promise.all(
@@ -400,7 +402,6 @@ module.exports = app => {
   });
 
   app.post('/api/email/send', async (req, res) => {
-    console.log(req.body);
     const { recipientAddress, body, subject } = req.body;
     try {
       const promiseResponse = await sendEmail(recipientAddress, subject, body);
@@ -427,20 +428,82 @@ module.exports = app => {
   app.get(
     '/api/users/:userId/lessons/:lessonId/challenges',
     async (req, res) => {
+      console.log('we got called');
       try {
         const { userId, lessonId } = req.params;
-        const correctImages = await getChallengesByLessonAndUser(
-          lessonId,
-          userId
-        );
+        // const correctImages = await getChallengesByLessonAndUser(
+        //   lessonId,
+        //   userId
+        // );
 
-        if (correctImages.length === 0) {
-          const challenges = await createChallenges(lessonId, userId);
+        const lesson = await getStudentLesson(lessonId, userId);
+        console.log({ lesson });
+        if (lesson.exists === false) {
+          console.log('creating');
+          //we now need to create a challenge for each symbol in the lesson.
+
+          //STEP 1 GET ALL OF THE SYMBOLS IN THE LESSON
+          const symbols = await getSymbolsByLesson(lessonId);
+
+          //STEP 2 INSERT A ROW IN challenges FOR EACH SYMBOL, HAVE THE IDS RETURNED
+
+          const challengeIds = await createChallenges(
+            symbols,
+            userId,
+            lessonId
+          );
+
+          const challenges = await Promise.all(
+            challengeIds.map(async (challengeId, index) => {
+              const audio_url = symbols[index].audio_url;
+
+              const incorrectImages = await getRandomImages(
+                3,
+                symbols[index].id,
+                challengeId
+              );
+
+              const correctImageId = await getRandomImageInSymbol(
+                symbols[index].id
+              );
+
+              const correctImage = await insertCorrectImageByChallenge(
+                challengeId,
+                correctImageId.id,
+                lessonId,
+                symbols[index].id,
+                index
+              );
+
+              return {
+                id: challengeId,
+                audio_url,
+                status: 0,
+                images: shuffle([...incorrectImages, correctImage].slice())
+              };
+            })
+          );
+
+          console.log(challenges);
+
+          // const aChallenge = {
+          //   id,
+          //   audio_url,
+          //   status,
+          //   images: []
+          // };
+
+          //start lesson
+
+          await insertStudentLesson(userId, lessonId);
 
           res.send({ success: true, error: false, challenges });
         } else {
+          console.log('only fetching');
+          const total = await getChallengesByLessonAndUser(lessonId, userId);
+          console.log({ total });
           const challenges = await Promise.all(
-            correctImages.map(async image => {
+            total.challenges.map(async image => {
               //we shouldn't get random images if the challenges already exist for a lesson/user. We should instead grab the three incorrect images created originally when the lesson/user was created.
               // const incorrectImages = await getRandomImages(3, image.symbol_id);
               const incorrectImages = await getIncorrectImagesByChallenge(
@@ -456,6 +519,29 @@ module.exports = app => {
           );
           res.send({ success: true, error: false, challenges });
         }
+
+        // if (correctImages.length === 0) {
+        //   const challenges = await createChallenges(lessonId, userId);
+
+        //   res.send();
+        // } else {
+        //   const challenges = await Promise.all(
+        //     correctImages.map(async image => {
+        //       //we shouldn't get random images if the challenges already exist for a lesson/user. We should instead grab the three incorrect images created originally when the lesson/user was created.
+        //       // const incorrectImages = await getRandomImages(3, image.symbol_id);
+        //       const incorrectImages = await getIncorrectImagesByChallenge(
+        //         image.challenge_id
+        //       );
+        //       return {
+        //         id: image.challenge_id,
+        //         audio_url: image.audio_url,
+        //         status: image.status,
+        //         images: shuffle([...incorrectImages, image].slice())
+        //       };
+        //     })
+        //   );
+        //   res.send({ success: true, error: false, challenges });
+        // }
       } catch (error) {
         console.log(error);
         res.send({ success: false, error });
@@ -485,8 +571,7 @@ module.exports = app => {
         const correctImage = await getCorrectImageByChallengeSimple(
           challengeId
         );
-        console.log({ correctImage });
-        console.log({ imageId });
+
         if (correctImage == imageId) {
           res.send({
             success: true,
@@ -520,6 +605,22 @@ module.exports = app => {
     } catch (error) {
       console.log(error);
       res.send({ success: false, error });
+    }
+  });
+
+  app.get('/api/lessons/:lessonId/users/:userId', async (req, res) => {
+    const { lessonId, userId } = req.params;
+    try {
+      const student_lesson = await getStudentLesson(lessonId, userId);
+      if (student_lesson) {
+        res.send({ success: true, error: false, ...student_lesson });
+      } else {
+        res.send({ success: false, error: false });
+      }
+    } catch (error) {
+      console.log(error);
+      res.send({ success: false, error });
+      throw new Error(error);
     }
   });
 };

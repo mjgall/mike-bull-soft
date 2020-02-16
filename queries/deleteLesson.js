@@ -6,15 +6,12 @@ const sqlString = require('sqlstring');
 module.exports = lessonId => {
   return new Promise((resolve, reject) => {
     const query = `DELETE FROM lessons WHERE id=${sqlString.escape(lessonId)};`;
-    db.getConnection((err, connection) => {
-      if (err) throw err;
-      connection.query(query, (err, response, fields) => {
-        if (err) {
-          reject(err);
-        }
-        resolve(response);
-      });
-      connection.release();
+
+    db.query(query, (err, response, fields) => {
+      if (err) {
+        reject(err);
+      }
+      resolve(response);
     });
   });
 };

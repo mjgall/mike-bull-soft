@@ -5,18 +5,14 @@ const sqlString = require('sqlstring');
 
 module.exports = userId => {
   return new Promise((resolve, reject) => {
-    db.getConnection((err, connection) => {
-      if (err) throw err;
-      connection.query(
-        `SELECT * FROM logins WHERE user_id = ${userId};`,
-        (err, logins, fields) => {
-          if (err) {
-            reject(err);
-          }
-          resolve(logins);
+    db.query(
+      `SELECT * FROM logins WHERE user_id = ${userId};`,
+      (err, logins, fields) => {
+        if (err) {
+          reject(err);
         }
-      );
-      connection.release();
-    });
+        resolve(logins);
+      }
+    );
   });
 };
