@@ -1,6 +1,6 @@
 import React from 'react';
 // import { Heading, Card, Icon } from 'evergreen-ui';
-import { Icon } from 'semantic-ui-react';
+import { Icon, Button } from 'semantic-ui-react';
 import Loader from '../Loader';
 import * as utils from '../../utils';
 import { connect } from 'react-redux';
@@ -156,8 +156,9 @@ class StudentLesson extends React.Component {
         {challenges.map((challenge, index) => {
           return (
             <Icon
+              className="progress-dot"
               style={{
-                fontSize: '40px',
+                fontSize: '2rem',
                 color:
                   index === props.currentChallengeIndex
                     ? 'blue'
@@ -231,34 +232,23 @@ class StudentLesson extends React.Component {
     }
   };
 
-  ImageContainer = props => {
+  ImagesContainer = props => {
     const { images } = props;
     return (
-      <div
-        style={{
-          width: '500px',
-          height: '500px',
-          // border: '1px solid black',
-          display: 'grid',
-          gridTemplateColumns: '1fr 1fr'
-        }}>
+      <div className="images-container">
         {images.map(image => {
           return (
-            <div
-              className="image-choice"
-              style={{
-                height: '250px',
-                width: '250px',
-                border: '1px solid gray',
-                borderRadius: '5px',
-                margin: '5px',
-                cursor: 'pointer'
-              }}
-              onClick={() => this.submitAnswer(image.id)}>
+            <div className="image-container">
               <img
+                onClick={() => this.submitAnswer(image.id)}
                 alt="a possible answer"
-                style={{ height: '100%', width: '100%' }}
-                src={image.url}></img>
+                className="image image-choice"
+                src={image.url}
+                style={{
+                  border: '1px solid gray',
+                  borderRadius: '5px',
+                  cursor: 'pointer'
+                }}></img>
             </div>
           );
         })}
@@ -272,33 +262,22 @@ class StudentLesson extends React.Component {
   };
 
   LessonControls = props => {
-    console.log(props.source);
     return (
-      <div
-        style={{
-          display: 'grid',
-          gridRowGap: '50px',
-          justifyItems: 'left',
-          alignItems: 'center'
-        }}>
-        <div
-          className="lesson-control-button"
-          style={{ fontSize: '48px' }}
-          onClick={this.playAudio}>
-          <Icon name="play"></Icon> Play
+      <div className="lesson-control-buttons">
+        <Button className="lesson-control-button" onClick={this.playAudio}>
+          <Icon name="play"></Icon>Play
           <audio ref={this.audioPlayer} id="audio-player">
             <source src={props.source}></source>
           </audio>
-        </div>
+        </Button>
 
-        <div
+        <Button
           className="lesson-control-button"
-          style={{ fontSize: '48px' }}
           onClick={() =>
             this.props.history.push(`/student/course/${this.state.courseId}`)
           }>
-          <Icon name="cancel"></Icon> Cancel Lesson
-        </div>
+          <Icon name="cancel"></Icon>Cancel
+        </Button>
       </div>
     );
   };
@@ -312,35 +291,35 @@ class StudentLesson extends React.Component {
               correct={this.state.correctChallenges}
               incorrect={this.state.incorrectChallenges}></CompletedLesson>
           ) : (
-            <div style={{ width: '100%', height: '100%' }}>
-              <h1>{this.state.lesson.title}</h1>
-              <this.SymbolProgress
-                currentChallengeIndex={
-                  this.state.indexOfCurrentChallenge
-                }></this.SymbolProgress>
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr' }}>
-                <this.ImageContainer
-                  images={
-                    this.state.challenges[this.state.indexOfCurrentChallenge]
-                      .images
-                  }></this.ImageContainer>
-                {this.state.answerChecked ? (
-                  this.state.correct ? (
-                    <div className="answer correct">
-                      <h1>Correct!</h1>
-                    </div>
-                  ) : (
-                    <div className="answer incorrect">
-                      <h1>Wrong!</h1>
-                    </div>
-                  )
-                ) : null}
+            <div>
+              <div className="controls-and-progress">
                 <this.LessonControls
                   source={
                     this.state.challenges[this.state.indexOfCurrentChallenge]
                       .audio_url
                   }></this.LessonControls>
+                <this.SymbolProgress
+                  currentChallengeIndex={
+                    this.state.indexOfCurrentChallenge
+                  }></this.SymbolProgress>
               </div>
+
+              <this.ImagesContainer
+                images={
+                  this.state.challenges[this.state.indexOfCurrentChallenge]
+                    .images
+                }></this.ImagesContainer>
+              {this.state.answerChecked ? (
+                this.state.correct ? (
+                  <div className="answer correct">
+                    <h1>Correct!</h1>
+                  </div>
+                ) : (
+                  <div className="answer incorrect">
+                    <h1>Wrong!</h1>
+                  </div>
+                )
+              ) : null}
             </div>
           )
         ) : (
