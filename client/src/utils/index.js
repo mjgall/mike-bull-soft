@@ -18,6 +18,17 @@ export const fetchSymbols = async id => {
   return response.data;
 };
 
+export const deleteSymbol = async symbolId => {
+  // const response = await axios.delete(`/api/symbols/${symbolId}`);
+  const response = {
+    data: {
+      success: true,
+      error: false
+    }
+  };
+  return response.data;
+};
+
 export const fetchLessons = async course_id => {
   const response = await axios.get(`/api/lessons/${course_id}`);
   return response.data;
@@ -50,7 +61,7 @@ export const startCourse = async (userId, courseId) => {
 
 export const getStudentLesson = async (lessonId, userId) => {
   const response = await axios.get(`/api/lessons/${lessonId}/users/${userId}`);
-  console.log(response)
+  console.log(response);
   return response.data;
 };
 

@@ -15,11 +15,15 @@ class ConfirmDelete extends React.Component {
   };
 
   componentDidMount = () => {
-    if (!this.props.recordType || !this.props.deleteFunction || !this.props.recordId || this.props.index === undefined) {
-
-      throw Error('Missing a required prop')
+    if (
+      !this.props.recordType ||
+      !this.props.deleteFunction ||
+      !this.props.recordId ||
+      this.props.index === undefined
+    ) {
+      throw Error('Missing a required prop');
     }
-  }
+  };
 
   content = () => {
     const { recordId, index, recordType, deleteFunction } = this.props;
@@ -30,9 +34,7 @@ class ConfirmDelete extends React.Component {
           color="red"
           content="Delete"
           size="tiny"
-          onClick={() =>
-            deleteFunction(recordId, index, this.props.auth.id)
-          }
+          onClick={() => deleteFunction(recordId, index, this.props.auth.id)}
         />
         <Button
           color="grey"

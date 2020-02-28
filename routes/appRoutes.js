@@ -34,8 +34,9 @@ const getCorrectImageByChallengeSimple = require('../queries/getCorrectImageByCh
 const updateChallengeStatus = require('../queries/updateChallengeStatus');
 const getStudentLesson = require('../queries/getStudentLesson');
 const insertStudentLesson = require('../queries/insertStudentLesson');
+const deleteSymbol = require('../queries/deleteSymbol')
 
-const shuffle = function(array) {
+const shuffle = function (array) {
   let currentIndex = array.length;
   let temporaryValue;
   let randomIndex;
@@ -412,19 +413,6 @@ module.exports = app => {
     }
   });
 
-  // app.post('/api/lessons/challenges', async (req, res) => {
-  //   try {
-  //     //should create a challenge for each symbol in the lesson
-  //     const { lessonId, userId } = req.body;
-  //     const symbols = await getSymbolsByLesson(lessonId);
-
-  //     res.send({ success: true, error: false, challenges });
-  //   } catch (error) {
-  //     console.log(error);
-  //     res.send({ success: false, error });
-  //   }
-  // });
-
   app.get(
     '/api/users/:userId/lessons/:lessonId/challenges',
     async (req, res) => {
@@ -484,17 +472,6 @@ module.exports = app => {
             })
           );
 
-          console.log(challenges);
-
-          // const aChallenge = {
-          //   id,
-          //   audio_url,
-          //   status,
-          //   images: []
-          // };
-
-          //start lesson
-
           await insertStudentLesson(userId, lessonId);
 
           res.send({ success: true, error: false, challenges });
@@ -504,8 +481,6 @@ module.exports = app => {
           console.log({ total });
           const challenges = await Promise.all(
             total.challenges.map(async image => {
-              //we shouldn't get random images if the challenges already exist for a lesson/user. We should instead grab the three incorrect images created originally when the lesson/user was created.
-              // const incorrectImages = await getRandomImages(3, image.symbol_id);
               const incorrectImages = await getIncorrectImagesByChallenge(
                 image.challenge_id
               );
@@ -519,29 +494,6 @@ module.exports = app => {
           );
           res.send({ success: true, error: false, challenges });
         }
-
-        // if (correctImages.length === 0) {
-        //   const challenges = await createChallenges(lessonId, userId);
-
-        //   res.send();
-        // } else {
-        //   const challenges = await Promise.all(
-        //     correctImages.map(async image => {
-        //       //we shouldn't get random images if the challenges already exist for a lesson/user. We should instead grab the three incorrect images created originally when the lesson/user was created.
-        //       // const incorrectImages = await getRandomImages(3, image.symbol_id);
-        //       const incorrectImages = await getIncorrectImagesByChallenge(
-        //         image.challenge_id
-        //       );
-        //       return {
-        //         id: image.challenge_id,
-        //         audio_url: image.audio_url,
-        //         status: image.status,
-        //         images: shuffle([...incorrectImages, image].slice())
-        //       };
-        //     })
-        //   );
-        //   res.send({ success: true, error: false, challenges });
-        // }
       } catch (error) {
         console.log(error);
         res.send({ success: false, error });
@@ -623,4 +575,16 @@ module.exports = app => {
       throw new Error(error);
     }
   });
+
+  app.delete('/api/symbols/:symbolId', async (req, res) => {
+    const { symbolId } = req.params
+    try {
+      const response = await deleteSymbol(symbolId)
+      res.send({ success: true, error: false})
+    } catch (error) {
+      console.log(error);
+      res.send({ success: false, error });
+      throw new Error(error);
+    }
+  })
 };

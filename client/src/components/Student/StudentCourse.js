@@ -75,8 +75,6 @@ class StudentCourse extends React.Component {
     this.setState({ courseStarted: true });
   };
 
-  continueCourse = () => {};
-
   renderCourse = () => {
     if (this.state.course && this.state.isLoaded && !this.state.hasError) {
       return (
@@ -106,17 +104,7 @@ class StudentCourse extends React.Component {
             <Grid>
               <Grid.Row columns={1}>
                 <Grid.Column>
-                  {this.state.courseStarted ? (
-                    <Button
-                      animated="fade"
-                      style={{ background: 'lightgreen', width: '100%' }}
-                      onClick={this.continueCourse}>
-                      <Button.Content visible>Continue Course</Button.Content>
-                      <Button.Content hidden>
-                        <Icon name="arrow right" />
-                      </Button.Content>
-                    </Button>
-                  ) : (
+                  {this.state.courseStarted ? null : (
                     <Button
                       style={{ background: 'lightgreen', width: '100%' }}
                       onClick={this.startCourse}>
