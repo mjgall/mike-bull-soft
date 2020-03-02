@@ -42,9 +42,9 @@ pool.getConnection((err, connection) => {
   return
 })
 
-pool.on("connection", connection => console.log(`Connection acquired - ${connection.threadId}`))
+// pool.on("connection", connection => console.log(`Connection acquired - ${connection.threadId}`))
 
-pool.on("release", connection => console.log(`Connection released -${connection.threadId}`))
+// pool.on("release", connection => console.log(`Connection released -${connection.threadId}`))
 
 exports.pool = pool;
 
