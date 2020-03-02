@@ -1,5 +1,6 @@
 const AWS = require('aws-sdk');
 const path = require('path');
+const keys = require('../config/keys')
 
 //SHOULD BE USING AWS ENVIRONMENT VARIABLES FOR AWS AUTHENTICATION
 

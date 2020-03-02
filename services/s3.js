@@ -1,6 +1,7 @@
 const AWS = require('aws-sdk');
 const path = require('path');
 const atob = require('atob');
+const keys = require('../config/keys')
 
 module.exports = data => {
   return new Promise((resolve, reject) => {
