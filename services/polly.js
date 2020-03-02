@@ -5,9 +5,10 @@ const path = require('path');
 
 module.exports = data => {
   return new Promise((resolve, reject) => {
-    const jsonPath = path.join(__dirname, '..', 'config', 'aws_key.json');
+    // const jsonPath = path.join(__dirname, '..', 'config', 'aws_key.json');
+    // AWS.config.loadFromPath(jsonPath);
 
-    AWS.config.loadFromPath(jsonPath);
+    AWS.config.update({ accessKeyId: keys.accessKeyId, secretAccessKey: keys.secretAccessKey, region: keys.region })
 
     const polly = new AWS.Polly();
     const s3 = new AWS.S3();
@@ -42,7 +43,7 @@ module.exports = data => {
           ACL: 'public-read'
         };
 
-        s3.upload(s3params, function(err, data) {
+        s3.upload(s3params, function (err, data) {
           if (err) {
             reject(err.message);
           } else {

@@ -16,15 +16,15 @@
   "dependencies": {
     "@babel/polyfill": "^7.8.3",
     "atob": "^2.1.2",
-    "aws-sdk": "^2.602.0",
+    "aws-sdk": "^2.630.0",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.19.0",
     "connect-flash": "^0.1.1",
     "cookie-session": "^1.4.0",
-    "evergreen-ui": "^4.21.5",
+    "evergreen-ui": "^4.23.0",
     "express": "^4.17.1",
     "g": "^2.0.1",
-    "mysql": "^2.17.1",
+    "mysql": "^2.18.1",
     "passport": "^0.4.1",
     "passport-google-oauth20": "^2.0.0",
     "passport-local": "^1.0.0",
@@ -35,11 +35,11 @@
     "update": "^0.7.4"
   },
   "devDependencies": {
-    "@babel/cli": "^7.8.3",
-    "@babel/core": "^7.8.3",
-    "@babel/node": "^7.8.3",
-    "@babel/preset-env": "^7.8.3",
-    "cypress": "^3.8.2",
+    "@babel/cli": "^7.8.4",
+    "@babel/core": "^7.8.6",
+    "@babel/node": "^7.8.4",
+    "@babel/preset-env": "^7.8.6",
+    "cypress": "^3.8.3",
     "nodemon": "^1.19.4"
   }
 }

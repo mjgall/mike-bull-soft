@@ -5,9 +5,9 @@ const atob = require('atob');
 module.exports = data => {
   return new Promise((resolve, reject) => {
     try {
-      const jsonPath = path.join(__dirname, '..', 'config', 'aws_key.json');
-
-      AWS.config.loadFromPath(jsonPath);
+      // const jsonPath = path.join(__dirname, '..', 'config', 'aws_key.json');
+      // AWS.config.loadFromPath(jsonPath);
+      AWS.config.update({ accessKeyId: keys.accessKeyId, secretAccessKey: keys.secretAccessKey, region: keys.region })
 
       const s3 = new AWS.S3();
 
