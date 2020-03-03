@@ -20,27 +20,23 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
-
-//ROUTES
-//AUTH
+//AUTHENTICATION ROUTES
 require('./routes/authRoutes')(app);
-//APP
+
+//APP ROUTES
 require('./routes/appRoutes')(app);
 
-//CONDITIONS IF DEPLOYED TO PRODUCTION
+//IF DEPLOYED TO PRODUCTION
 if (process.env.ENV === 'production') {
-  // Express will serve up production assets
-  // like our main.js file, or main.css file!
+
   app.use(express.static(path.join(__dirname, 'client', 'build')));
 
-  // Express will serve up the index.html file
-  // if it doesn't recognize the route
   app.get('*', (req, res) => {
     res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
   });
 }
 
-//SERVER RUNNING
+//START SERVER
 const port = process.env.HTTP_PORT || 2000;
 app.listen(port, () => {
   console.log(`Running on http://localhost:${port}`);

@@ -41,13 +41,11 @@ const shuffle = function (array) {
   let temporaryValue;
   let randomIndex;
 
-  // While there remain elements to shuffle...
   while (0 !== currentIndex) {
-    // Pick a remaining element...
+
     randomIndex = Math.floor(Math.random() * currentIndex);
     currentIndex -= 1;
 
-    // And swap it with the current element.
     temporaryValue = array[currentIndex];
     array[currentIndex] = array[randomIndex];
     array[randomIndex] = temporaryValue;
@@ -580,7 +578,7 @@ module.exports = app => {
     const { symbolId } = req.params
     try {
       const response = await deleteSymbol(symbolId)
-      res.send({ success: true, error: false})
+      res.send({ success: true, error: false })
     } catch (error) {
       console.log(error);
       res.send({ success: false, error });

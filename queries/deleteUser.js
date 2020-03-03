@@ -1,7 +1,7 @@
 const db = require('../config/db/mysql').pool;
 const sqlString = require('sqlstring');
 
-//SHOULD USE PROMISES AND NOT A CALLBACK
+
 
 module.exports = user_id => {
   return new Promise((resolve, reject) => {

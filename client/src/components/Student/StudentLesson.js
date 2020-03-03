@@ -98,6 +98,7 @@ class StudentLesson extends React.Component {
 
       if (indexOfCurrentChallenge === -1) {
         this.setState({ lessonComplete: true, loaded: true });
+        
       } else {
         this.setState({
           currentChallenge: lastChallenge,

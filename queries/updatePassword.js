@@ -2,7 +2,7 @@ const db = require('../config/db/mysql').pool;
 const sqlString = require('sqlstring');
 const bcrypt = require('bcryptjs');
 
-//SHOULD USE PROMISES AND NOT A CALLBACK
+
 
 module.exports = (userId, password) => {
   return new Promise((resolve, reject) => {
