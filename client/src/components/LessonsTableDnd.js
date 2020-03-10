@@ -80,9 +80,11 @@ export default class LessonsTableDnD extends React.Component {
               {this.props.mode === 'creator' ? (
                 <>
                   <Table.HeaderCell>Delete</Table.HeaderCell>
-                  <Table.HeaderCell><Icon
-                                            name="hand pointer outline"
-                                            style={{ color: 'gray' }}></Icon></Table.HeaderCell>
+                  <Table.HeaderCell>
+                    <Icon
+                      name="hand pointer outline"
+                      style={{ color: 'gray' }}></Icon>
+                  </Table.HeaderCell>
                 </>
               ) : (
                 <Table.HeaderCell>Begin</Table.HeaderCell>
@@ -155,9 +157,9 @@ export default class LessonsTableDnD extends React.Component {
                                         </Table.Cell>
                                       }></ConfirmDelete>
                                     <Table.Cell>
-                                    <Icon
-                                            name="bars"
-                                            style={{ color: 'gray' }}></Icon>
+                                      <Icon
+                                        name="bars"
+                                        style={{ color: 'gray' }}></Icon>
                                     </Table.Cell>
                                   </>
                                 ) : (
