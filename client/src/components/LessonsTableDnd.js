@@ -78,7 +78,12 @@ export default class LessonsTableDnD extends React.Component {
               <Table.HeaderCell># Symbols</Table.HeaderCell>
               <Table.HeaderCell>Create Date</Table.HeaderCell>
               {this.props.mode === 'creator' ? (
-                <Table.HeaderCell>Delete</Table.HeaderCell>
+                <>
+                  <Table.HeaderCell>Delete</Table.HeaderCell>
+                  <Table.HeaderCell><Icon
+                                            name="hand pointer outline"
+                                            style={{ color: 'gray' }}></Icon></Table.HeaderCell>
+                </>
               ) : (
                 <Table.HeaderCell>Begin</Table.HeaderCell>
               )}
@@ -134,20 +139,27 @@ export default class LessonsTableDnD extends React.Component {
                                   //         style={{ color: 'red' }}></Icon>
                                   //     </Table.Cell>
                                   //   }></ConfirmDelete>
-                                  <ConfirmDelete
-                                    deleteFunction={ this.deleteLesson }
-                                    recordId={ lesson.id }
-                                    index={index}
-                                    recordType="lesson"
-                                    on="click"
-                                    position="top center"
-                                    trigger={
-                                      <Table.Cell style={{ width: '10%' }}>
-                                        <Icon
-                                          name="delete"
-                                          style={{ color: 'red' }}></Icon>
-                                      </Table.Cell>
-                                    }></ConfirmDelete>
+                                  <>
+                                    <ConfirmDelete
+                                      deleteFunction={this.deleteLesson}
+                                      recordId={lesson.id}
+                                      index={index}
+                                      recordType="lesson"
+                                      on="click"
+                                      position="top center"
+                                      trigger={
+                                        <Table.Cell style={{ width: '10%' }}>
+                                          <Icon
+                                            name="delete"
+                                            style={{ color: 'red' }}></Icon>
+                                        </Table.Cell>
+                                      }></ConfirmDelete>
+                                    <Table.Cell>
+                                    <Icon
+                                            name="bars"
+                                            style={{ color: 'gray' }}></Icon>
+                                    </Table.Cell>
+                                  </>
                                 ) : (
                                   <Table.Cell style={{ width: '10%' }}>
                                     <Link

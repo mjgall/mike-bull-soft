@@ -2,7 +2,7 @@ import React from 'react';
 
 import CoursesTable from '../CoursesTable';
 
-import { Grid } from 'semantic-ui-react';
+import { Grid, Segment } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import * as actions from '../../actions';
 import AddCourseModal from './AddCourseModal';
@@ -49,7 +49,13 @@ class Creator extends React.Component {
         <Grid.Column width={16}>
           <h2>My Created Courses</h2>
           <AddCourseModal></AddCourseModal>
-          <CoursesTable renderLocation={this.props.match.url} />
+          {this.props.app.coursesTable.length === 0 ? (
+            <Segment compact textAlign="center">
+              <h2>You don't have any courses - make one now!</h2>
+            </Segment>
+          ) : (
+            <CoursesTable renderLocation={this.props.match.url} />
+          )}
         </Grid.Column>
       </React.Fragment>
     );
@@ -60,7 +66,4 @@ const mapStateToProps = state => {
   return { auth: state.auth, app: state.app, forms: state.forms };
 };
 
-export default connect(
-  mapStateToProps,
-  actions
-)(Creator);
+export default connect(mapStateToProps, actions)(Creator);
