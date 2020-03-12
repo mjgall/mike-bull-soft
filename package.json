@@ -7,7 +7,7 @@
     "cypress:open": "cypress open",
     "test": "echo \"Error: no test specified\" && exit 1",
     "server": "NODE_ENV=development nodemon --ignore client/  --exec babel-node server.js",
-    "aws-deploy": "npm run build && eb deploy",
+    "aws-deploy": "npm run build && git add -A && git commit -m $m && eb deploy",
     "build": "babel server.js --out-file server.compiled.js && npm run build --prefix client",
     "loc": "cloc --exclude-dir node_modules cypress .git .ebextensions .elasticbeanstalk --exclude-lang JSON ./"
   },

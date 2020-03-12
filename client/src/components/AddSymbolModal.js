@@ -87,7 +87,7 @@ class AddSymbolModal extends React.Component {
       );
       this.setState({ isSubmitting: false });
       this.close();
-      // this.updateParent();
+      this.updateParent();
     }
   };
 
@@ -101,7 +101,7 @@ class AddSymbolModal extends React.Component {
         }
         onClose={this.props.clearSymbolImages}
         open={this.state.modalOpen}>
-        <Modal.Header>Add a Symbol</Modal.Header>
+        <Modal.Header>{ this.props.existingSymbol ? 'Add an image' : 'Add A Symbol'}</Modal.Header>
         <Modal.Content>
           {this.state.alert ? (
             <div className="alert">{this.state.alertMessage}</div>

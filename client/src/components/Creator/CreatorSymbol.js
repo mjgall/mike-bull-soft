@@ -33,6 +33,10 @@ class Symbol extends React.Component {
     this.audioPlayer.current.play();
   };
 
+  rerenderAfterSubmit = () => {
+    this.props.getSymbol(this.props.match.params.id);
+  }
+
   render() {
     return (
       <React.Fragment>
