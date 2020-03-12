@@ -105,7 +105,7 @@ class CreatorCourse extends React.Component {
           </h4>
           <Segment>
             <div className="creator-course-title-bar">
-              <h2>{this.state.course.title}</h2>
+              <h2>{ this.state.course.title }</h2>
               <EditCourseModal
                 title={this.state.course.title}
                 description={this.state.course.description}
@@ -148,6 +148,7 @@ class CreatorCourse extends React.Component {
           ) : null}
 
           <SymbolsTable
+            courseId={this.state.course.course_id}
             symbols={this.state.symbols}
             renderLocation={this.props.match.url}
           />

@@ -585,4 +585,24 @@ module.exports = app => {
       throw new Error(error);
     }
   })
+
+  app.post('/api/symbols/images', async (req, res) => {
+    console.log(req.body)
+    const {images, symbolId, userId} = req.body
+    images.forEach(async imageData => {
+      try {
+        const location = await saveToS3(imageData);
+        const imageObject = {
+          url: location,
+          user_id: userId,
+          symbol_id: symbolId
+        };
+        await insertImage(imageObject);
+        res.send({success: true, error: false})
+      } catch (error) {
+        res.status(error);
+        console.log(error);
+      }
+    });
+  })
 };

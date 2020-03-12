@@ -22,7 +22,7 @@ class SymbolForm extends React.Component {
   render() {
     return (
       <div>
-        <FabricCanvas id="canvas" canvas={this.canvas} ></FabricCanvas>    
+        <FabricCanvas id="canvas" canvas={this.canvas} existingSymbolText={this.props.existingSymbolText}></FabricCanvas>    
       </div>
     );
   }

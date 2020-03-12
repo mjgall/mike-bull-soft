@@ -3,11 +3,17 @@ import { Modal, Button } from 'semantic-ui-react';
 
 import { connect } from 'react-redux';
 import * as actions from '../actions';
+import * as utils from '../utils';
 
 import SymbolForm from './SymbolForm';
 
 class AddSymbolModal extends React.Component {
-  state = { modalOpen: this.props.modalOpen, isSubmitting: false, alertMessage: '', alert: false };
+  state = {
+    modalOpen: this.props.modalOpen,
+    isSubmitting: false,
+    alertMessage: '',
+    alert: false
+  };
 
   componentWillMount() {
     document.addEventListener('click', e => {
@@ -46,31 +52,42 @@ class AddSymbolModal extends React.Component {
   }
 
   submit = async () => {
-    const formValue = this.props.form.text;
-    if (this.props.app.symbolImages.length === 0 || !formValue) {
-      this.setState({
-        alert: true,
-        alertMessage: 'Please submit at least one drawing and text.'
-      });
-      setTimeout(() => {
+    if (!this.props.existingSymbol) {
+      const formValue = this.props.form.text;
+      if (this.props.app.symbolImages.length === 0 || !formValue) {
         this.setState({
-          alert: false,
-          alertMessage: ''
-        })
-      }, 1500)
-      
-    } else {
+          alert: true,
+          alertMessage: 'Please submit at least one drawing and text.'
+        });
+        setTimeout(() => {
+          this.setState({
+            alert: false,
+            alertMessage: ''
+          });
+        }, 1500);
+      } else {
+        this.setState({ isSubmitting: true });
+        await this.props.addSymbol({
+          owner_id: this.props.auth.id,
+          course_id: this.props.courseId,
+          text: formValue,
+          language: this.props.courseLanguage,
+          images: this.props.app.symbolImages
+        });
+        this.setState({ isSubmitting: false });
+        this.close();
+        this.updateParent();
+      }
+    } else if (this.props.existingSymbol) {
       this.setState({ isSubmitting: true });
-      await this.props.addSymbol({
-        owner_id: this.props.auth.id,
-        course_id: this.props.courseId,
-        text: formValue,
-        language: this.props.courseLanguage,
-        images: this.props.app.symbolImages
-      });
+      await utils.addImageToSymbol(
+        this.props.symbolId,
+        this.props.app.symbolImages,
+        this.props.auth.id
+      );
       this.setState({ isSubmitting: false });
       this.close();
-      this.updateParent();
+      // this.updateParent();
     }
   };
 
@@ -79,7 +96,7 @@ class AddSymbolModal extends React.Component {
       <Modal
         trigger={
           <Button onClick={this.open} positive>
-            Add A Symbol
+            { this.props.existingSymbol ? 'Add an image' : 'Add A Symbol'}
           </Button>
         }
         onClose={this.props.clearSymbolImages}
@@ -89,9 +106,8 @@ class AddSymbolModal extends React.Component {
           {this.state.alert ? (
             <div className="alert">{this.state.alertMessage}</div>
           ) : null}
-
           <Modal.Description>
-            <SymbolForm />
+            <SymbolForm existingSymbolText={this.props.existingSymbolText}/>
           </Modal.Description>
         </Modal.Content>
         <Modal.Actions>

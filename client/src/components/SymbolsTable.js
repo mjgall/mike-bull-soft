@@ -14,7 +14,7 @@ class SymbolsTable extends React.Component {
     history.push(`/student/symbol/${id}`);
   };
   handleCreatorNav = id => {
-    history.push(`/creator/symbol/${id}`);
+    history.push(`/creator/course/${this.props.courseId}/symbol/${id}`);
   };
 
   renderStudentTable() {

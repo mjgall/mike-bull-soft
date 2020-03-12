@@ -29,7 +29,7 @@ class Creator extends React.Component {
           component={CreatorCourse}></Route>
         <Route
           exact
-          path={`${this.props.match.url}/symbol/:id`}
+          path={`${this.props.match.url}/course/:courseId/symbol/:id`}
           component={CreatorSymbol}></Route>
          <Route
           exact

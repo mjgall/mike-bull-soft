@@ -97,6 +97,7 @@ class FabricCanvas extends React.Component {
   };
 
   render() {
+    console.log(this.props.existingSymbolText)
     return (
       <Grid stackable>
         <Grid.Row>
@@ -107,13 +108,26 @@ class FabricCanvas extends React.Component {
               className="ui form"
               validateOn="submit">
               <div className="fields" style={{ width: '110%' }}>
-                <div className="field" style={{ width: '100%' }}>
-                  <Control.text
+                <div className="field" style={ { width: '100%' } }>
+                  {this.props.existingSymbolText ?  <Control.text
                     model="forms.symbol.text"
                     placeholder="Symbol Text"
-                    validators={{ required: value => value && value.length }}
+                    validators={ { required: value => value && value.length } }
                     validateOn="change"
-                  />
+                    value={this.props.existingSymbolText}
+                  /> :  <Control.text
+                  model="forms.symbol.text"
+                  placeholder="Symbol Text"
+                  validators={ { required: value => value && value.length } }
+                  validateOn="change"
+                />}
+                  {/* <Control.text
+                    model="forms.symbol.text"
+                    placeholder="Symbol Text"
+                    validators={ { required: value => value && value.length } }
+                    validateOn="change"
+                    value={this.props.existingSymbolText}
+                  /> */}
                   <Errors
                     className="error"
                     model="forms.course.title"

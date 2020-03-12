@@ -18,7 +18,10 @@ const store = createStore(
   composeEnhancers(applyMiddleware(reduxThunk))
 );
 
-Sentry.init({dsn: "https://5e64d4e6c3fe4941b5ec0e23263d760e@sentry.io/1880615"});
+//only log client errors to Sentry in production
+if (!window.location.hostname === 'localhost') {
+  Sentry.init({dsn: "https://5e64d4e6c3fe4941b5ec0e23263d760e@sentry.io/1880615"});
+}
 
 ReactDOM.render(
   <Provider store={store}>

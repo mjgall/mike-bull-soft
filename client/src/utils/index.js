@@ -29,6 +29,11 @@ export const deleteSymbol = async symbolId => {
   return response.data;
 };
 
+export const addImageToSymbol = async (symbolId, images, userId) => {
+  const response = await axios.post(`/api/symbols/images`, { symbolId, images, userId })
+  return response.data
+}
+
 export const fetchLessons = async course_id => {
   const response = await axios.get(`/api/lessons/${course_id}`);
   return response.data;
