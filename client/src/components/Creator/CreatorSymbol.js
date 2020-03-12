@@ -37,8 +37,6 @@ class Symbol extends React.Component {
     this.props.getSymbol(this.props.match.params.id);
   }
 
-  // nothing here
-
   render() {
     return (
       <React.Fragment>

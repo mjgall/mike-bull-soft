@@ -97,3 +97,6 @@ typings/
 
 client/build
 
+client/build/asset-manifest.json
+client/build/index.html
+client/build/service-worker.js
