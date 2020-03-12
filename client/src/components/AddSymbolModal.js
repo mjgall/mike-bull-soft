@@ -15,7 +15,7 @@ class AddSymbolModal extends React.Component {
     alert: false
   };
 
-  componentWillMount() {
+  componentDidMount() {
     document.addEventListener('click', e => {
       if (e.target.className.indexOf('dimmer') > 0) {
         this.close();

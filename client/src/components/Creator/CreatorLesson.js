@@ -4,7 +4,7 @@ import * as utils from '../../utils';
 export default class CreatorLesson extends React.Component {
   state = { symbols: [] };
 
-  componentWillMount = async () => {
+  componentDidMount = async () => {
     const symbols = await utils.fetchSymbolsByLessons(
       this.props.match.params.lessonId
     );

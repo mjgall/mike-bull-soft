@@ -6,7 +6,7 @@ import history from '../history';
 import ConfirmDelete from './ConfirmDelete';
 
 class CoursesTable extends React.Component {
-  componentWillMount() {
+  componentDidMount() {
     this.props.fetchCourses();
     this.props.fetchAllCourses();
   }
