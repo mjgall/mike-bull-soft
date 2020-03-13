@@ -5,16 +5,19 @@ const path = require('path');
 const bodyParser = require('body-parser');
 const keys = require('./config/keys');
 
-
 require('./services/passport');
 
 const app = express();
 
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
+app.use(bodyParser.json({ limit: '50mb' }));
 
 app.use(
-  cookieSession({ maxAge: 30 * 24 * 60 * 60 * 1000, signed: true, keys: [keys.cookieKey] })
+  cookieSession({
+    maxAge: 30 * 24 * 60 * 60 * 1000,
+    signed: true,
+    keys: [keys.cookieKey]
+  })
 );
 
 app.use(passport.initialize());
@@ -28,7 +31,6 @@ require('./routes/appRoutes')(app);
 
 //IF DEPLOYED TO PRODUCTION
 if (process.env.ENV === 'production') {
-
   app.use(express.static(path.join(__dirname, 'client', 'build')));
 
   app.get('*', (req, res) => {

@@ -16,9 +16,12 @@ require('./services/passport');
 
 const app = express();
 app.use(bodyParser.urlencoded({
+  limit: '50mb',
   extended: true
 }));
-app.use(bodyParser.json());
+app.use(bodyParser.json({
+  limit: '50mb'
+}));
 app.use(cookieSession({
   maxAge: 30 * 24 * 60 * 60 * 1000,
   signed: true,

@@ -5,7 +5,7 @@ import { Control, Errors } from 'react-redux-form';
 import Form from './Form';
 import { SketchPicker } from 'react-color';
 import { connect } from 'react-redux';
-import Dropzone from '../components/Dropzone'
+import Dropzone from '../components/Dropzone';
 import * as actions from '../actions';
 
 const fabric = window.fabric;
@@ -90,14 +90,13 @@ class FabricCanvas extends React.Component {
     return (
       <div>
         {this.props.app.symbolImages.map((image, index) => {
-          return <img width="30%" src={image} key={index} alt=''></img>;
+          return <img width="30%" src={image} key={index} alt=""></img>;
         })}
       </div>
     );
   };
 
   render() {
-    console.log(this.props.existingSymbolText)
     return (
       <Grid stackable>
         <Grid.Row>
@@ -108,26 +107,33 @@ class FabricCanvas extends React.Component {
               className="ui form"
               validateOn="submit">
               <div className="fields" style={{ width: '110%' }}>
-                <div className="field" style={ { width: '100%' } }>
-                  {this.props.existingSymbolText ?  <Control.text
-                    model="forms.symbol.text"
-                    placeholder="Symbol Text"
-                    validators={ { required: value => value && value.length } }
-                    validateOn="change"
-                    value={this.props.existingSymbolText}
-                  /> :  <Control.text
-                  model="forms.symbol.text"
-                  placeholder="Symbol Text"
-                  validators={ { required: value => value && value.length } }
-                  validateOn="change"
-                />}
-                  {/* <Control.text
-                    model="forms.symbol.text"
-                    placeholder="Symbol Text"
-                    validators={ { required: value => value && value.length } }
-                    validateOn="change"
-                    value={this.props.existingSymbolText}
-                  /> */}
+                <div className="field">
+                  {this.props.existingSymbolText ? (
+                    <>
+                      {' '}
+                      <Control.text
+                        style={{ display: 'none' }}
+                        model="forms.symbol.text"
+                        placeholder="Symbol Text"
+                        validators={{
+                          required: value => value && value.length
+                        }}
+                        validateOn="change"
+                        value={this.props.existingSymbolText}
+                      />
+                      <h3 style={{ margin: '0' }}>
+                        {this.props.existingSymbolText}
+                      </h3>
+                    </>
+                  ) : (
+                    <Control.text
+                      model="forms.symbol.text"
+                      placeholder="Symbol Text"
+                      validators={{ required: value => value && value.length }}
+                      validateOn="change"
+                    />
+                  )}
+
                   <Errors
                     className="error"
                     model="forms.course.title"
@@ -137,24 +143,27 @@ class FabricCanvas extends React.Component {
                     }}
                   />
                 </div>
-    
               </div>
             </Form>
             <canvas
               id={this.props.id}
               width="300"
               height="300"
-              style={ { border: '1px solid black' } }></canvas>
+              style={{ border: '1px solid black' }}></canvas>
           </Grid.Column>
           <Grid.Column width={5}>
-          <div>
+            <div>
               <Popup
                 trigger={
                   <Button icon onClick={this.freeDraw}>
-                    <Icon name="paint brush" />
+                    {this.state.freeDraw ? (
+                      <Icon name="arrows alternate" />
+                    ) : (
+                      <Icon name="paint brush" />
+                    )}
                   </Button>
                 }
-                content="Draw"
+                content={this.state.freeDraw ? 'Arrange' : 'Draw'}
                 position="bottom center"
               />
 
@@ -197,23 +206,27 @@ class FabricCanvas extends React.Component {
             <Slider
               value={this.state.brush.width}
               color="4A4A4A"
-              settings={{    min: 0,
+              settings={{
+                min: 0,
                 max: 100,
                 step: 1,
                 onChange: value => {
-                  this.setState({ brush: { ...this.state.brush, width: value } });
+                  this.setState({
+                    brush: { ...this.state.brush, width: value }
+                  });
                   this.updateFreeDraw();
-                }}}
+                }
+              }}
             />
           </Grid.Column>
-          <Grid.Column width={5}>
+          <Grid.Column width={5} style={{ textAlign: 'center' }}>
+            <em style={{ textAlign: 'center' }}>Images will be resized.</em>
+            <br />
+            <em>Use squares larger than 300px x 300px.</em>
             <Dropzone>
-              <div style={{border: '1px solid black', height: '100px'}}>
-
-              </div>
+              <Button>Upload Image</Button>
             </Dropzone>
-            <div>{ this.renderImages() }</div>
-            
+            <div>{this.renderImages()}</div>
           </Grid.Column>
         </Grid.Row>
       </Grid>
@@ -229,7 +242,4 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(
-  mapStateToProps,
-  actions
-)(FabricCanvas);
+export default connect(mapStateToProps, actions)(FabricCanvas);
