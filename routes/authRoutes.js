@@ -71,7 +71,7 @@ module.exports = app => {
    
     if (token) {
       const user = await getUserByResetToken(token);
-      const body = `<p>Hi ${user.first_name},</p><p>You have successfully updated your password on your account. Your privacy is important to us. If you did not make this change, please contact Support at <a href="support@llt.gllghr.io">support@llt.gllghr.io</a>.</p>`;
+      const body = `<p>Hi ${user.first_name},</p><p>You have successfully updated your password on your account. Your privacy is important to us. If you did not make this change, please contact Support at <a href="mailto:support@gllghr.io">support@gllghr.io</a>.</p>`;
       if (!user) {
         res.send({
           error: true,
@@ -96,7 +96,7 @@ module.exports = app => {
       }
     } else if (currentPassword) {
       const user = await getUserById(userId);
-      const body = `<p>Hi ${user.first_name},</p><p>You have successfully updated your password on your account. Your privacy is important to us. If you did not make this change, please contact Support at <a href="support@llt.gllghr.io">support@llt.gllghr.io</a>.</p>`;
+      const body = `<p>Hi ${user.first_name},</p><p>You have successfully updated your password on your account. Your privacy is important to us. If you did not make this change, please contact Support at <a href="mailto:support@gllghr.io">support@gllghr.io</a>.</p>`;
       if (!user.service_id) {
         if (
           await bcrypt.compare(currentPassword, user.password).catch(e => {
